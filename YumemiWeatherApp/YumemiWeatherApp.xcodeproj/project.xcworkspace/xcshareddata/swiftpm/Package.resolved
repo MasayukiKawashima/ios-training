@@ -1,0 +1,15 @@
+{
+  "originHash" : "b7c241b612771a28f40ae6f3ba3674a0d727629f0a6f7943a56f054566e8ec5f",
+  "pins" : [
+    {
+      "identity" : "ios-training",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/yumemi-inc/ios-training.git",
+      "state" : {
+        "revision" : "6f2de8449a9452486a26b0f83b0c522d5c126644",
+        "version" : "2.2.0"
+      }
+    }
+  ],
+  "version" : 3
+}
