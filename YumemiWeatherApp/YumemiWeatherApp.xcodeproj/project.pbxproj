@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		FAAE7CAC2F1CF8F800207324 /* YumemiWeather in Frameworks */ = {isa = PBXBuildFile; productRef = FAAE7CAB2F1CF8F800207324 /* YumemiWeather */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		FAECB57B2F1A4A72004A4223 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAAE7CAC2F1CF8F800207324 /* YumemiWeather in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,12 +90,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FAAE7CAA2F1CF8F800207324 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FAECB55B2F1A4A6F004A4223 = {
 			isa = PBXGroup;
 			children = (
 				FAECB5662F1A4A6F004A4223 /* YumemiWeatherApp */,
 				FAECB57D2F1A4A72004A4223 /* YumemiWeatherAppTests */,
 				FAECB5872F1A4A72004A4223 /* YumemiWeatherAppUITests */,
+				FAAE7CAA2F1CF8F800207324 /* Frameworks */,
 				FAECB5652F1A4A6F004A4223 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,6 +125,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FAECB58D2F1A4A72004A4223 /* Build configuration list for PBXNativeTarget "YumemiWeatherApp" */;
 			buildPhases = (
+				FAAE7C932F1CBE3500207324 /* Fix SPM */,
 				FAECB5602F1A4A6F004A4223 /* Sources */,
 				FAECB5612F1A4A6F004A4223 /* Frameworks */,
 				FAECB5622F1A4A6F004A4223 /* Resources */,
@@ -125,6 +139,7 @@
 			);
 			name = YumemiWeatherApp;
 			packageProductDependencies = (
+				FAAE7CAB2F1CF8F800207324 /* YumemiWeather */,
 			);
 			productName = YumemiWeatherApp;
 			productReference = FAECB5642F1A4A6F004A4223 /* YumemiWeatherApp.app */;
@@ -246,6 +261,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FAAE7C932F1CBE3500207324 /* Fix SPM */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Fix SPM";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ -d \"${SYMROOT}/Release${EFFECTIVE_PLATFORM_NAME}/\" ] && [ \"${SYMROOT}/Release${EFFECTIVE_PLATFORM_NAME}/\" != \"${SYMROOT}/${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}/\" ] \nthen\n  cp -f -R \"${SYMROOT}/Release${EFFECTIVE_PLATFORM_NAME}/\" \"${SYMROOT}/${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}/\"\nfi\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FAECB5602F1A4A6F004A4223 /* Sources */ = {
@@ -583,6 +619,14 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FAAE7CAB2F1CF8F800207324 /* YumemiWeather */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FAECB5982F1A4DFC004A4223 /* XCRemoteSwiftPackageReference "ios-training" */;
+			productName = YumemiWeather;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FAECB55C2F1A4A6F004A4223 /* Project object */;
 }
