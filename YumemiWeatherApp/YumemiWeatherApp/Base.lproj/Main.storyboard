@@ -60,11 +60,17 @@
                                         <rect key="frame" x="0.0" y="0.0" width="103.5" height="34.5"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Close"/>
+                                        <connections>
+                                            <action selector="closeButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="o4I-Tc-XfX"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ROe-4h-HK4">
                                         <rect key="frame" x="103.5" y="0.0" width="103.5" height="34.5"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Reload"/>
+                                        <connections>
+                                            <action selector="reloadButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="s3G-ZB-WTE"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -81,6 +87,13 @@
                             <constraint firstItem="48R-6t-2Zu" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="cCo-jA-kfW"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="closeButton" destination="q6m-FI-VR5" id="uE9-x7-W33"/>
+                        <outlet property="maxTempLabel" destination="tSN-Je-acg" id="fum-aZ-sJ1"/>
+                        <outlet property="minTempLabel" destination="0IP-3k-3NU" id="ZQS-gP-hqh"/>
+                        <outlet property="reloadButton" destination="ROe-4h-HK4" id="HWB-Y8-vuz"/>
+                        <outlet property="weatherImageView" destination="dOa-rj-1I5" id="650-qT-ecS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

@@ -8,12 +8,34 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+  
+  
+  //MARK: - Properties
+  
+  //MARK: IBoutlet
+  
+  @IBOutlet weak var weatherImageView: UIImageView!
+  
+  @IBOutlet weak var minTempLabel: UILabel!
+  @IBOutlet weak var maxTempLabel: UILabel!
+  
+  @IBOutlet weak var closeButton: UIButton!
+  @IBOutlet weak var reloadButton: UIButton!
+  
+  //MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
   }
 
-
+  //MARK: -  Methods
+  
+  //MARK: IBAction
+  @IBAction func closeButtonAction(_ sender: Any) {
+  }
+  @IBAction func reloadButtonAction(_ sender: Any) {
+  }
+  
+  
 }
 
