@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import YumemiWeather
 
 class ViewController: UIViewController {
   
@@ -32,8 +33,25 @@ class ViewController: UIViewController {
   
   //MARK: IBAction
   @IBAction func closeButtonAction(_ sender: Any) {
+    
   }
+  
   @IBAction func reloadButtonAction(_ sender: Any) {
+    let result = YumemiWeather.fetchWeatherCondition()
+    
+    switch result {
+      
+    case "sunny":
+      weatherImageView.image = UIImage(named: "Sunny")
+    case "cloudy":
+      weatherImageView.image = UIImage(named: "Cloudy")
+    case "rainy":
+      weatherImageView.image = UIImage(named: "Rainy")
+    default:
+      break
+    }
+    
+    
   }
   
   
