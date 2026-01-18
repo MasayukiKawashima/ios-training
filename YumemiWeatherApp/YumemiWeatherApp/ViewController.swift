@@ -40,7 +40,6 @@ class ViewController: UIViewController {
     let result = YumemiWeather.fetchWeatherCondition()
     
     switch result {
-      
     case "sunny":
       weatherImageView.image = UIImage(named: "Sunny")
     case "cloudy":
