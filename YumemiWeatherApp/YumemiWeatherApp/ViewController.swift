@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
   }
-
+  
   //MARK: -  Methods
   
   //MARK: IBAction
@@ -37,7 +37,7 @@ class ViewController: UIViewController {
   }
   
   @IBAction func reloadButtonAction(_ sender: Any) {
-    setWeaterImageOfThorowsVer()
+    setWeatherImageOfJSONVer()
   }
   
   // fetchWeatherCondition()のThrows verのメソッド
@@ -55,6 +55,53 @@ class ViewController: UIViewController {
     
     let result = YumemiWeather.fetchWeatherCondition()
     setImageWhenFetchWeatherConditionSucceeded(result: result)
+  }
+  
+  //fetchWeather()のJSON Verのメソッド
+  private func setWeatherImageOfJSONVer() {
+    
+    // 元データの作成
+    let inputData: [String: Any] = [
+      "area": "Tokyo",
+      "date": "2020-04-01T12:00:00+09:00"
+    ]
+    
+    var inputJsonString = String()
+    var outputJsonString = String()
+    
+    // JSONにエンコードし、Stringに変換
+    do {
+      let jsonData = try JSONSerialization.data(withJSONObject: inputData, options: [])
+      inputJsonString = String(data: jsonData, encoding: .utf8)!
+    } catch {
+      print("InputのJSONエンコードに失敗")
+    }
+    
+    // フェッチ
+    do {
+      outputJsonString = try YumemiWeather.fetchWeather(inputJsonString)
+    } catch {
+      print("fetchWeatherのerror")
+    }
+    
+    //　JSONにエンコードして各値を抽出
+    let data = Data(outputJsonString.utf8)
+    
+    do {
+      let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+      
+      let maxTemperature = json["max_temperature"] as! Double
+      let minTemperature = json["min_temperature"] as! Double
+      let weatherCondition = json["weather_condition"] as! String
+      
+      // 各値をUIに表示
+      maxTempLabel.text = String(maxTemperature)
+      minTempLabel.text = String(minTemperature)
+      setImageWhenFetchWeatherConditionSucceeded(result: weatherCondition)
+    } catch {
+      print("OutputのJSONエンコードに失敗")
+    }
+    
   }
   
   // フェッチが成功した時に画像をセットするメソッド
@@ -88,4 +135,5 @@ class ViewController: UIViewController {
   }
   
 }
+
 
