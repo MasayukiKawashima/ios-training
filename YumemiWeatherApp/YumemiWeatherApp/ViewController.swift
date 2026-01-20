@@ -45,16 +45,16 @@ class ViewController: UIViewController {
     
     do {
       let result = try YumemiWeather.fetchWeatherCondition(at: "東京")
-      setImageWhenFetchWeatherConditionSucceeded(result: result)
+      setWeatherCondtionImage(imageString: result)
     } catch {
-      displayErrorAlert()
+      displayErrorAlert(reloadActionMethod: setWeaterImageOfThorowsVer)
     }
   }
   // fetchWeatherCondition()のsimple Verのメソッド
   private func setWeaterImageOfSimpleVer() {
     
     let result = YumemiWeather.fetchWeatherCondition()
-    setImageWhenFetchWeatherConditionSucceeded(result: result)
+    setWeatherCondtionImage(imageString: result)
   }
   
   //fetchWeather()のJSON Verのメソッド
@@ -75,13 +75,18 @@ class ViewController: UIViewController {
       inputJsonString = String(data: jsonData, encoding: .utf8)!
     } catch {
       print("InputのJSONエンコードに失敗")
+      
+      return
     }
     
     // フェッチ
     do {
       outputJsonString = try YumemiWeather.fetchWeather(inputJsonString)
     } catch {
-      print("fetchWeatherのerror")
+      print("天気情報の取得失敗")
+      displayErrorAlert(reloadActionMethod: setWeatherImageOfJSONVer)
+      
+      return
     }
     
     //　JSONにエンコードして各値を抽出
@@ -97,17 +102,18 @@ class ViewController: UIViewController {
       // 各値をUIに表示
       maxTempLabel.text = String(maxTemperature)
       minTempLabel.text = String(minTemperature)
-      setImageWhenFetchWeatherConditionSucceeded(result: weatherCondition)
+      setWeatherCondtionImage(imageString: weatherCondition)
     } catch {
       print("OutputのJSONエンコードに失敗")
+      
+      return
     }
-    
   }
   
-  // フェッチが成功した時に画像をセットするメソッド
-  private func setImageWhenFetchWeatherConditionSucceeded(result: String) {
+  // weatherConditionImageをセットするメソッド
+  private func setWeatherCondtionImage(imageString: String) {
     
-    switch result {
+    switch imageString {
     case "sunny":
       weatherImageView.image = UIImage(named: "Sunny")
     case "cloudy":
@@ -120,12 +126,12 @@ class ViewController: UIViewController {
   }
   
   // WeatherConditionのフェッチに失敗したときのアラートを表示するメソッド
-  private func displayErrorAlert() {
+  private func displayErrorAlert(reloadActionMethod: @escaping () -> Void) {
     
     let alert = UIAlertController(title: "天気情報を取得できませんでした", message: "再読み込みをしてください", preferredStyle: .alert)
     let reloadAction = UIAlertAction(title: "再読み込み", style: .default) { _ in
+      reloadActionMethod()
       alert.dismiss(animated: true, completion: nil)
-      self.setWeaterImageOfThorowsVer()
     }
     let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel)
     
@@ -133,7 +139,6 @@ class ViewController: UIViewController {
     alert.addAction(cancelAction)
     present(alert, animated: true)
   }
-  
 }
 
 
