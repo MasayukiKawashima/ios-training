@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
   }
-
+  
   //MARK: -  Methods
   
   //MARK: IBAction
@@ -37,7 +37,7 @@ class ViewController: UIViewController {
   }
   
   @IBAction func reloadButtonAction(_ sender: Any) {
-    setWeaterImageOfThorowsVer()
+    setWeatherImageOfJSONVer()
   }
   
   // fetchWeatherCondition()のThrows verのメソッド
@@ -45,22 +45,75 @@ class ViewController: UIViewController {
     
     do {
       let result = try YumemiWeather.fetchWeatherCondition(at: "東京")
-      setImageWhenFetchWeatherConditionSucceeded(result: result)
+      setWeatherCondtionImage(imageString: result)
     } catch {
-      displayErrorAlert()
+      displayErrorAlert(reloadActionMethod: setWeaterImageOfThorowsVer)
     }
   }
   // fetchWeatherCondition()のsimple Verのメソッド
   private func setWeaterImageOfSimpleVer() {
     
     let result = YumemiWeather.fetchWeatherCondition()
-    setImageWhenFetchWeatherConditionSucceeded(result: result)
+    setWeatherCondtionImage(imageString: result)
   }
   
-  // フェッチが成功した時に画像をセットするメソッド
-  private func setImageWhenFetchWeatherConditionSucceeded(result: String) {
+  //fetchWeather()のJSON Verのメソッド
+  private func setWeatherImageOfJSONVer() {
     
-    switch result {
+    // 元データの作成
+    let inputData: [String: Any] = [
+      "area": "Tokyo",
+      "date": "2020-04-01T12:00:00+09:00"
+    ]
+    
+    var inputJsonString = String()
+    var outputJsonString = String()
+    
+    // JSONにエンコードし、Stringに変換
+    do {
+      let jsonData = try JSONSerialization.data(withJSONObject: inputData, options: [])
+      inputJsonString = String(data: jsonData, encoding: .utf8)!
+    } catch {
+      print("InputのJSONエンコードに失敗")
+      
+      return
+    }
+    
+    // フェッチ
+    do {
+      outputJsonString = try YumemiWeather.fetchWeather(inputJsonString)
+    } catch {
+      print("天気情報の取得失敗")
+      displayErrorAlert(reloadActionMethod: setWeatherImageOfJSONVer)
+      
+      return
+    }
+    
+    //　JSONにエンコードして各値を抽出
+    let data = Data(outputJsonString.utf8)
+    
+    do {
+      let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+      
+      let maxTemperature = json["max_temperature"] as! Double
+      let minTemperature = json["min_temperature"] as! Double
+      let weatherCondition = json["weather_condition"] as! String
+      
+      // 各値をUIに表示
+      maxTempLabel.text = String(maxTemperature)
+      minTempLabel.text = String(minTemperature)
+      setWeatherCondtionImage(imageString: weatherCondition)
+    } catch {
+      print("OutputのJSONエンコードに失敗")
+      
+      return
+    }
+  }
+  
+  // weatherConditionImageをセットするメソッド
+  private func setWeatherCondtionImage(imageString: String) {
+    
+    switch imageString {
     case "sunny":
       weatherImageView.image = UIImage(named: "Sunny")
     case "cloudy":
@@ -73,12 +126,12 @@ class ViewController: UIViewController {
   }
   
   // WeatherConditionのフェッチに失敗したときのアラートを表示するメソッド
-  private func displayErrorAlert() {
+  private func displayErrorAlert(reloadActionMethod: @escaping () -> Void) {
     
     let alert = UIAlertController(title: "天気情報を取得できませんでした", message: "再読み込みをしてください", preferredStyle: .alert)
     let reloadAction = UIAlertAction(title: "再読み込み", style: .default) { _ in
+      reloadActionMethod()
       alert.dismiss(animated: true, completion: nil)
-      self.setWeaterImageOfThorowsVer()
     }
     let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel)
     
@@ -86,6 +139,6 @@ class ViewController: UIViewController {
     alert.addAction(cancelAction)
     present(alert, animated: true)
   }
-  
 }
+
 
