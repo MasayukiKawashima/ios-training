@@ -37,7 +37,13 @@ class ViewController: UIViewController {
   }
   
   @IBAction func reloadButtonAction(_ sender: Any) {
-    setWeatherImageOfJSONVer()
+    
+    let inputData: [String: Any] = [
+      "area": "Tokyo",
+      "date": "2020-04-01T12:00:00+09:00"
+    ]
+    
+    setWeatherImageOfJSONVer(input: inputData)
   }
   
   // fetchWeatherCondition()のThrows verのメソッド
@@ -47,7 +53,9 @@ class ViewController: UIViewController {
       let result = try YumemiWeather.fetchWeatherCondition(at: "東京")
       setWeatherCondtionImage(imageString: result)
     } catch {
-      displayErrorAlert(reloadActionMethod: setWeaterImageOfThorowsVer)
+      displayErrorAlert {
+        self.setWeaterImageOfThorowsVer()
+      }
     }
   }
   // fetchWeatherCondition()のsimple Verのメソッド
@@ -58,14 +66,10 @@ class ViewController: UIViewController {
   }
   
   //fetchWeather()のJSON Verのメソッド
-  private func setWeatherImageOfJSONVer() {
+  private func setWeatherImageOfJSONVer(input: [String: Any]) {
     
     // 元データの作成
-    let inputData: [String: Any] = [
-      "area": "Tokyo",
-      "date": "2020-04-01T12:00:00+09:00"
-    ]
-    
+    let inputData = input
     var inputJsonString = String()
     var outputJsonString = String()
     
@@ -84,7 +88,9 @@ class ViewController: UIViewController {
       outputJsonString = try YumemiWeather.fetchWeather(inputJsonString)
     } catch {
       print("天気情報の取得失敗")
-      displayErrorAlert(reloadActionMethod: setWeatherImageOfJSONVer)
+      displayErrorAlert {
+        self.setWeatherImageOfJSONVer(input: inputData)
+      }
       
       return
     }
