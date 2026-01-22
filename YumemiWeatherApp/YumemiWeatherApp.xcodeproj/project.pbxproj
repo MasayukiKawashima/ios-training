@@ -125,7 +125,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FAECB58D2F1A4A72004A4223 /* Build configuration list for PBXNativeTarget "YumemiWeatherApp" */;
 			buildPhases = (
-				FAAE7C932F1CBE3500207324 /* Fix SPM */,
 				FAECB5602F1A4A6F004A4223 /* Sources */,
 				FAECB5612F1A4A6F004A4223 /* Frameworks */,
 				FAECB5622F1A4A6F004A4223 /* Resources */,
@@ -261,27 +260,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		FAAE7C932F1CBE3500207324 /* Fix SPM */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Fix SPM";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ -d \"${SYMROOT}/Release${EFFECTIVE_PLATFORM_NAME}/\" ] && [ \"${SYMROOT}/Release${EFFECTIVE_PLATFORM_NAME}/\" != \"${SYMROOT}/${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}/\" ] \nthen\n  cp -f -R \"${SYMROOT}/Release${EFFECTIVE_PLATFORM_NAME}/\" \"${SYMROOT}/${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}/\"\nfi\n\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FAECB5602F1A4A6F004A4223 /* Sources */ = {
