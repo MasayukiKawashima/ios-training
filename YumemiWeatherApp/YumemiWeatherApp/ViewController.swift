@@ -38,12 +38,10 @@ class ViewController: UIViewController {
   
   @IBAction func reloadButtonAction(_ sender: Any) {
     
-    let inputData: [String: Any] = [
-      "area": "Tokyo",
-      "date": "2020-04-01T12:00:00+09:00"
-    ]
+    let inputInfo = inputInfo(area: "Tokyo", date: Date())
     
-    setWeatherImageOfJSONVer(input: inputData)
+    print ("最初のinputInfo構造体のデータ\(inputInfo)")
+    setWeatherImageOfCodableVer(input: inputInfo)
   }
   
   // fetchWeatherCondition()のThrows verのメソッド
@@ -110,10 +108,62 @@ class ViewController: UIViewController {
       minTempLabel.text = String(minTemperature)
       setWeatherCondtionImage(imageString: weatherCondition)
     } catch {
-      print("OutputのJSONエンコードに失敗")
+      print("OutputのJSON解析に失敗")
       
       return
     }
+  }
+  
+  //Codableを使用したfetchWeather()のJSON Verのメソッド
+  private func setWeatherImageOfCodableVer(input: inputInfo) {
+    
+    // 元データの作成
+    let inputData = input
+    var inputJsonString = String()
+    var outputJsonString = String()
+    
+    // JSONにエンコードし、Stringに変換
+    do {
+      let encoder = JSONEncoder()
+      encoder.dateEncodingStrategy = .iso8601
+      let jsonData = try encoder.encode(inputData)
+      inputJsonString = String(data: jsonData, encoding: .utf8)!
+    } catch {
+      print("InputのJSONエンコードに失敗")
+      
+      return
+    }
+    
+    print ("フェッチ直前のinputJsonString\(inputJsonString)")
+    
+    // フェッチ
+    do {
+      outputJsonString = try YumemiWeather.fetchWeather(inputJsonString)
+    } catch {
+      print("天気情報の取得失敗")
+      displayErrorAlert {
+        self.setWeatherImageOfCodableVer(input: inputData)
+      }
+      
+      return
+    }
+    
+    print("フェッチ直後のoutputJsonString\(outputJsonString)")
+    
+    //　JSONにエンコードして各値を抽出
+    let data = Data(outputJsonString.utf8)
+    
+    let decoder = JSONDecoder()
+    let result = try! decoder.decode(weaterInfo.self, from: data)
+    
+    // 各値をUIに表示
+    let maxTemperatureString = String(result.maxTemperature)
+    let minTemperatureString = String(result.minTemperature)
+    
+    maxTempLabel.text = maxTemperatureString
+    minTempLabel.text = minTemperatureString
+    let weatherCondition = result.weatherCondition
+    setWeatherCondtionImage(imageString: weatherCondition)
   }
   
   // weatherConditionImageをセットするメソッド
