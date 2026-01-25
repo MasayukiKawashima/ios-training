@@ -34,6 +34,7 @@ class ViewController: UIViewController {
   //MARK: IBAction
   @IBAction func closeButtonAction(_ sender: Any) {
     
+    self.dismiss(animated: true, completion: nil)
   }
   
   @IBAction func reloadButtonAction(_ sender: Any) {
