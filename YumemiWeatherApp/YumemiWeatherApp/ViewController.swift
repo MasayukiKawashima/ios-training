@@ -13,8 +13,6 @@ class ViewController: UIViewController {
   
   //MARK: - Properties
   
-  //MARK: IBoutlet
-  
   @IBOutlet weak var weatherImageView: UIImageView!
   
   @IBOutlet weak var minTempLabel: UILabel!
@@ -23,10 +21,14 @@ class ViewController: UIViewController {
   @IBOutlet weak var closeButton: UIButton!
   @IBOutlet weak var reloadButton: UIButton!
   
+  
   //MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
+    
+    // NotificationCenterでアプリがバックグラウンドからフォアグラウンドに移行することを監視
+    NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
   }
   
   //MARK: -  Methods
@@ -41,7 +43,14 @@ class ViewController: UIViewController {
     
     let inputInfo = inputInfo(area: "Tokyo", date: Date())
     
-    print ("最初のinputInfo構造体のデータ\(inputInfo)")
+    setWeatherImageOfCodableVer(input: inputInfo)
+  }
+  
+  @objc func applicationWillEnterForeground() {
+    
+    //フォアグラウンドに戻った時の処理
+    let inputInfo = inputInfo(area: "Tokyo", date: Date())
+    
     setWeatherImageOfCodableVer(input: inputInfo)
   }
   
@@ -134,9 +143,6 @@ class ViewController: UIViewController {
       
       return
     }
-    
-    print ("フェッチ直前のinputJsonString\(inputJsonString)")
-    
     // フェッチ
     do {
       outputJsonString = try YumemiWeather.fetchWeather(inputJsonString)
@@ -148,8 +154,6 @@ class ViewController: UIViewController {
       
       return
     }
-    
-    print("フェッチ直後のoutputJsonString\(outputJsonString)")
     
     //　JSONにエンコードして各値を抽出
     let data = Data(outputJsonString.utf8)
