@@ -21,6 +21,7 @@ class ViewController: UIViewController {
   @IBOutlet weak var closeButton: UIButton!
   @IBOutlet weak var reloadButton: UIButton!
   
+  var weaterProvider: WeatherProvider!
   
   //MARK: - LifeCycle
   override func viewDidLoad() {
@@ -41,17 +42,17 @@ class ViewController: UIViewController {
   
   @IBAction func reloadButtonAction(_ sender: Any) {
     
-    let inputInfo = inputInfo(area: "Tokyo", date: Date())
+    let inputInfo = InputInfo(area: "Tokyo", date: Date())
     
-    setWeatherImageOfCodableVer(input: inputInfo)
+    settingWeatherImageOfCodableVer(input: inputInfo)
   }
   
   @objc func applicationWillEnterForeground() {
     
     //フォアグラウンドに戻った時の処理
-    let inputInfo = inputInfo(area: "Tokyo", date: Date())
+    let inputInfo = InputInfo(area: "Tokyo", date: Date())
     
-    setWeatherImageOfCodableVer(input: inputInfo)
+    settingWeatherImageOfCodableVer(input: inputInfo)
   }
   
   // fetchWeatherCondition()のThrows verのメソッド
@@ -124,8 +125,29 @@ class ViewController: UIViewController {
     }
   }
   
+  // 天気情報の取得からUI部品へのセットまでのメソッド
+  private func settingWeatherImageOfCodableVer(input: InputInfo) {
+    
+    let fetchErrorHandle = {
+      print("天気情報の取得失敗")
+      self.displayErrorAlert {
+        self.settingWeatherImageOfCodableVer(input: input)
+      }
+    }
+    
+    let result = weaterProvider.fetchWeaterInfoOfCodableVer(input: input, fetchErrorHandle: fetchErrorHandle)
+    
+    if let result = result {
+      setWeatherImage(weatherInfo: result)
+    } else {
+      displayErrorAlert {
+        self.settingWeatherImageOfCodableVer(input: input)
+      }
+    }
+  }
+  
   //Codableを使用したfetchWeather()のJSON Verのメソッド
-  private func setWeatherImageOfCodableVer(input: inputInfo) {
+  func fetchWeaterInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void) -> WeaterInfo? {
     
     // 元データの作成
     let inputData = input
@@ -141,33 +163,34 @@ class ViewController: UIViewController {
     } catch {
       print("InputのJSONエンコードに失敗")
       
-      return
+      return nil
     }
     // フェッチ
     do {
       outputJsonString = try YumemiWeather.fetchWeather(inputJsonString)
     } catch {
-      print("天気情報の取得失敗")
-      displayErrorAlert {
-        self.setWeatherImageOfCodableVer(input: inputData)
-      }
-      
-      return
+  
+      fetchErrorHandle()
+      return nil
     }
     
     //　JSONにエンコードして各値を抽出
     let data = Data(outputJsonString.utf8)
-    
     let decoder = JSONDecoder()
-    let result = try! decoder.decode(weaterInfo.self, from: data)
+    let result = try! decoder.decode(WeaterInfo.self, from: data)
     
-    // 各値をUIに表示
-    let maxTemperatureString = String(result.maxTemperature)
-    let minTemperatureString = String(result.minTemperature)
+    return result
+  }
+  
+  // 各UI部品に値をセットするメソッド
+  private func setWeatherImage(weatherInfo: WeaterInfo) {
+    
+    let maxTemperatureString = String(weatherInfo.maxTemperature)
+    let minTemperatureString = String(weatherInfo.minTemperature)
     
     maxTempLabel.text = maxTemperatureString
     minTempLabel.text = minTemperatureString
-    let weatherCondition = result.weatherCondition
+    let weatherCondition = weatherInfo.weatherCondition
     setWeatherCondtionImage(imageString: weatherCondition)
   }
   
@@ -199,6 +222,10 @@ class ViewController: UIViewController {
     alert.addAction(reloadAction)
     alert.addAction(cancelAction)
     present(alert, animated: true)
+  }
+  
+  func weatherProviderInjection (weatherProvider: WeatherProvider) {
+    self.weaterProvider = weatherProvider
   }
 }
 
