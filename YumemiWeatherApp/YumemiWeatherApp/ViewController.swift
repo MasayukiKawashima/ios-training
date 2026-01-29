@@ -8,6 +8,7 @@
 import UIKit
 import YumemiWeather
 
+
 class ViewController: UIViewController {
   
   
@@ -21,7 +22,7 @@ class ViewController: UIViewController {
   @IBOutlet weak var closeButton: UIButton!
   @IBOutlet weak var reloadButton: UIButton!
   
-  var weaterProvider: WeatherProvider!
+  var weaterProvider: WeatherFetching!
   
   //MARK: - LifeCycle
   override func viewDidLoad() {
@@ -126,7 +127,7 @@ class ViewController: UIViewController {
   }
   
   // 天気情報の取得からUI部品へのセットまでのメソッド
-  private func settingWeatherImageOfCodableVer(input: InputInfo) {
+  func settingWeatherImageOfCodableVer(input: InputInfo) {
     
     let fetchErrorHandle = {
       print("天気情報の取得失敗")
@@ -147,40 +148,40 @@ class ViewController: UIViewController {
   }
   
   //Codableを使用したfetchWeather()のJSON Verのメソッド
-  func fetchWeaterInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void) -> WeaterInfo? {
-    
-    // 元データの作成
-    let inputData = input
-    var inputJsonString = String()
-    var outputJsonString = String()
-    
-    // JSONにエンコードし、Stringに変換
-    do {
-      let encoder = JSONEncoder()
-      encoder.dateEncodingStrategy = .iso8601
-      let jsonData = try encoder.encode(inputData)
-      inputJsonString = String(data: jsonData, encoding: .utf8)!
-    } catch {
-      print("InputのJSONエンコードに失敗")
-      
-      return nil
-    }
-    // フェッチ
-    do {
-      outputJsonString = try YumemiWeather.fetchWeather(inputJsonString)
-    } catch {
-  
-      fetchErrorHandle()
-      return nil
-    }
-    
-    //　JSONにエンコードして各値を抽出
-    let data = Data(outputJsonString.utf8)
-    let decoder = JSONDecoder()
-    let result = try! decoder.decode(WeaterInfo.self, from: data)
-    
-    return result
-  }
+//  func fetchWeaterInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void) -> WeaterInfo? {
+//    
+//    // 元データの作成
+//    let inputData = input
+//    var inputJsonString = String()
+//    var outputJsonString = String()
+//    
+//    // JSONにエンコードし、Stringに変換
+//    do {
+//      let encoder = JSONEncoder()
+//      encoder.dateEncodingStrategy = .iso8601
+//      let jsonData = try encoder.encode(inputData)
+//      inputJsonString = String(data: jsonData, encoding: .utf8)!
+//    } catch {
+//      print("InputのJSONエンコードに失敗")
+//      
+//      return nil
+//    }
+//    // フェッチ
+//    do {
+//      outputJsonString = try YumemiWeather.fetchWeather(inputJsonString)
+//    } catch {
+//  
+//      fetchErrorHandle()
+//      return nil
+//    }
+//    
+//    //　JSONにエンコードして各値を抽出
+//    let data = Data(outputJsonString.utf8)
+//    let decoder = JSONDecoder()
+//    let result = try! decoder.decode(WeaterInfo.self, from: data)
+//    
+//    return result
+//  }
   
   // 各UI部品に値をセットするメソッド
   private func setWeatherImage(weatherInfo: WeaterInfo) {
@@ -228,5 +229,3 @@ class ViewController: UIViewController {
     self.weaterProvider = weatherProvider
   }
 }
-
-

@@ -10,12 +10,12 @@ import YumemiWeather
 
 protocol WeatherFetching {
   
-  func fetchWeaterInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void) -> WeaterInfo?
+  func fetchWeaterInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void)  -> WeaterInfo?
 }
 
 class WeatherProvider: WeatherFetching {
   
-  func fetchWeaterInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void) -> WeaterInfo? {
+  func fetchWeaterInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void)  -> WeaterInfo? {
     
     // 元データの作成
     let inputData = input
