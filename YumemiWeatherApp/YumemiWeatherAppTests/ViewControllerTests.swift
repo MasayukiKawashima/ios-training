@@ -28,7 +28,7 @@ final class ViewControllerTests: XCTestCase {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
   }
   
-  func test_天気予報がsunnyだったらImageViewのimageにsunnyが設定されること() throws {
+  func test_天気予報がsunnyだったらImageViewのimageにSunnyが設定されること() throws {
     
     let sunnyInfo = WeaterInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "sunny")
     
@@ -38,6 +38,54 @@ final class ViewControllerTests: XCTestCase {
     
     viewController.settingWeatherImageOfCodableVer(input: inputInfo)
     XCTAssertEqual(viewController.weatherImageView.image, UIImage(named: "Sunny")!)
+  }
+  
+  func test_天気予報がcloudyだったらImageViewのimageにCloudyが設定されること() throws {
+    
+    let cloudyInfo = WeaterInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "cloudy")
+    
+    weatherProvider.fetchHandler = { _ in
+      return cloudyInfo
+    }
+    
+    viewController.settingWeatherImageOfCodableVer(input: inputInfo)
+    XCTAssertEqual(viewController.weatherImageView.image, UIImage(named: "Cloudy")!)
+  }
+  
+  func test_天気予報がrainyだったらImageViewのimageにRainyが設定されること() throws {
+    
+    let rainyInfo = WeaterInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "rainy")
+    
+    weatherProvider.fetchHandler = { _ in
+      return rainyInfo
+    }
+    
+    viewController.settingWeatherImageOfCodableVer(input: inputInfo)
+    XCTAssertEqual(viewController.weatherImageView.image, UIImage(named: "Rainy")!)
+  }
+  
+  func test_天気予報の最高気温がmaxTempLabelのtextに設定されること() throws {
+    
+    let maxTempInfo = WeaterInfo(maxTemperature: 100, date: "", minTemperature: 0, weatherCondition: "sunny")
+    
+    weatherProvider.fetchHandler = { _ in
+      return maxTempInfo
+    }
+    
+    viewController.settingWeatherImageOfCodableVer(input: inputInfo)
+    XCTAssertEqual(viewController.maxTempLabel.text, String(maxTempInfo.maxTemperature))
+  }
+  
+  func test_天気予報の最高気温がminTempLabelのtextに設定されること() throws {
+    
+    let minTempInfo = WeaterInfo(maxTemperature: 0, date: "", minTemperature: 5, weatherCondition: "sunny")
+    
+    weatherProvider.fetchHandler = { _ in
+      return minTempInfo
+    }
+    
+    viewController.settingWeatherImageOfCodableVer(input: inputInfo)
+    XCTAssertEqual(viewController.minTempLabel.text, String(minTempInfo.minTemperature))
   }
   
   func testPerformanceExample() throws {
