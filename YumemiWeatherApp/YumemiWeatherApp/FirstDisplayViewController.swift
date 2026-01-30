@@ -20,7 +20,12 @@ class FirstDisplayViewController: UIViewController {
   override func viewDidAppear(_ animated: Bool) {
     
     let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-    let nextVC = storyboard.instantiateViewController(identifier: "MainVC")
+    let nextVC = storyboard.instantiateViewController(identifier: "MainVC") as! ViewController
+    
+    // weatherProviderの注入
+    let weatherProvider = WeatherProvider()
+    nextVC.weatherProviderInjection(weatherProvider: weatherProvider)
+    
     nextVC.modalPresentationStyle = .fullScreen
     
     self.present(nextVC, animated: true, completion: nil)

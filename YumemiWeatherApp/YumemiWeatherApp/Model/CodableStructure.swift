@@ -8,14 +8,14 @@
 import Foundation
 
 // エンコード用
-struct inputInfo: Codable {
+struct InputInfo: Codable {
   
   var area: String
   var date: Date
 }
 
 // デコード用
-struct weaterInfo: Codable {
+struct WeaterInfo: Codable {
   
   var maxTemperature: Int
   var date: String

@@ -8,6 +8,7 @@
 import UIKit
 import YumemiWeather
 
+
 class ViewController: UIViewController {
   
   
@@ -21,6 +22,7 @@ class ViewController: UIViewController {
   @IBOutlet weak var closeButton: UIButton!
   @IBOutlet weak var reloadButton: UIButton!
   
+  var weaterProvider: WeatherFetching!
   
   //MARK: - LifeCycle
   override func viewDidLoad() {
@@ -41,17 +43,17 @@ class ViewController: UIViewController {
   
   @IBAction func reloadButtonAction(_ sender: Any) {
     
-    let inputInfo = inputInfo(area: "Tokyo", date: Date())
+    let inputInfo = InputInfo(area: "Tokyo", date: Date())
     
-    setWeatherImageOfCodableVer(input: inputInfo)
+    settingWeatherImageOfCodableVer(input: inputInfo)
   }
   
   @objc func applicationWillEnterForeground() {
     
     //フォアグラウンドに戻った時の処理
-    let inputInfo = inputInfo(area: "Tokyo", date: Date())
+    let inputInfo = InputInfo(area: "Tokyo", date: Date())
     
-    setWeatherImageOfCodableVer(input: inputInfo)
+    settingWeatherImageOfCodableVer(input: inputInfo)
   }
   
   // fetchWeatherCondition()のThrows verのメソッド
@@ -124,50 +126,72 @@ class ViewController: UIViewController {
     }
   }
   
-  //Codableを使用したfetchWeather()のJSON Verのメソッド
-  private func setWeatherImageOfCodableVer(input: inputInfo) {
+  // 天気情報の取得からUI部品へのセットまでのメソッド
+  func settingWeatherImageOfCodableVer(input: InputInfo) {
     
-    // 元データの作成
-    let inputData = input
-    var inputJsonString = String()
-    var outputJsonString = String()
-    
-    // JSONにエンコードし、Stringに変換
-    do {
-      let encoder = JSONEncoder()
-      encoder.dateEncodingStrategy = .iso8601
-      let jsonData = try encoder.encode(inputData)
-      inputJsonString = String(data: jsonData, encoding: .utf8)!
-    } catch {
-      print("InputのJSONエンコードに失敗")
-      
-      return
-    }
-    // フェッチ
-    do {
-      outputJsonString = try YumemiWeather.fetchWeather(inputJsonString)
-    } catch {
+    let fetchErrorHandle = {
       print("天気情報の取得失敗")
-      displayErrorAlert {
-        self.setWeatherImageOfCodableVer(input: inputData)
+      self.displayErrorAlert {
+        self.settingWeatherImageOfCodableVer(input: input)
       }
-      
-      return
     }
     
-    //　JSONにエンコードして各値を抽出
-    let data = Data(outputJsonString.utf8)
+    let result = weaterProvider.fetchWeaterInfoOfCodableVer(input: input, fetchErrorHandle: fetchErrorHandle)
     
-    let decoder = JSONDecoder()
-    let result = try! decoder.decode(weaterInfo.self, from: data)
+    if let result = result {
+      setWeatherImage(weatherInfo: result)
+    } else {
+      displayErrorAlert {
+        self.settingWeatherImageOfCodableVer(input: input)
+      }
+    }
+  }
+  
+  //Codableを使用したfetchWeather()のJSON Verのメソッド
+//  func fetchWeaterInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void) -> WeaterInfo? {
+//    
+//    // 元データの作成
+//    let inputData = input
+//    var inputJsonString = String()
+//    var outputJsonString = String()
+//    
+//    // JSONにエンコードし、Stringに変換
+//    do {
+//      let encoder = JSONEncoder()
+//      encoder.dateEncodingStrategy = .iso8601
+//      let jsonData = try encoder.encode(inputData)
+//      inputJsonString = String(data: jsonData, encoding: .utf8)!
+//    } catch {
+//      print("InputのJSONエンコードに失敗")
+//      
+//      return nil
+//    }
+//    // フェッチ
+//    do {
+//      outputJsonString = try YumemiWeather.fetchWeather(inputJsonString)
+//    } catch {
+//  
+//      fetchErrorHandle()
+//      return nil
+//    }
+//    
+//    //　JSONにエンコードして各値を抽出
+//    let data = Data(outputJsonString.utf8)
+//    let decoder = JSONDecoder()
+//    let result = try! decoder.decode(WeaterInfo.self, from: data)
+//    
+//    return result
+//  }
+  
+  // 各UI部品に値をセットするメソッド
+  private func setWeatherImage(weatherInfo: WeaterInfo) {
     
-    // 各値をUIに表示
-    let maxTemperatureString = String(result.maxTemperature)
-    let minTemperatureString = String(result.minTemperature)
+    let maxTemperatureString = String(weatherInfo.maxTemperature)
+    let minTemperatureString = String(weatherInfo.minTemperature)
     
     maxTempLabel.text = maxTemperatureString
     minTempLabel.text = minTemperatureString
-    let weatherCondition = result.weatherCondition
+    let weatherCondition = weatherInfo.weatherCondition
     setWeatherCondtionImage(imageString: weatherCondition)
   }
   
@@ -200,6 +224,8 @@ class ViewController: UIViewController {
     alert.addAction(cancelAction)
     present(alert, animated: true)
   }
+  
+  func weatherProviderInjection (weatherProvider: WeatherProvider) {
+    self.weaterProvider = weatherProvider
+  }
 }
-
-
