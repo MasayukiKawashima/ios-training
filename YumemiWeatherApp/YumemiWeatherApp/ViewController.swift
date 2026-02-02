@@ -34,6 +34,8 @@ class ViewController: UIViewController {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
     
+    indicator.hidesWhenStopped = true
+    
     // NotificationCenterでアプリがバックグラウンドからフォアグラウンドに移行することを監視
     NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
   }
@@ -47,10 +49,10 @@ class ViewController: UIViewController {
   }
   
   @IBAction func reloadButtonAction(_ sender: Any) {
-    
+    self.indicator.startAnimating()
     let inputInfo = InputInfo(area: "Tokyo", date: Date())
     
-    settingWeatherImageOfCodableVer(input: inputInfo)
+    settingWeatherImageOfSyncVer(input: inputInfo)
   }
   
   //MARK: - NotificationCenter ObserverMethod
@@ -60,14 +62,37 @@ class ViewController: UIViewController {
     //フォアグラウンドに戻った時の処理
     let inputInfo = InputInfo(area: "Tokyo", date: Date())
     
-    settingWeatherImageOfCodableVer(input: inputInfo)
+    settingWeatherImageOfSyncVer(input: inputInfo)
   }
   
   //MARK: - Sync ver
   
-  func settingWeatherImageOfSyncVer() {
+  func settingWeatherImageOfSyncVer(input: InputInfo) {
     
-    
+    weaterProvider.fethchWeatherOfSyncVer(input: input) { result in
+      
+      DispatchQueue.main.async {
+        self.indicator.stopAnimating()
+        
+        switch result {
+        case .success(let response):
+          
+          self.setWeatherImageInfo(weatherInfo: response)
+        case .failure(let error):
+          switch error {
+            
+          case .jsonEncodeError:
+            print("エンコードに失敗しました")
+          case .jsonDecodeError:
+            print("デコードに失敗しました")
+          case .unknownError:
+            self.displayErrorAlert {
+              self.settingWeatherImageOfSyncVer(input: input)
+            }
+          }
+        }
+      }
+    }
   }
   
   //MARK: - Throws ver
