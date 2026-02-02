@@ -85,6 +85,8 @@ class WeatherProvider: WeatherFetching {
           } else {
             return completion(.failure(.jsonDecodeError))
           }
+        } else {
+          return completion(.failure(.unknownError))
         }
       }
     }

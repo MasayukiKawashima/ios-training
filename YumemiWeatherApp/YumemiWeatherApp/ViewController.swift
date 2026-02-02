@@ -87,6 +87,7 @@ class ViewController: UIViewController {
             print("デコードに失敗しました")
           case .unknownError:
             self.displayErrorAlert {
+              self.indicator.startAnimating()
               self.settingWeatherImageOfSyncVer(input: input)
             }
           }
