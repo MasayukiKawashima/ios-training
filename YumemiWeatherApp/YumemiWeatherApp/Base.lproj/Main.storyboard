@@ -89,6 +89,9 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="18p-rP-VVm">
+                                <rect key="frame" x="197" y="596.5" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -97,13 +100,17 @@
                             <constraint firstItem="q6m-FI-VR5" firstAttribute="centerX" secondItem="0IP-3k-3NU" secondAttribute="centerX" id="AJw-bM-hId"/>
                             <constraint firstItem="48R-6t-2Zu" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.5" id="HIu-EN-tS2"/>
                             <constraint firstItem="dOa-rj-1I5" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.5" id="IhO-1T-nkd"/>
+                            <constraint firstItem="343-hq-dfH" firstAttribute="top" secondItem="18p-rP-VVm" secondAttribute="bottom" constant="30" id="NxK-PZ-Iig"/>
+                            <constraint firstItem="18p-rP-VVm" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="RNu-Jz-C5l"/>
                             <constraint firstItem="343-hq-dfH" firstAttribute="top" secondItem="48R-6t-2Zu" secondAttribute="bottom" constant="80" id="T7F-d3-19t"/>
                             <constraint firstItem="ROe-4h-HK4" firstAttribute="centerX" secondItem="tSN-Je-acg" secondAttribute="centerX" id="Vbw-RT-Xgp"/>
                             <constraint firstItem="48R-6t-2Zu" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="cCo-jA-kfW"/>
+                            <constraint firstItem="18p-rP-VVm" firstAttribute="top" secondItem="48R-6t-2Zu" secondAttribute="bottom" constant="30" id="oOo-GC-ryh"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="closeButton" destination="q6m-FI-VR5" id="uE9-x7-W33"/>
+                        <outlet property="indicator" destination="18p-rP-VVm" id="zmb-AS-zVo"/>
                         <outlet property="maxTempLabel" destination="tSN-Je-acg" id="fum-aZ-sJ1"/>
                         <outlet property="minTempLabel" destination="0IP-3k-3NU" id="ZQS-gP-hqh"/>
                         <outlet property="reloadButton" destination="ROe-4h-HK4" id="HWB-Y8-vuz"/>

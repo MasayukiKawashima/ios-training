@@ -28,7 +28,8 @@ final class ViewControllerTests: XCTestCase {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
   }
   
-  func test_天気予報がsunnyだったらImageViewのimageにSunnyが設定されること() throws {
+  //MARK: - Codable Ver Tests
+  func test_CodableVer_天気予報がsunnyだったらImageViewのimageにSunnyが設定されること() throws {
     
     let sunnyInfo = WeaterInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "sunny")
     
@@ -40,7 +41,7 @@ final class ViewControllerTests: XCTestCase {
     XCTAssertEqual(viewController.weatherImageView.image, UIImage(named: "Sunny")!)
   }
   
-  func test_天気予報がcloudyだったらImageViewのimageにCloudyが設定されること() throws {
+  func test_CodableVer_天気予報がcloudyだったらImageViewのimageにCloudyが設定されること() throws {
     
     let cloudyInfo = WeaterInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "cloudy")
     
@@ -52,7 +53,7 @@ final class ViewControllerTests: XCTestCase {
     XCTAssertEqual(viewController.weatherImageView.image, UIImage(named: "Cloudy")!)
   }
   
-  func test_天気予報がrainyだったらImageViewのimageにRainyが設定されること() throws {
+  func test_CodableVer_天気予報がrainyだったらImageViewのimageにRainyが設定されること() throws {
     
     let rainyInfo = WeaterInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "rainy")
     
@@ -64,7 +65,7 @@ final class ViewControllerTests: XCTestCase {
     XCTAssertEqual(viewController.weatherImageView.image, UIImage(named: "Rainy")!)
   }
   
-  func test_天気予報の最高気温がmaxTempLabelのtextに設定されること() throws {
+  func test_CodableVer_天気予報の最高気温がmaxTempLabelのtextに設定されること() throws {
     
     let maxTempInfo = WeaterInfo(maxTemperature: 100, date: "", minTemperature: 0, weatherCondition: "sunny")
     
@@ -76,7 +77,7 @@ final class ViewControllerTests: XCTestCase {
     XCTAssertEqual(viewController.maxTempLabel.text, String(maxTempInfo.maxTemperature))
   }
   
-  func test_天気予報の最高気温がminTempLabelのtextに設定されること() throws {
+  func test_CodableVer_天気予報の最高気温がminTempLabelのtextに設定されること() throws {
     
     let minTempInfo = WeaterInfo(maxTemperature: 0, date: "", minTemperature: 5, weatherCondition: "sunny")
     
@@ -86,6 +87,36 @@ final class ViewControllerTests: XCTestCase {
     
     viewController.settingWeatherImageOfCodableVer(input: inputInfo)
     XCTAssertEqual(viewController.minTempLabel.text, String(minTempInfo.minTemperature))
+  }
+  
+  //MARK: - Sync Ver Tests
+  
+  func test_SyncVer_天気予報がSunnyだったらImageViewのimageにSunnyが設定されること() throws {
+    
+    weatherProvider.weatherInfoStub = WeaterInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "sunny")
+    
+    let expectation = XCTestExpectation(description: "Weather fetched")
+    
+    viewController.settingWeatherImageOfSyncVer(input: inputInfo) { result in
+      expectation.fulfill()
+    }
+    
+    wait(for: [expectation], timeout: 10)
+    XCTAssertEqual(viewController.weatherImageView.image, UIImage(named: "Sunny")!)
+  }
+  
+  func test_SyncVer_天気予報の最高気温がmaxTempLabelのtextに設定されること() {
+    
+    weatherProvider.weatherInfoStub = WeaterInfo(maxTemperature: 35, date: "", minTemperature: 0, weatherCondition: "rainy")
+    
+    let expectation = XCTestExpectation(description: "Weather fetched")
+    
+    viewController.settingWeatherImageOfSyncVer(input: inputInfo) { result in
+      expectation.fulfill()
+    }
+    
+    wait(for: [expectation], timeout: 10)
+    XCTAssertEqual(viewController.maxTempLabel.text, String(weatherProvider.weatherInfoStub.maxTemperature))
   }
   
   func testPerformanceExample() throws {
@@ -100,8 +131,13 @@ final class ViewControllerTests: XCTestCase {
 class WeatherProviderMock: WeatherFetching {
   
   var fetchHandler: ((InputInfo)  -> WeaterInfo)!
+  var weatherInfoStub: WeaterInfo!
   
   func fetchWeaterInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void) -> WeaterInfo? {
     return  fetchHandler(input)
+  }
+  
+  func fethchWeatherOfSyncVer(input: InputInfo, completion: @escaping (Result<WeaterInfo, WeatherError>) -> Void) {
+    return completion(.success(weatherInfoStub))
   }
 }
