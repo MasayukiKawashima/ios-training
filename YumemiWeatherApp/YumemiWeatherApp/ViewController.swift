@@ -67,7 +67,7 @@ class ViewController: UIViewController {
   
   //MARK: - Sync ver
   
-  func settingWeatherImageOfSyncVer(input: InputInfo) {
+  func settingWeatherImageOfSyncVer(input: InputInfo, completion: ((Result<WeaterInfo, WeatherError>) -> Void)? = nil) {
     
     weaterProvider.fethchWeatherOfSyncVer(input: input) { result in
       
@@ -76,11 +76,9 @@ class ViewController: UIViewController {
         
         switch result {
         case .success(let response):
-          
           self.setWeatherImageInfo(weatherInfo: response)
         case .failure(let error):
           switch error {
-            
           case .jsonEncodeError:
             print("エンコードに失敗しました")
           case .jsonDecodeError:
@@ -88,10 +86,13 @@ class ViewController: UIViewController {
           case .unknownError:
             self.displayErrorAlert {
               self.indicator.startAnimating()
-              self.settingWeatherImageOfSyncVer(input: input)
+              self.settingWeatherImageOfSyncVer(input: input, completion: completion)
             }
           }
         }
+        //テスト用
+        guard let completion = completion else { return }
+        completion(result)
       }
     }
   }
@@ -200,6 +201,7 @@ class ViewController: UIViewController {
   // 各UI部品に値をセットするメソッド
   private func setWeatherImageInfo(weatherInfo: WeaterInfo) {
     
+    
     let maxTemperatureString = String(weatherInfo.maxTemperature)
     let minTemperatureString = String(weatherInfo.minTemperature)
     
@@ -215,6 +217,7 @@ class ViewController: UIViewController {
     switch imageString {
     case "sunny":
       weatherImageView.image = UIImage(named: "Sunny")
+      print(weatherImageView.image)
     case "cloudy":
       weatherImageView.image = UIImage(named: "Cloudy")
     case "rainy":

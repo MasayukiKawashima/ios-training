@@ -16,6 +16,7 @@ protocol WeatherFetching {
 
 class WeatherProvider: WeatherFetching {
   
+  //MARK: - Codable Ver
   func fetchWeaterInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void)  -> WeaterInfo? {
     
     // 元データの作成
@@ -50,6 +51,8 @@ class WeatherProvider: WeatherFetching {
     
     return result
   }
+  
+  //MARK: - Sync Ver
   
   func jsonString(input: InputInfo) throws -> String {
     
