@@ -10,14 +10,31 @@ import YumemiWeather
 
 protocol WeatherFetching {
   
-  func fetchWeaterInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void)  -> WeaterInfo?
-  func fethchWeatherOfSyncVer(input: InputInfo, completion: @escaping(Result<WeaterInfo, WeatherError>) -> Void)
+  func fetchWeatherInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void)  -> WeatherInfo?
+  func fethchWeatherOfSyncVer(input: InputInfo, completion: @escaping(Result<WeatherInfo, WeatherError>) -> Void)
+  func fetchWeaterOfSyncAndDelegateVer(input: InputInfo, completion: ((Result<WeatherInfo, WeatherError>) -> Void)?)
+  
+  var delegate: WeatherProviderDelegate? { get set }
+}
+
+protocol WeatherProviderDelegate {
+
+    func weatherProvider(
+        _ weatherProvider: WeatherProvider,
+        didFetchWeatherInfo result: Result<WeatherInfo, WeatherError>,
+        inputInfo: InputInfo,
+        completion: ((Result<WeatherInfo, WeatherError>) -> Void)?
+    )
 }
 
 class WeatherProvider: WeatherFetching {
   
+  //MARK: - Properties Ver
+  
+  var delegate: WeatherProviderDelegate?
+  
   //MARK: - Codable Ver
-  func fetchWeaterInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void)  -> WeaterInfo? {
+  func fetchWeatherInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void)  -> WeatherInfo? {
     
     // 元データの作成
     let inputData = input
@@ -47,7 +64,7 @@ class WeatherProvider: WeatherFetching {
     //　JSONにエンコードして各値を抽出
     let data = Data(outputJsonString.utf8)
     let decoder = JSONDecoder()
-    let result = try! decoder.decode(WeaterInfo.self, from: data)
+    let result = try! decoder.decode(WeatherInfo.self, from: data)
     
     return result
   }
@@ -67,7 +84,7 @@ class WeatherProvider: WeatherFetching {
     return jsonString
   }
   
-  func response(jsonString: String) throws -> WeaterInfo {
+  func response(jsonString: String) throws -> WeatherInfo {
     
     let decoder = JSONDecoder()
     
@@ -75,10 +92,10 @@ class WeatherProvider: WeatherFetching {
       throw WeatherError.jsonDecodeError
     }
     
-    return  try decoder.decode(WeaterInfo.self, from: jsonData)
+    return  try decoder.decode(WeatherInfo.self, from: jsonData)
   }
   
-  func fethchWeatherOfSyncVer(input: InputInfo, completion: @escaping(Result<WeaterInfo, WeatherError>) -> Void) {
+  func fethchWeatherOfSyncVer(input: InputInfo, completion: @escaping(Result<WeatherInfo, WeatherError>) -> Void) {
     
     if let jsonString = try? jsonString(input: input) {
       DispatchQueue.global().async {
@@ -95,4 +112,21 @@ class WeatherProvider: WeatherFetching {
     }
   }
   
+  //MARK: - SyncAndDelegate ver
+  func fetchWeaterOfSyncAndDelegateVer(input: InputInfo, completion: ((Result<WeatherInfo, WeatherError>) -> Void)? = nil)  {
+    
+    if let jsonString = try? jsonString(input: input) {
+      DispatchQueue.global().async {
+        if let responseJsonString = try? YumemiWeather.syncFetchWeather(jsonString) {
+          if let weatherInfo = try? self.response(jsonString: responseJsonString) {
+            self.delegate?.weatherProvider(self, didFetchWeatherInfo: .success(weatherInfo), inputInfo: input, completion: completion)
+          } else {
+            self.delegate?.weatherProvider(self, didFetchWeatherInfo: .failure(.jsonDecodeError), inputInfo: input, completion: completion)
+          }
+        } else {
+          self.delegate?.weatherProvider(self, didFetchWeatherInfo: .failure(.unknownError), inputInfo: input, completion: completion)
+        }
+      }
+    }
+  }
 }

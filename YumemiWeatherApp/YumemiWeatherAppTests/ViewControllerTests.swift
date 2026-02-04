@@ -31,7 +31,7 @@ final class ViewControllerTests: XCTestCase {
   //MARK: - Codable Ver Tests
   func test_CodableVer_天気予報がsunnyだったらImageViewのimageにSunnyが設定されること() throws {
     
-    let sunnyInfo = WeaterInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "sunny")
+    let sunnyInfo = WeatherInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "sunny")
     
     weatherProvider.fetchHandler = { _ in
       return sunnyInfo
@@ -43,7 +43,7 @@ final class ViewControllerTests: XCTestCase {
   
   func test_CodableVer_天気予報がcloudyだったらImageViewのimageにCloudyが設定されること() throws {
     
-    let cloudyInfo = WeaterInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "cloudy")
+    let cloudyInfo = WeatherInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "cloudy")
     
     weatherProvider.fetchHandler = { _ in
       return cloudyInfo
@@ -55,7 +55,7 @@ final class ViewControllerTests: XCTestCase {
   
   func test_CodableVer_天気予報がrainyだったらImageViewのimageにRainyが設定されること() throws {
     
-    let rainyInfo = WeaterInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "rainy")
+    let rainyInfo = WeatherInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "rainy")
     
     weatherProvider.fetchHandler = { _ in
       return rainyInfo
@@ -67,7 +67,7 @@ final class ViewControllerTests: XCTestCase {
   
   func test_CodableVer_天気予報の最高気温がmaxTempLabelのtextに設定されること() throws {
     
-    let maxTempInfo = WeaterInfo(maxTemperature: 100, date: "", minTemperature: 0, weatherCondition: "sunny")
+    let maxTempInfo = WeatherInfo(maxTemperature: 100, date: "", minTemperature: 0, weatherCondition: "sunny")
     
     weatherProvider.fetchHandler = { _ in
       return maxTempInfo
@@ -79,7 +79,7 @@ final class ViewControllerTests: XCTestCase {
   
   func test_CodableVer_天気予報の最高気温がminTempLabelのtextに設定されること() throws {
     
-    let minTempInfo = WeaterInfo(maxTemperature: 0, date: "", minTemperature: 5, weatherCondition: "sunny")
+    let minTempInfo = WeatherInfo(maxTemperature: 0, date: "", minTemperature: 5, weatherCondition: "sunny")
     
     weatherProvider.fetchHandler = { _ in
       return minTempInfo
@@ -93,7 +93,7 @@ final class ViewControllerTests: XCTestCase {
   
   func test_SyncVer_天気予報がSunnyだったらImageViewのimageにSunnyが設定されること() throws {
     
-    weatherProvider.weatherInfoStub = WeaterInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "sunny")
+    weatherProvider.weatherInfoStub = WeatherInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "sunny")
     
     let expectation = XCTestExpectation(description: "Weather fetched")
     
@@ -107,7 +107,7 @@ final class ViewControllerTests: XCTestCase {
   
   func test_SyncVer_天気予報の最高気温がmaxTempLabelのtextに設定されること() {
     
-    weatherProvider.weatherInfoStub = WeaterInfo(maxTemperature: 35, date: "", minTemperature: 0, weatherCondition: "rainy")
+    weatherProvider.weatherInfoStub = WeatherInfo(maxTemperature: 35, date: "", minTemperature: 0, weatherCondition: "rainy")
     
     let expectation = XCTestExpectation(description: "Weather fetched")
     
@@ -130,14 +130,21 @@ final class ViewControllerTests: XCTestCase {
 
 class WeatherProviderMock: WeatherFetching {
   
-  var fetchHandler: ((InputInfo)  -> WeaterInfo)!
-  var weatherInfoStub: WeaterInfo!
+  var fetchHandler: ((InputInfo)  -> WeatherInfo)!
+  var weatherInfoStub: WeatherInfo!
+  var delegate: WeatherProviderDelegate?
   
-  func fetchWeaterInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void) -> WeaterInfo? {
+  func fetchWeatherInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void) -> WeatherInfo? {
     return  fetchHandler(input)
   }
   
-  func fethchWeatherOfSyncVer(input: InputInfo, completion: @escaping (Result<WeaterInfo, WeatherError>) -> Void) {
+  func fethchWeatherOfSyncVer(input: InputInfo, completion: @escaping (Result<WeatherInfo, WeatherError>) -> Void) {
     return completion(.success(weatherInfoStub))
   }
+  
+  func fetchWeaterOfSyncAndDelegateVer(input: YumemiWeatherApp.InputInfo, completion: ((Result<YumemiWeatherApp.WeatherInfo, YumemiWeatherApp.WeatherError>) -> Void)?) {
+    <#code#>
+  }
+  
+  
 }
