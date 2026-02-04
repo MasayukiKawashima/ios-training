@@ -40,6 +40,8 @@ class ViewController: UIViewController {
     
     // NotificationCenterでアプリがバックグラウンドからフォアグラウンドに移行することを監視
     NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+    
+    testDeinit()
   }
   
   deinit {
@@ -256,6 +258,13 @@ class ViewController: UIViewController {
   
   func weatherProviderInjection (weatherProvider: WeatherProvider) {
     self.weaterProvider = weatherProvider
+  }
+  
+  func testDeinit() {
+    do {
+      let testVC = ViewController()
+      print("deinitのテスト用のVCがinitされました")
+    }
   }
 }
 
