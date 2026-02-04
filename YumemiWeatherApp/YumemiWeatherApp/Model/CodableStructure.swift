@@ -15,7 +15,7 @@ struct InputInfo: Codable {
 }
 
 // デコード用
-struct WeaterInfo: Codable {
+struct WeatherInfo: Codable {
   
   var maxTemperature: Int
   var date: String

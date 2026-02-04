@@ -34,10 +34,16 @@ class ViewController: UIViewController {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
     
+    weaterProvider.delegate = self
+    
     indicator.hidesWhenStopped = true
     
     // NotificationCenterでアプリがバックグラウンドからフォアグラウンドに移行することを監視
     NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+  }
+  
+  deinit {
+    print("deinitされました")
   }
   
   //MARK: - Methods
@@ -52,7 +58,7 @@ class ViewController: UIViewController {
     self.indicator.startAnimating()
     let inputInfo = InputInfo(area: "Tokyo", date: Date())
     
-    settingWeatherImageOfSyncVer(input: inputInfo)
+    settingWeatherImageOfSyncAndDelegateVer(input: inputInfo)
   }
   
   //MARK: - NotificationCenter ObserverMethod
@@ -62,12 +68,12 @@ class ViewController: UIViewController {
     //フォアグラウンドに戻った時の処理
     let inputInfo = InputInfo(area: "Tokyo", date: Date())
     
-    settingWeatherImageOfSyncVer(input: inputInfo)
+    settingWeatherImageOfSyncAndDelegateVer(input: inputInfo)
   }
   
   //MARK: - Sync ver
   
-  func settingWeatherImageOfSyncVer(input: InputInfo, completion: ((Result<WeaterInfo, WeatherError>) -> Void)? = nil) {
+  func settingWeatherImageOfSyncVer(input: InputInfo, completion: ((Result<WeatherInfo, WeatherError>) -> Void)? = nil) {
     
     weaterProvider.fethchWeatherOfSyncVer(input: input) { result in
       
@@ -95,6 +101,13 @@ class ViewController: UIViewController {
         completion(result)
       }
     }
+  }
+  
+  //MARK: - SyncAndDelegate ver
+  
+  func settingWeatherImageOfSyncAndDelegateVer(input: InputInfo, completion: ((Result<WeatherInfo, WeatherError>) -> Void)? = nil) {
+    
+    weaterProvider.fetchWeaterOfSyncAndDelegateVer(input: input, completion: completion)
   }
   
   //MARK: - Throws ver
@@ -185,7 +198,7 @@ class ViewController: UIViewController {
       }
     }
     
-    let result = weaterProvider.fetchWeaterInfoOfCodableVer(input: input, fetchErrorHandle: fetchErrorHandle)
+    let result = weaterProvider.fetchWeatherInfoOfCodableVer(input: input, fetchErrorHandle: fetchErrorHandle)
     
     if let result = result {
       setWeatherImageInfo(weatherInfo: result)
@@ -199,7 +212,7 @@ class ViewController: UIViewController {
   //MARK: - Common
   
   // 各UI部品に値をセットするメソッド
-  private func setWeatherImageInfo(weatherInfo: WeaterInfo) {
+  private func setWeatherImageInfo(weatherInfo: WeatherInfo) {
     
     
     let maxTemperatureString = String(weatherInfo.maxTemperature)
@@ -217,7 +230,6 @@ class ViewController: UIViewController {
     switch imageString {
     case "sunny":
       weatherImageView.image = UIImage(named: "Sunny")
-      print(weatherImageView.image)
     case "cloudy":
       weatherImageView.image = UIImage(named: "Cloudy")
     case "rainy":
@@ -244,5 +256,35 @@ class ViewController: UIViewController {
   
   func weatherProviderInjection (weatherProvider: WeatherProvider) {
     self.weaterProvider = weatherProvider
+  }
+}
+
+extension ViewController: WeatherProviderDelegate {
+  
+  func weatherProvider(_ weatherProvider: WeatherProvider, didFetchWeatherInfo result: Result<WeatherInfo, WeatherError>, inputInfo: InputInfo, completion: ((Result<WeatherInfo, WeatherError>) -> Void)?) {
+    
+    DispatchQueue.main.async {
+      self.indicator.stopAnimating()
+      
+      switch result {
+      case .success(let response):
+        self.setWeatherImageInfo(weatherInfo: response)
+      case .failure(let error):
+        switch error {
+        case .jsonEncodeError:
+          print("エンコードに失敗しました")
+        case .jsonDecodeError:
+          print("デコードに失敗しました")
+        case .unknownError:
+          self.displayErrorAlert {
+            self.indicator.startAnimating()
+            self.settingWeatherImageOfSyncAndDelegateVer(input: inputInfo)
+          }
+        }
+      }
+      //テスト用
+      guard let completion = completion else { return }
+      completion(result)
+    }
   }
 }
