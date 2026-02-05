@@ -12,7 +12,7 @@ protocol WeatherFetching {
   
   func fetchWeatherInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void)  -> WeatherInfo?
   func fethchWeatherOfSyncVer(input: InputInfo, completion: @escaping(Result<WeatherInfo, WeatherError>) -> Void)
-  func fetchWeaterOfSyncAndDelegateVer(input: InputInfo, completion: ((Result<WeatherInfo, WeatherError>) -> Void)?)
+  func fetchWeaterOfSyncAndDelegateVer(input: InputInfo)
   
   var delegate: WeatherProviderDelegate? { get set }
 }
@@ -20,10 +20,9 @@ protocol WeatherFetching {
 protocol WeatherProviderDelegate {
 
     func weatherProvider(
-        _ weatherProvider: WeatherProvider,
+      _ weatherProvider: WeatherFetching,
         didFetchWeatherInfo result: Result<WeatherInfo, WeatherError>,
-        inputInfo: InputInfo,
-        completion: ((Result<WeatherInfo, WeatherError>) -> Void)?
+        inputInfo: InputInfo
     )
 }
 
@@ -113,18 +112,18 @@ class WeatherProvider: WeatherFetching {
   }
   
   //MARK: - SyncAndDelegate ver
-  func fetchWeaterOfSyncAndDelegateVer(input: InputInfo, completion: ((Result<WeatherInfo, WeatherError>) -> Void)? = nil)  {
+  func fetchWeaterOfSyncAndDelegateVer(input: InputInfo)  {
     
     if let jsonString = try? jsonString(input: input) {
       DispatchQueue.global().async {
         if let responseJsonString = try? YumemiWeather.syncFetchWeather(jsonString) {
           if let weatherInfo = try? self.response(jsonString: responseJsonString) {
-            self.delegate?.weatherProvider(self, didFetchWeatherInfo: .success(weatherInfo), inputInfo: input, completion: completion)
+            self.delegate?.weatherProvider(self, didFetchWeatherInfo: .success(weatherInfo), inputInfo: input)
           } else {
-            self.delegate?.weatherProvider(self, didFetchWeatherInfo: .failure(.jsonDecodeError), inputInfo: input, completion: completion)
+            self.delegate?.weatherProvider(self, didFetchWeatherInfo: .failure(.jsonDecodeError), inputInfo: input)
           }
         } else {
-          self.delegate?.weatherProvider(self, didFetchWeatherInfo: .failure(.unknownError), inputInfo: input, completion: completion)
+          self.delegate?.weatherProvider(self, didFetchWeatherInfo: .failure(.unknownError), inputInfo: input)
         }
       }
     }
