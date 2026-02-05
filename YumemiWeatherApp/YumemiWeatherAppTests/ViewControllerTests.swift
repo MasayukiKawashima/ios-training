@@ -157,4 +157,8 @@ class WeatherProviderMock: WeatherFetching {
     
     self.expectation?.fulfill()
   }
+  
+  func fetchWeatherOfSyncAndConcurrencyVer(input: YumemiWeatherApp.InputInfo) async throws -> (Result<YumemiWeatherApp.WeatherInfo, YumemiWeatherApp.WeatherError>) {
+    <#code#>
+  }
 }
