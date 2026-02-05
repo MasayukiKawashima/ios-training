@@ -8,25 +8,17 @@
 import UIKit
 import YumemiWeather
 
-
 class ViewController: UIViewController {
-  
   
   //MARK: - Properties
   
   @IBOutlet weak var weatherImageView: UIImageView!
-  
   @IBOutlet weak var minTempLabel: UILabel!
   @IBOutlet weak var maxTempLabel: UILabel!
-  
- 
   @IBOutlet weak var indicator: UIActivityIndicatorView!
-  
   @IBOutlet weak var closeButton: UIButton!
   @IBOutlet weak var reloadButton: UIButton!
-  
-
-  
+    
   var weaterProvider: WeatherFetching!
   
   //MARK: - LifeCycle
@@ -40,8 +32,6 @@ class ViewController: UIViewController {
     
     // NotificationCenterでアプリがバックグラウンドからフォアグラウンドに移行することを監視
     NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-    
-    testDeinit()
   }
   
   deinit {
@@ -109,7 +99,7 @@ class ViewController: UIViewController {
   
   func settingWeatherImageOfSyncAndDelegateVer(input: InputInfo, completion: ((Result<WeatherInfo, WeatherError>) -> Void)? = nil) {
     
-    weaterProvider.fetchWeaterOfSyncAndDelegateVer(input: input, completion: completion)
+    weaterProvider.fetchWeaterOfSyncAndDelegateVer(input: input)
   }
   
   //MARK: - Throws ver
@@ -259,18 +249,11 @@ class ViewController: UIViewController {
   func weatherProviderInjection (weatherProvider: WeatherProvider) {
     self.weaterProvider = weatherProvider
   }
-  
-  func testDeinit() {
-    do {
-      let testVC = ViewController()
-      print("deinitのテスト用のVCがinitされました")
-    }
-  }
 }
 
 extension ViewController: WeatherProviderDelegate {
   
-  func weatherProvider(_ weatherProvider: WeatherProvider, didFetchWeatherInfo result: Result<WeatherInfo, WeatherError>, inputInfo: InputInfo, completion: ((Result<WeatherInfo, WeatherError>) -> Void)?) {
+  func weatherProvider(_ weatherProvider: WeatherFetching, didFetchWeatherInfo result: Result<WeatherInfo, WeatherError>, inputInfo: InputInfo) {
     
     DispatchQueue.main.async {
       self.indicator.stopAnimating()
@@ -291,9 +274,6 @@ extension ViewController: WeatherProviderDelegate {
           }
         }
       }
-      //テスト用
-      guard let completion = completion else { return }
-      completion(result)
     }
   }
 }

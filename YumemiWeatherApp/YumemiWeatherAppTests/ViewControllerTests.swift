@@ -22,6 +22,7 @@ final class ViewControllerTests: XCTestCase {
     viewController = storyboard.instantiateViewController(identifier: "MainVC") as ViewController
     viewController.weaterProvider = weatherProvider
     _ = viewController.view
+    weatherProvider.delegate = viewController
   }
   
   override func tearDownWithError() throws {
@@ -93,7 +94,9 @@ final class ViewControllerTests: XCTestCase {
   
   func test_SyncVer_天気予報がSunnyだったらImageViewのimageにSunnyが設定されること() throws {
     
-    weatherProvider.weatherInfoStub = WeatherInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "sunny")
+    let weatherInfo = WeatherInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "sunny")
+    
+    weatherProvider.resultStub = .success(weatherInfo)
     
     let expectation = XCTestExpectation(description: "Weather fetched")
     
@@ -107,7 +110,9 @@ final class ViewControllerTests: XCTestCase {
   
   func test_SyncVer_天気予報の最高気温がmaxTempLabelのtextに設定されること() {
     
-    weatherProvider.weatherInfoStub = WeatherInfo(maxTemperature: 35, date: "", minTemperature: 0, weatherCondition: "rainy")
+    let weatherInfo = WeatherInfo(maxTemperature: 35, date: "", minTemperature: 0, weatherCondition: "sunny")
+    
+    weatherProvider.resultStub = .success(weatherInfo)
     
     let expectation = XCTestExpectation(description: "Weather fetched")
     
@@ -116,8 +121,11 @@ final class ViewControllerTests: XCTestCase {
     }
     
     wait(for: [expectation], timeout: 10)
-    XCTAssertEqual(viewController.maxTempLabel.text, String(weatherProvider.weatherInfoStub.maxTemperature))
+    XCTAssertEqual(viewController.maxTempLabel.text, String(weatherInfo.maxTemperature))
   }
+  
+  //MARK: - SyncAndDelegate Ver Tests
+  
   
   func testPerformanceExample() throws {
     // This is an example of a performance test case.
@@ -130,21 +138,23 @@ final class ViewControllerTests: XCTestCase {
 
 class WeatherProviderMock: WeatherFetching {
   
-  var fetchHandler: ((InputInfo)  -> WeatherInfo)!
-  var weatherInfoStub: WeatherInfo!
+  var fetchHandler: ((InputInfo) -> WeatherInfo)!
+  var resultStub: Result<WeatherInfo, WeatherError>!
   var delegate: WeatherProviderDelegate?
+  var expectation: XCTestExpectation?
   
   func fetchWeatherInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void) -> WeatherInfo? {
     return  fetchHandler(input)
   }
   
   func fethchWeatherOfSyncVer(input: InputInfo, completion: @escaping (Result<WeatherInfo, WeatherError>) -> Void) {
-    return completion(.success(weatherInfoStub))
+    return completion(resultStub)
   }
   
-  func fetchWeaterOfSyncAndDelegateVer(input: YumemiWeatherApp.InputInfo, completion: ((Result<YumemiWeatherApp.WeatherInfo, YumemiWeatherApp.WeatherError>) -> Void)?) {
-    <#code#>
+  func fetchWeaterOfSyncAndDelegateVer(input: InputInfo) {
+    
+    self.delegate?.weatherProvider(self, didFetchWeatherInfo: self.resultStub, inputInfo: input)
+    
+    self.expectation?.fulfill()
   }
-  
-  
 }
