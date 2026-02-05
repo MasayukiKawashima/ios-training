@@ -13,6 +13,7 @@ protocol WeatherFetching {
   func fetchWeatherInfoOfCodableVer(input: InputInfo, fetchErrorHandle: @escaping () -> Void)  -> WeatherInfo?
   func fethchWeatherOfSyncVer(input: InputInfo, completion: @escaping(Result<WeatherInfo, WeatherError>) -> Void)
   func fetchWeaterOfSyncAndDelegateVer(input: InputInfo)
+  func fetchWeatherOfSyncAndConcurrencyVer(input: InputInfo) async -> (Result<WeatherInfo, WeatherError>)
   
   var delegate: WeatherProviderDelegate? { get set }
 }
@@ -70,6 +71,63 @@ class WeatherProvider: WeatherFetching {
   
   //MARK: - Sync Ver
   
+  func fethchWeatherOfSyncVer(input: InputInfo, completion: @escaping(Result<WeatherInfo, WeatherError>) -> Void) {
+    
+    if let jsonString = try? jsonString(input: input) {
+      DispatchQueue.global().async {
+        if let responseJsonString = try? YumemiWeather.syncFetchWeather(jsonString) {
+          if let weatherInfo = try? self.response(jsonString: responseJsonString) {
+            return completion(.success(weatherInfo))
+          } else {
+            return completion(.failure(.jsonDecodeError))
+          }
+        } else {
+          return completion(.failure(.unknownError))
+        }
+      }
+    }
+  }
+  
+  //MARK: - Concurrency Ver
+  
+  func fetchWeatherOfSyncAndConcurrencyVer(input: InputInfo) async -> (Result<WeatherInfo, WeatherError>) {
+    
+    if let jsonString = try? jsonString(input: input) {
+      
+      if let responceJsonString = try? YumemiWeather.syncFetchWeather(jsonString) {
+        if let weatherInfo = try? self.response(jsonString: responceJsonString) {
+          
+          return .success(weatherInfo)
+        } else {
+          return .failure(.jsonDecodeError)
+        }
+      } else {
+        return .failure(.unknownError)
+      }
+    }
+    return .failure(.jsonEncodeError)
+  }
+  
+  //MARK: - SyncAndDelegate ver
+  func fetchWeaterOfSyncAndDelegateVer(input: InputInfo)  {
+    
+    if let jsonString = try? jsonString(input: input) {
+      DispatchQueue.global().async {
+        if let responseJsonString = try? YumemiWeather.syncFetchWeather(jsonString) {
+          if let weatherInfo = try? self.response(jsonString: responseJsonString) {
+            self.delegate?.weatherProvider(self, didFetchWeatherInfo: .success(weatherInfo), inputInfo: input)
+          } else {
+            self.delegate?.weatherProvider(self, didFetchWeatherInfo: .failure(.jsonDecodeError), inputInfo: input)
+          }
+        } else {
+          self.delegate?.weatherProvider(self, didFetchWeatherInfo: .failure(.unknownError), inputInfo: input)
+        }
+      }
+    }
+  }
+  
+  //MARK: - Common
+  
   func jsonString(input: InputInfo) throws -> String {
     
     let encoder = JSONEncoder()
@@ -92,40 +150,5 @@ class WeatherProvider: WeatherFetching {
     }
     
     return  try decoder.decode(WeatherInfo.self, from: jsonData)
-  }
-  
-  func fethchWeatherOfSyncVer(input: InputInfo, completion: @escaping(Result<WeatherInfo, WeatherError>) -> Void) {
-    
-    if let jsonString = try? jsonString(input: input) {
-      DispatchQueue.global().async {
-        if let responseJsonString = try? YumemiWeather.syncFetchWeather(jsonString) {
-          if let weatherInfo = try? self.response(jsonString: responseJsonString) {
-            return completion(.success(weatherInfo))
-          } else {
-            return completion(.failure(.jsonDecodeError))
-          }
-        } else {
-          return completion(.failure(.unknownError))
-        }
-      }
-    }
-  }
-  
-  //MARK: - SyncAndDelegate ver
-  func fetchWeaterOfSyncAndDelegateVer(input: InputInfo)  {
-    
-    if let jsonString = try? jsonString(input: input) {
-      DispatchQueue.global().async {
-        if let responseJsonString = try? YumemiWeather.syncFetchWeather(jsonString) {
-          if let weatherInfo = try? self.response(jsonString: responseJsonString) {
-            self.delegate?.weatherProvider(self, didFetchWeatherInfo: .success(weatherInfo), inputInfo: input)
-          } else {
-            self.delegate?.weatherProvider(self, didFetchWeatherInfo: .failure(.jsonDecodeError), inputInfo: input)
-          }
-        } else {
-          self.delegate?.weatherProvider(self, didFetchWeatherInfo: .failure(.unknownError), inputInfo: input)
-        }
-      }
-    }
   }
 }

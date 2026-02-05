@@ -50,7 +50,7 @@ class ViewController: UIViewController {
     self.indicator.startAnimating()
     let inputInfo = InputInfo(area: "Tokyo", date: Date())
     
-    settingWeatherImageOfSyncAndDelegateVer(input: inputInfo)
+    settingWeatherImageOfConcurrencyVer(input: inputInfo)
   }
   
   //MARK: - NotificationCenter ObserverMethod
@@ -60,7 +60,35 @@ class ViewController: UIViewController {
     //フォアグラウンドに戻った時の処理
     let inputInfo = InputInfo(area: "Tokyo", date: Date())
     
-    settingWeatherImageOfSyncAndDelegateVer(input: inputInfo)
+    settingWeatherImageOfConcurrencyVer(input: inputInfo)
+  }
+  
+  //MARK: - Concurrency Ver
+  
+  func settingWeatherImageOfConcurrencyVer(input: InputInfo) {
+    
+    Task {
+      let result = await weaterProvider.fetchWeatherOfSyncAndConcurrencyVer(input: input)
+      
+      self.indicator.stopAnimating()
+      switch result {
+      case .success(let response):
+        self.setWeatherImageInfo(weatherInfo: response)
+        
+      case .failure(let error):
+        switch error {
+        case .jsonEncodeError:
+          print("エンコードに失敗しました")
+        case .jsonDecodeError:
+          print("デコードに失敗しました")
+        case .unknownError:
+          self.displayErrorAlert {
+            self.indicator.startAnimating()
+            self.settingWeatherImageOfConcurrencyVer(input: input)
+          }
+        }
+      }
+    }
   }
   
   //MARK: - Sync ver
