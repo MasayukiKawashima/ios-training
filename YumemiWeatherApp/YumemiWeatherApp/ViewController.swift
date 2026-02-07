@@ -50,7 +50,7 @@ class ViewController: UIViewController {
     self.indicator.startAnimating()
     let inputInfo = InputInfo(area: "Tokyo", date: Date())
     
-    settingWeatherImageOfConcurrencyVer(input: inputInfo)
+    settingWeatherImageOfConcurrencyAndThrowsVer(input: inputInfo)
   }
   
   //MARK: - NotificationCenter ObserverMethod
@@ -60,11 +60,12 @@ class ViewController: UIViewController {
     //フォアグラウンドに戻った時の処理
     let inputInfo = InputInfo(area: "Tokyo", date: Date())
     
-    settingWeatherImageOfConcurrencyVer(input: inputInfo)
+    settingWeatherImageOfConcurrencyAndThrowsVer(input: inputInfo)
   }
   
   //MARK: - Concurrency Ver
   
+  // Result Ver
   func settingWeatherImageOfConcurrencyVer(input: InputInfo) {
     
     Task {
@@ -87,6 +88,19 @@ class ViewController: UIViewController {
             self.settingWeatherImageOfConcurrencyVer(input: input)
           }
         }
+      }
+    }
+  }
+  
+  // Throws Ver
+  func settingWeatherImageOfConcurrencyAndThrowsVer(input: InputInfo) {
+    
+    Task {
+      do {
+        let response = try await weaterProvider.fetchWeatherOfSyncAndConcurrencyAndThrowsVer(input: input)
+        handleFetchSuccese(response: response)
+      } catch {
+        handleFetchError(error: error, input: input)
       }
     }
   }
@@ -137,7 +151,7 @@ class ViewController: UIViewController {
     
     do {
       let result = try YumemiWeather.fetchWeatherCondition(at: "東京")
-      setWeatherCondtionImage(imageString: result)
+       setWeatherCondtionImage(imageString: result)
     } catch {
       displayErrorAlert {
         self.setWeaterImageOfThorowsVer()
@@ -234,7 +248,6 @@ class ViewController: UIViewController {
   // 各UI部品に値をセットするメソッド
   private func setWeatherImageInfo(weatherInfo: WeatherInfo) {
     
-    
     let maxTemperatureString = String(weatherInfo.maxTemperature)
     let minTemperatureString = String(weatherInfo.minTemperature)
     
@@ -259,6 +272,36 @@ class ViewController: UIViewController {
     }
   }
   
+  @MainActor
+  private func handleFetchSuccese(response: WeatherInfo) {
+    
+    self.indicator.stopAnimating()
+    self.setWeatherImageInfo(weatherInfo: response)
+  }
+  
+  @MainActor
+  private func handleFetchError(error: any Error, input: InputInfo) {
+    
+    self.indicator.stopAnimating()
+    
+    let weatherError = error as? WeatherError
+    guard let weatherError = weatherError else {
+      print("WeatherError以外のErrorが発生しました。Errorの内容:\n\(error)")
+      return
+    }
+    
+    switch weatherError {
+    case WeatherError.jsonEncodeError:
+      print("エンコードに失敗しました")
+    case WeatherError.jsonDecodeError:
+      print("デコードに失敗しました")
+    case WeatherError.unknownError:
+      self.displayErrorAlert {
+        self.indicator.startAnimating()
+        self.settingWeatherImageOfConcurrencyAndThrowsVer(input: input)
+      }
+    }
+  }
   // WeatherConditionのフェッチに失敗したときのアラートを表示するメソッド
   private func displayErrorAlert(reloadActionMethod: @escaping () -> Void) {
     

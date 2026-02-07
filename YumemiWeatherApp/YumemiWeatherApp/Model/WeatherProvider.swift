@@ -14,6 +14,7 @@ protocol WeatherFetching {
   func fethchWeatherOfSyncVer(input: InputInfo, completion: @escaping(Result<WeatherInfo, WeatherError>) -> Void)
   func fetchWeaterOfSyncAndDelegateVer(input: InputInfo)
   func fetchWeatherOfSyncAndConcurrencyVer(input: InputInfo) async -> (Result<WeatherInfo, WeatherError>)
+  func fetchWeatherOfSyncAndConcurrencyAndThrowsVer(input: InputInfo)  async throws -> WeatherInfo
   
   var delegate: WeatherProviderDelegate? { get set }
 }
@@ -90,6 +91,7 @@ class WeatherProvider: WeatherFetching {
   
   //MARK: - Concurrency Ver
   
+  // Result Ver
   func fetchWeatherOfSyncAndConcurrencyVer(input: InputInfo) async -> (Result<WeatherInfo, WeatherError>) {
     
     if let jsonString = try? jsonString(input: input) {
@@ -106,6 +108,19 @@ class WeatherProvider: WeatherFetching {
       }
     }
     return .failure(.jsonEncodeError)
+  }
+  
+  // Throws Ver
+  func fetchWeatherOfSyncAndConcurrencyAndThrowsVer(input: InputInfo)  async throws -> WeatherInfo {
+
+    let jsonString = try jsonString(input: input)
+    
+    do {
+      let responceJsonString = try YumemiWeather.syncFetchWeather(jsonString)
+      return try self.response(jsonString: responceJsonString)
+    } catch {
+      throw WeatherError.unknownError
+    }
   }
   
   //MARK: - SyncAndDelegate ver
