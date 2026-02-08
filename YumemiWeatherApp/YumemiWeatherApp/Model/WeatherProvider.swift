@@ -111,16 +111,17 @@ class WeatherProvider: WeatherFetching {
   }
   
   // Throws Ver
-  func fetchWeatherOfSyncAndConcurrencyAndThrowsVer(input: InputInfo)  async throws -> WeatherInfo {
+  func fetchWeatherOfSyncAndConcurrencyAndThrowsVer(input: InputInfo) async throws -> WeatherInfo {
 
     let jsonString = try jsonString(input: input)
+    let responseJsonString: String!
     
     do {
-      let responceJsonString = try YumemiWeather.syncFetchWeather(jsonString)
-      return try self.response(jsonString: responceJsonString)
+      responseJsonString = try YumemiWeather.syncFetchWeather(jsonString)
     } catch {
       throw WeatherError.unknownError
     }
+    return try self.response(jsonString: responseJsonString)
   }
   
   //MARK: - SyncAndDelegate ver

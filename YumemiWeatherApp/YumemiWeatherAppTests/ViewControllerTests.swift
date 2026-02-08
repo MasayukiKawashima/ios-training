@@ -126,6 +126,24 @@ final class ViewControllerTests: XCTestCase {
   
   //MARK: - SyncAndDelegate Ver Tests
   
+  //MARK: -  SyncAndConcurrencyAndThrows Ver Tests
+  
+  func test_SyncAndConcurrencyAndThrows_天気予報がsunnyだったらImageViewのimageにSunnyが設定されること() {
+    
+    let sunnyInfo = WeatherInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "sunny")
+    
+    weatherProvider.fetchHandler = { _ in
+      return sunnyInfo
+    }
+    
+    Task {
+      await viewController.settingWeatherImageOfConcurrencyAndThrowsVer(input: inputInfo)
+      
+      await MainActor.run {
+        XCTAssertEqual(viewController.weatherImageView.image, UIImage(named: "Sunny")!)
+      }
+    }
+  }
   
   func testPerformanceExample() throws {
     // This is an example of a performance test case.
@@ -133,7 +151,6 @@ final class ViewControllerTests: XCTestCase {
       // Put the code you want to measure the time of here.
     }
   }
-  
 }
 
 class WeatherProviderMock: WeatherFetching {
@@ -158,7 +175,12 @@ class WeatherProviderMock: WeatherFetching {
     self.expectation?.fulfill()
   }
   
-  func fetchWeatherOfSyncAndConcurrencyVer(input: YumemiWeatherApp.InputInfo) async throws -> (Result<YumemiWeatherApp.WeatherInfo, YumemiWeatherApp.WeatherError>) {
-    <#code#>
+  func fetchWeatherOfSyncAndConcurrencyAndThrowsVer(input: YumemiWeatherApp.InputInfo) async throws -> YumemiWeatherApp.WeatherInfo {
+    fetchHandler(input)
   }
+  
+  func fetchWeatherOfSyncAndConcurrencyVer(input: YumemiWeatherApp.InputInfo) async -> (Result<YumemiWeatherApp.WeatherInfo, YumemiWeatherApp.WeatherError>) {
+    return resultStub
+  }
+  
 }

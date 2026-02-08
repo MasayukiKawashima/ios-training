@@ -55,9 +55,9 @@ class ViewController: UIViewController {
   
   //MARK: - NotificationCenter ObserverMethod
   
+  //フォアグラウンドに戻った時の処理
   @objc func applicationWillEnterForeground() {
-    
-    //フォアグラウンドに戻った時の処理
+  
     let inputInfo = InputInfo(area: "Tokyo", date: Date())
     
     settingWeatherImageOfConcurrencyAndThrowsVer(input: inputInfo)
@@ -272,14 +272,14 @@ class ViewController: UIViewController {
     }
   }
   
-  @MainActor
+  // WeatherIndoのフェッチに成功したときのハンドラー
   private func handleFetchSuccese(response: WeatherInfo) {
     
     self.indicator.stopAnimating()
     self.setWeatherImageInfo(weatherInfo: response)
   }
   
-  @MainActor
+  // WeatherIndoのフェッチ時にエラーが投げられたときのハンドラー
   private func handleFetchError(error: any Error, input: InputInfo) {
     
     self.indicator.stopAnimating()
@@ -317,6 +317,7 @@ class ViewController: UIViewController {
     present(alert, animated: true)
   }
   
+  // WeatherProviderの注入
   func weatherProviderInjection (weatherProvider: WeatherProvider) {
     self.weaterProvider = weatherProvider
   }
@@ -324,6 +325,7 @@ class ViewController: UIViewController {
 
 extension ViewController: WeatherProviderDelegate {
   
+  // フェッチ後のデリゲートメソッド
   func weatherProvider(_ weatherProvider: WeatherFetching, didFetchWeatherInfo result: Result<WeatherInfo, WeatherError>, inputInfo: InputInfo) {
     
     DispatchQueue.main.async {
