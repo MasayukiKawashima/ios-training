@@ -23,7 +23,7 @@ class FirstDisplayViewController: UIViewController {
     let nextVC = storyboard.instantiateViewController(identifier: "MainVC") as! ViewController
     
     // weatherProviderの注入
-    let weatherProvider = WeatherProvider()
+    let weatherProvider = WeatherProvider(jsonStringProvider: JSONStringProvider())
     nextVC.weatherProviderInjection(weatherProvider: weatherProvider)
     
     nextVC.modalPresentationStyle = .fullScreen

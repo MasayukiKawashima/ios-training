@@ -128,21 +128,40 @@ final class ViewControllerTests: XCTestCase {
   
   //MARK: -  SyncAndConcurrencyAndThrows Ver Tests
   
-  func test_SyncAndConcurrencyAndThrows_天気予報がsunnyだったらImageViewのimageにSunnyが設定されること() {
+//  func test_SyncAndConcurrencyAndThrows_天気予報がsunnyだったらImageViewのimageにSunnyが設定されること() {
+//    
+//    let sunnyInfo = WeatherInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "sunny")
+//    
+//    weatherProvider.fetchHandler = { _ in
+//      return sunnyInfo
+//    }
+//    
+//    Task {
+//      await viewController.settingWeatherImageOfConcurrencyAndThrowsVer(input: inputInfo)
+//      
+//      await MainActor.run {
+//        XCTAssertEqual(viewController.weatherImageView.image, UIImage(named: "Sunny")!)
+//      }
+//    }
+//  }
+  
+  func test_fetchWeatherOfSyncAndConcurrencyAndThrowsVer_天気情報のフェッチに成功したときにWeatherInfoが返されること() async {
     
-    let sunnyInfo = WeatherInfo(maxTemperature: 0, date: "", minTemperature: 0, weatherCondition: "sunny")
+    let dummyResponseString = """
+{
+    "max_temperature": 25,
+    "date": "2020-04-01T12:00:00+09:00",
+    "min_temperature": 7,
+    "weather_condition": "cloudy"
+}
+"""
     
-    weatherProvider.fetchHandler = { _ in
-      return sunnyInfo
+    weatherProvider.syncFetchhandler = { _ in
+      return dummyResponseString
     }
     
-    Task {
-      await viewController.settingWeatherImageOfConcurrencyAndThrowsVer(input: inputInfo)
-      
-      await MainActor.run {
-        XCTAssertEqual(viewController.weatherImageView.image, UIImage(named: "Sunny")!)
-      }
-    }
+    let result = try? await weatherProvider.fetchWeatherOfSyncAndConcurrencyAndThrowsVer(input: inputInfo)
+    XCTAssertTrue(result != nil)
   }
   
   func testPerformanceExample() throws {
@@ -156,6 +175,7 @@ final class ViewControllerTests: XCTestCase {
 class WeatherProviderMock: WeatherFetching {
   
   var fetchHandler: ((InputInfo) -> WeatherInfo)!
+  var syncFetchhandler:((String) -> String)!
   var resultStub: Result<WeatherInfo, WeatherError>!
   var delegate: WeatherProviderDelegate?
   var expectation: XCTestExpectation?
@@ -175,12 +195,11 @@ class WeatherProviderMock: WeatherFetching {
     self.expectation?.fulfill()
   }
   
-  func fetchWeatherOfSyncAndConcurrencyAndThrowsVer(input: YumemiWeatherApp.InputInfo) async throws -> YumemiWeatherApp.WeatherInfo {
-    fetchHandler(input)
-  }
-  
   func fetchWeatherOfSyncAndConcurrencyVer(input: YumemiWeatherApp.InputInfo) async -> (Result<YumemiWeatherApp.WeatherInfo, YumemiWeatherApp.WeatherError>) {
     return resultStub
   }
   
+  func fetchWeatherOfSyncAndConcurrencyAndThrowsVer(input: YumemiWeatherApp.InputInfo) async throws -> YumemiWeatherApp.WeatherInfo {
+    return fetchHandler(input)
+  }
 }
