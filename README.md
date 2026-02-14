@@ -3,6 +3,6 @@
 
 [株式会社ゆめみ iOS研修](https://github.com/yumemi-inc/ios-training)
 
-この研修を通じて学習したことをメモとしてQiitaに投稿しています。
+学習メモをQiitaに投稿しています。
 <br>
 [MasayukiKawashima - Qiita](https://qiita.com/poppinmasa)
