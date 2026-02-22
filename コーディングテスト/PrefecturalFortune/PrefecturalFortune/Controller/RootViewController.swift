@@ -89,17 +89,14 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
 
     case .nameTableViewCell:
       let cell: NameTableViewCell = tableView.dequeueReusableCell(withIdentifier: "NameTableViewCell", for: indexPath) as! NameTableViewCell
-      print("NameTableViewCellの作成完了")
       return cell
       
     case .dateOfBirthTableViewCell:
       let cell: DateOfBirthTableViewCell = tableView.dequeueReusableCell(withIdentifier: "DateOfBirthTableViewCell", for: indexPath) as! DateOfBirthTableViewCell
-      print("DateOfBirthTableViewCellの作成完了")
       return cell
 
     case .bloodTypeTableViewCell:
       let cell: BloodTypeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "BloodTypeTableViewCell", for: indexPath) as! BloodTypeTableViewCell
-      print("BloodTypeTableViewCellの作成完了")
       return cell
     }
   }
