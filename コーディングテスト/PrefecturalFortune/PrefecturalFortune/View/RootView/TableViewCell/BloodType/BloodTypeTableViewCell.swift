@@ -12,7 +12,7 @@ class BloodTypeTableViewCell: UITableViewCell {
   // MARK: - Properties
 
   @IBOutlet weak var titleLabel: UILabel!
-  @IBOutlet weak var textField: UITextField!
+  @IBOutlet weak var segmentedControl: UISegmentedControl!
   @IBOutlet weak var errorMessageLabel: UILabel!
   
   // MARK: - LifeCycle
@@ -27,5 +27,10 @@ class BloodTypeTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
+  // MARK: - Methods
+  
+  @IBAction func segmentedControlAction(_ sender: Any) {
+  }
+  
 }

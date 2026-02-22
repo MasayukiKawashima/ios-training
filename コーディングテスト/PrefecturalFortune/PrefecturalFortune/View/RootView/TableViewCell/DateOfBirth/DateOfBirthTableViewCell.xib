@@ -26,11 +26,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aoD-DN-1a3">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xyD-Jh-dzH">
                                 <rect key="frame" x="0.0" y="31.333333333333336" width="320" height="77.666666666666657"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="エラーメッセージ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ds-oK-aGa">
                                 <rect key="frame" x="0.0" y="109" width="320" height="23"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
@@ -51,13 +50,15 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="errorMessageLabel" destination="4ds-oK-aGa" id="1Yz-1K-3zm"/>
-                <outlet property="textField" destination="aoD-DN-1a3" id="pfP-GQ-Ofg"/>
                 <outlet property="titleLabel" destination="DoB-cI-4H2" id="Yff-eH-cEk"/>
             </connections>
             <point key="canvasLocation" x="-140.45801526717557" y="126.7605633802817"/>
         </tableViewCell>
     </objects>
     <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

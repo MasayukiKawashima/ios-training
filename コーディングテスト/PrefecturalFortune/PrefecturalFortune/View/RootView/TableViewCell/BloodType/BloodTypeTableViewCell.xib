@@ -26,11 +26,28 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AJz-e2-x27">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cCk-uq-JSz">
                                 <rect key="frame" x="0.0" y="31.333333333333336" width="320" height="77.666666666666657"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="rWR-Kl-p3p">
+                                        <rect key="frame" x="88" y="23.333333333333329" width="144" height="32"/>
+                                        <segments>
+                                            <segment title="A"/>
+                                            <segment title="B"/>
+                                            <segment title="O"/>
+                                            <segment title="AB"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="segmentedControlAction:" destination="KGk-i7-Jjw" eventType="valueChanged" id="LJW-h4-V2w"/>
+                                        </connections>
+                                    </segmentedControl>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="rWR-Kl-p3p" firstAttribute="centerY" secondItem="cCk-uq-JSz" secondAttribute="centerY" id="SU2-7N-wDw"/>
+                                    <constraint firstItem="rWR-Kl-p3p" firstAttribute="centerX" secondItem="cCk-uq-JSz" secondAttribute="centerX" id="YDZ-qc-8NX"/>
+                                </constraints>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="エラーメッセージ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N30-19-zuw">
                                 <rect key="frame" x="0.0" y="109" width="320" height="23"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
@@ -51,13 +68,16 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="errorMessageLabel" destination="N30-19-zuw" id="0ht-td-Ttn"/>
-                <outlet property="textField" destination="AJz-e2-x27" id="JST-Kz-peN"/>
+                <outlet property="segmentedControl" destination="rWR-Kl-p3p" id="4Zp-Gy-gm4"/>
                 <outlet property="titleLabel" destination="VEt-kc-sdk" id="av2-fK-GcW"/>
             </connections>
             <point key="canvasLocation" x="-140.45801526717557" y="126.7605633802817"/>
         </tableViewCell>
     </objects>
     <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
