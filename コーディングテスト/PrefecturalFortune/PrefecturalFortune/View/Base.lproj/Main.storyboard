@@ -53,6 +53,7 @@
                     <connections>
                         <outlet property="fortuneButton" destination="Umo-xU-BrW" id="iij-Up-mMU"/>
                         <outlet property="tableView" destination="tJ6-ud-hvJ" id="OIM-Vh-8Ok"/>
+                        <outlet property="tableViewHeightConstraint" destination="MO7-ji-4WQ" id="1Z4-KX-miZ"/>
                         <outlet property="titleLabel" destination="Zvq-cw-flN" id="D6m-h8-yyj"/>
                     </connections>
                 </viewController>

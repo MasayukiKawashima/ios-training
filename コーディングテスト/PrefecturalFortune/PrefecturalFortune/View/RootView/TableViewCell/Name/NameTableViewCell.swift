@@ -10,10 +10,11 @@ import UIKit
 class NameTableViewCell: UITableViewCell {
 
   // MARK: - Properties
-
+  
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var textField: UITextField!
   @IBOutlet weak var errorMessageLabel: UILabel!
+
   // MARK: - LifeCycle
 
   override func awakeFromNib() {
