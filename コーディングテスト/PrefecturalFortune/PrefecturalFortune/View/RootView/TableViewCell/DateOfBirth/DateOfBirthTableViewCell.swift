@@ -12,6 +12,8 @@ class DateOfBirthTableViewCell: UITableViewCell {
   // MARK: - Properties
 
   @IBOutlet weak var titleLabel: UILabel!
+ 
+  @IBOutlet weak var showCalendarButton: UIButton!
   @IBOutlet weak var errorMessageLabel: UILabel!
   
   // MARK: - LifeCycle
@@ -26,5 +28,8 @@ class DateOfBirthTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
+  @IBAction func showCalendarButton(_ sender: Any) {
+  }
+  
 }
