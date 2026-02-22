@@ -44,18 +44,27 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="77.670000000000002" id="4ef-Hu-GFG"/>
+                                    <constraint firstAttribute="width" constant="320" id="Bho-ig-Ci5"/>
                                     <constraint firstItem="rWR-Kl-p3p" firstAttribute="centerY" secondItem="cCk-uq-JSz" secondAttribute="centerY" id="SU2-7N-wDw"/>
                                     <constraint firstItem="rWR-Kl-p3p" firstAttribute="centerX" secondItem="cCk-uq-JSz" secondAttribute="centerX" id="YDZ-qc-8NX"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="エラーメッセージ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N30-19-zuw">
                                 <rect key="frame" x="0.0" y="109" width="320" height="23"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="23" id="pr3-22-aGw"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
+                        <constraints>
+                            <constraint firstItem="cCk-uq-JSz" firstAttribute="leading" secondItem="qd0-KM-2Ss" secondAttribute="leading" id="EqO-cE-3kp"/>
+                            <constraint firstAttribute="trailing" secondItem="cCk-uq-JSz" secondAttribute="trailing" id="bAk-73-D2c"/>
+                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>

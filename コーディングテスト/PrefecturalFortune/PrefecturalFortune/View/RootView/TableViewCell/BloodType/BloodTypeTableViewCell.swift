@@ -29,7 +29,7 @@ class BloodTypeTableViewCell: UITableViewCell {
     }
 
   // MARK: - Methods
-  
+
   @IBAction func segmentedControlAction(_ sender: Any) {
   }
   
