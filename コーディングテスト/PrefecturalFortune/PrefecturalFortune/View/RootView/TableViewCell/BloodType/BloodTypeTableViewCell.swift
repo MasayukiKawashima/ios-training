@@ -8,7 +8,12 @@
 import UIKit
 
 class BloodTypeTableViewCell: UITableViewCell {
-
+  
+  
+  @IBOutlet weak var titleLabel: UILabel!
+  @IBOutlet weak var textField: UITextField!
+  @IBOutlet weak var errorMessageLabel: UILabel!
+  
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

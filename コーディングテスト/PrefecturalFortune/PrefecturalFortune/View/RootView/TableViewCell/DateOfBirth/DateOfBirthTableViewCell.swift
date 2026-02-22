@@ -8,8 +8,12 @@
 import UIKit
 
 class DateOfBirthTableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
+  
+  @IBOutlet weak var titleLabel: UILabel!
+  @IBOutlet weak var textField: UITextField!
+  @IBOutlet weak var errorMessage: UILabel!
+  
+  override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
