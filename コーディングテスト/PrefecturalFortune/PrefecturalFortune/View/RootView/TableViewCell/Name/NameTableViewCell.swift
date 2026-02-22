@@ -8,20 +8,23 @@
 import UIKit
 
 class NameTableViewCell: UITableViewCell {
-  
+
+  // MARK: - Properties
+
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var textField: UITextField!
-  @IBOutlet weak var errorMessage: UILabel!
-  
+  @IBOutlet weak var errorMessageLabel: UILabel!
+  // MARK: - LifeCycle
+
   override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+    super.awakeFromNib()
+    // Initialization code
+  }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+  override func setSelected(_ selected: Bool, animated: Bool) {
+    super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
-    }
-    
+    // Configure the view for the selected state
+  }
+
 }

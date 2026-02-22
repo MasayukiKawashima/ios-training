@@ -10,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NameTableViewCell" customModule="PrefecturalFortune" customModuleProvider="target">
             <connections>
-                <outlet property="errorMessage" destination="Ad5-B1-Vha" id="9mg-hm-Kt0"/>
+                <outlet property="errorMessageLabel" destination="Ad5-B1-Vha" id="mdL-jc-2W8"/>
                 <outlet property="textField" destination="1Vq-Oj-MnT" id="1tT-Sq-gX4"/>
                 <outlet property="titleLabel" destination="E0l-l6-GMS" id="23r-nV-4yz"/>
             </connections>

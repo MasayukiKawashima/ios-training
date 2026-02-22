@@ -26,6 +26,9 @@
                                 <rect key="frame" x="160.66666666666666" y="716" width="72" height="34.333333333333371"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="占う！"/>
+                                <connections>
+                                    <action selector="fortuneButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UOx-9S-ara"/>
+                                </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="tJ6-ud-hvJ">
                                 <rect key="frame" x="16" y="180" width="361" height="492"/>
@@ -47,6 +50,11 @@
                             <constraint firstItem="Umo-xU-BrW" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="iPc-6z-yHE"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="fortuneButton" destination="Umo-xU-BrW" id="iij-Up-mMU"/>
+                        <outlet property="tableView" destination="tJ6-ud-hvJ" id="OIM-Vh-8Ok"/>
+                        <outlet property="titleLabel" destination="Zvq-cw-flN" id="D6m-h8-yyj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
