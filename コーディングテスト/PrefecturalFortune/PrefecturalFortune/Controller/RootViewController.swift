@@ -57,6 +57,7 @@ class RootViewController: UIViewController {
     }
   }
 
+
   @IBAction func fortuneButtonAction(_ sender: Any) {
   }
   /*
@@ -89,6 +90,7 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
 
     case .nameTableViewCell:
       let cell: NameTableViewCell = tableView.dequeueReusableCell(withIdentifier: "NameTableViewCell", for: indexPath) as! NameTableViewCell
+      
       return cell
       
     case .dateOfBirthTableViewCell:
@@ -101,3 +103,12 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
     }
   }
 }
+
+// MARK: - UITextFieldDelegate
+extension RootViewController: UITextFieldDelegate{
+
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    view.endEditing(true)
+  }
+}
+
