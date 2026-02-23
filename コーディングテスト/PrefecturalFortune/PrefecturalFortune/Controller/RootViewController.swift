@@ -72,6 +72,7 @@ class RootViewController: UIViewController {
 
 }
 // MARK: - UITableViewDataSource, UITableViewDelegate
+
 extension RootViewController: UITableViewDataSource, UITableViewDelegate {
 
 
@@ -106,6 +107,7 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 // MARK: - UITextFieldDelegate
+
 extension RootViewController: UITextFieldDelegate{
 
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -114,7 +116,7 @@ extension RootViewController: UITextFieldDelegate{
   }
 
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    
+
     textField.resignFirstResponder()
     return true
   }
