@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="132" id="KGk-i7-Jjw" customClass="DateOfBirthTableViewCell" customModule="PrefecturalFortune" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="132"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="132"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Vds-qj-nqY">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="132"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="生年月日" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DoB-cI-4H2">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="31.333333333333332"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xyD-Jh-dzH">
+                                <rect key="frame" x="0.0" y="31.333333333333336" width="320" height="77.666666666666657"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H3K-4F-taL">
+                                        <rect key="frame" x="134.66666666666666" y="21.666666666666668" width="50.666666666666657" height="34.333333333333329"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="calendar" catalog="system"/>
+                                        <connections>
+                                            <action selector="showCalendarButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="u8E-La-Fsa"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="77.670000000000002" id="Qxb-wa-C94"/>
+                                    <constraint firstItem="H3K-4F-taL" firstAttribute="centerY" secondItem="xyD-Jh-dzH" secondAttribute="centerY" id="ed2-9Z-7kJ"/>
+                                    <constraint firstItem="H3K-4F-taL" firstAttribute="centerX" secondItem="xyD-Jh-dzH" secondAttribute="centerX" id="mL6-QK-fHk"/>
+                                    <constraint firstAttribute="width" constant="320" id="wtc-aP-Hv8"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="エラーメッセージ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ds-oK-aGa">
+                                <rect key="frame" x="0.0" y="109" width="320" height="23"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="23" id="Vbn-0h-8dB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="xyD-Jh-dzH" secondAttribute="trailing" id="Na4-o5-6t4"/>
+                            <constraint firstItem="xyD-Jh-dzH" firstAttribute="leading" secondItem="Vds-qj-nqY" secondAttribute="leading" id="kr4-ZF-api"/>
+                        </constraints>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="Vds-qj-nqY" secondAttribute="trailing" id="BYg-Gz-Nix"/>
+                    <constraint firstAttribute="bottom" secondItem="Vds-qj-nqY" secondAttribute="bottom" id="DEj-Y1-bp5"/>
+                    <constraint firstItem="Vds-qj-nqY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="kHE-p4-hEV"/>
+                    <constraint firstItem="Vds-qj-nqY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="oFT-g0-4AY"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="errorMessageLabel" destination="4ds-oK-aGa" id="1Yz-1K-3zm"/>
+                <outlet property="showCalendarButton" destination="H3K-4F-taL" id="zCc-6D-DLR"/>
+                <outlet property="titleLabel" destination="DoB-cI-4H2" id="Yff-eH-cEk"/>
+            </connections>
+            <point key="canvasLocation" x="-140.45801526717557" y="126.7605633802817"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="calendar" catalog="system" width="128" height="107"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
