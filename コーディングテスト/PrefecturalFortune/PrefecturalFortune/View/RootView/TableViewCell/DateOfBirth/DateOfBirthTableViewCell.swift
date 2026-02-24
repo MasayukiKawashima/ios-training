@@ -38,7 +38,17 @@ class DateOfBirthTableViewCell: UITableViewCell {
     let datePickerView:UIDatePicker = UIDatePicker()
     datePickerView.datePickerMode = UIDatePicker.Mode.date
     datePickerView.preferredDatePickerStyle = .wheels
+    datePickerView.locale = Locale(identifier: "ja_JP")
     textField.inputView = datePickerView
+    datePickerView.addTarget(self, action: #selector(datePickerValueChanged(sender:)), for: UIControl.Event.valueChanged)
+  }
+
+  @objc private func datePickerValueChanged(sender: UIDatePicker) {
+
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy/MM/dd"
+    dateFormatter.locale = Locale(identifier: "ja_JP")
+    textField.text = dateFormatter.string(from: sender.date)
   }
 
   private func setUpToolBar() {
