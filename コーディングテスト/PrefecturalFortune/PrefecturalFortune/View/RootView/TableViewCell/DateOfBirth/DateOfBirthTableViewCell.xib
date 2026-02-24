@@ -26,26 +26,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xyD-Jh-dzH">
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3O9-Jg-0dv">
                                 <rect key="frame" x="0.0" y="31.333333333333336" width="320" height="77.666666666666657"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H3K-4F-taL">
-                                        <rect key="frame" x="134.66666666666666" y="21.666666666666668" width="50.666666666666657" height="34.333333333333329"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="calendar" catalog="system"/>
-                                        <connections>
-                                            <action selector="showCalendarButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="u8E-La-Fsa"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="77.670000000000002" id="Qxb-wa-C94"/>
-                                    <constraint firstItem="H3K-4F-taL" firstAttribute="centerY" secondItem="xyD-Jh-dzH" secondAttribute="centerY" id="ed2-9Z-7kJ"/>
-                                    <constraint firstItem="H3K-4F-taL" firstAttribute="centerX" secondItem="xyD-Jh-dzH" secondAttribute="centerX" id="mL6-QK-fHk"/>
-                                    <constraint firstAttribute="width" constant="320" id="wtc-aP-Hv8"/>
-                                </constraints>
-                            </view>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="エラーメッセージ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ds-oK-aGa">
                                 <rect key="frame" x="0.0" y="109" width="320" height="23"/>
                                 <constraints>
@@ -57,10 +42,6 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="xyD-Jh-dzH" secondAttribute="trailing" id="Na4-o5-6t4"/>
-                            <constraint firstItem="xyD-Jh-dzH" firstAttribute="leading" secondItem="Vds-qj-nqY" secondAttribute="leading" id="kr4-ZF-api"/>
-                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>
@@ -73,19 +54,15 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="errorMessageLabel" destination="4ds-oK-aGa" id="1Yz-1K-3zm"/>
-                <outlet property="showCalendarButton" destination="H3K-4F-taL" id="zCc-6D-DLR"/>
+                <outlet property="textField" destination="3O9-Jg-0dv" id="tKV-Fi-yD7"/>
                 <outlet property="titleLabel" destination="DoB-cI-4H2" id="Yff-eH-cEk"/>
             </connections>
             <point key="canvasLocation" x="-140.45801526717557" y="126.7605633802817"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="calendar" catalog="system" width="128" height="107"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemGray6Color">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
