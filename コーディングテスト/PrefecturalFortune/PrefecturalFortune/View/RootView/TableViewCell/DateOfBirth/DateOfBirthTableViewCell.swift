@@ -22,6 +22,7 @@ class DateOfBirthTableViewCell: UITableViewCell {
     // Initialization code
 
     setDatePicker()
+    setUpToolBar()
   }
 
   override func setSelected(_ selected: Bool, animated: Bool) {
@@ -38,6 +39,19 @@ class DateOfBirthTableViewCell: UITableViewCell {
     datePickerView.datePickerMode = UIDatePicker.Mode.date
     datePickerView.preferredDatePickerStyle = .wheels
     textField.inputView = datePickerView
+  }
+
+  private func setUpToolBar() {
+
+    let toolBar = UIToolbar()
+    toolBar.sizeToFit()
+    let donebutton = UIBarButtonItem(title: "決定", style: .plain, target: self, action: #selector (doneButtonAction))
+    toolBar.items = [donebutton]
+    textField.inputAccessoryView = toolBar
+  }
+
+  @objc private func doneButtonAction() {
+    textField.resignFirstResponder()
   }
 }
 
