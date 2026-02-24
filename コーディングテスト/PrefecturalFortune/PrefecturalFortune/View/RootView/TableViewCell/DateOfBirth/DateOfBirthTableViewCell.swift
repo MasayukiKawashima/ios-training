@@ -14,20 +14,33 @@ class DateOfBirthTableViewCell: UITableViewCell {
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var textField: UITextField!
   @IBOutlet weak var errorMessageLabel: UILabel!
-  
+
   // MARK: - LifeCycle
 
   override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+    super.awakeFromNib()
+    // Initialization code
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    setDatePicker()
+  }
 
-        // Configure the view for the selected state
-    }
+  override func setSelected(_ selected: Bool, animated: Bool) {
+    super.setSelected(selected, animated: animated)
+
+    // Configure the view for the selected state
+  }
 
   // MARK: - Methods
-  
+
+  private func setDatePicker() {
+
+    let datePickerView:UIDatePicker = UIDatePicker()
+    datePickerView.datePickerMode = UIDatePicker.Mode.date
+    datePickerView.preferredDatePickerStyle = .wheels
+    textField.inputView = datePickerView
+  }
 }
+
+
+
+
