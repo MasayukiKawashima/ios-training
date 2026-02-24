@@ -55,8 +55,11 @@ class DateOfBirthTableViewCell: UITableViewCell {
 
     let toolBar = UIToolbar()
     toolBar.sizeToFit()
-    let donebutton = UIBarButtonItem(title: "決定", style: .plain, target: self, action: #selector (doneButtonAction))
-    toolBar.items = [donebutton]
+
+    let dummySpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    let doneButton = UIBarButtonItem(title: "決定", style: .plain, target: self, action: #selector (doneButtonAction))
+
+    toolBar.items = [dummySpace, doneButton]
     textField.inputAccessoryView = toolBar
   }
 
