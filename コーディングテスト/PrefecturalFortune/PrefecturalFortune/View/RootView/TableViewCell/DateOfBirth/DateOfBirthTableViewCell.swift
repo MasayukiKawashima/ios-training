@@ -12,7 +12,7 @@ class DateOfBirthTableViewCell: UITableViewCell {
   // MARK: - Properties
 
   @IBOutlet weak var titleLabel: UILabel!
-  @IBOutlet weak var showCalendarButton: UIButton!
+  @IBOutlet weak var textField: UITextField!
   @IBOutlet weak var errorMessageLabel: UILabel!
   
   // MARK: - LifeCycle
@@ -29,8 +29,5 @@ class DateOfBirthTableViewCell: UITableViewCell {
     }
 
   // MARK: - Methods
-
-  @IBAction func showCalendarButton(_ sender: Any) {
-  }
   
 }
