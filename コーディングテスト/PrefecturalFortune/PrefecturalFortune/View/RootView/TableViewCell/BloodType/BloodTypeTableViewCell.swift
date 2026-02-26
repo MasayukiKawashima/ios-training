@@ -9,7 +9,7 @@ import UIKit
 
 protocol BloodTypeTableViewCellDelegate {
 
-  
+  func segmentedControlChangedSegment(_ sender: UISegmentedControl)
 }
 
 class BloodTypeTableViewCell: UITableViewCell {
@@ -19,7 +19,9 @@ class BloodTypeTableViewCell: UITableViewCell {
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var segmentedControl: UISegmentedControl!
   @IBOutlet weak var errorMessageLabel: UILabel!
-  
+
+  var delegate: BloodTypeTableViewCellDelegate?
+
   // MARK: - LifeCycle
 
     override func awakeFromNib() {
@@ -35,7 +37,8 @@ class BloodTypeTableViewCell: UITableViewCell {
 
   // MARK: - Methods
 
-  @IBAction func segmentedControlAction(_ sender: Any) {
+  @IBAction func segmentChangedAction(_ sender: Any) {
+
+    delegate?.segmentedControlChangedSegment(sender as! UISegmentedControl)
   }
-  
 }

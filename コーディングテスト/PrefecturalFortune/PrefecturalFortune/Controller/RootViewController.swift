@@ -106,6 +106,8 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
 
     case .bloodTypeTableViewCell:
       let cell: BloodTypeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "BloodTypeTableViewCell", for: indexPath) as! BloodTypeTableViewCell
+
+      cell.delegate = self
       return cell
     }
   }
@@ -157,3 +159,13 @@ extension RootViewController: NameTableViewCellDelegate, DateOfBirthTableViewCel
   }
 }
 
+// MARK: - BloodTypeTableViewCellDelegate
+
+extension RootViewController: BloodTypeTableViewCellDelegate {
+
+  func segmentedControlChangedSegment(_ sender: UISegmentedControl) {
+
+    let selectedType = BloodType.allCases[sender.selectedSegmentIndex]
+    formItems.bloodType = selectedType
+  }
+}
