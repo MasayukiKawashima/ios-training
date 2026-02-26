@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol DateOfBirthTableViewCellDelegate {
+
+  func dateOfBirthTableViewCell(_ cell: DateOfBirthTableViewCell, didChangeDate date: Date)
+}
+
 class DateOfBirthTableViewCell: UITableViewCell {
 
   // MARK: - Properties
@@ -14,6 +19,8 @@ class DateOfBirthTableViewCell: UITableViewCell {
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var textField: UITextField!
   @IBOutlet weak var errorMessageLabel: UILabel!
+
+  var delegate: DateOfBirthTableViewCellDelegate?
 
   // MARK: - LifeCycle
 
@@ -44,6 +51,8 @@ class DateOfBirthTableViewCell: UITableViewCell {
   }
 
   @objc private func datePickerValueChanged(sender: UIDatePicker) {
+
+    delegate?.dateOfBirthTableViewCell(self, didChangeDate: sender.date)
 
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy/MM/dd"

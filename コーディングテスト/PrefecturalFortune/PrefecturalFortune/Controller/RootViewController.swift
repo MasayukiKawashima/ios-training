@@ -100,6 +100,8 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
       
     case .dateOfBirthTableViewCell:
       let cell: DateOfBirthTableViewCell = tableView.dequeueReusableCell(withIdentifier: "DateOfBirthTableViewCell", for: indexPath) as! DateOfBirthTableViewCell
+
+      cell.delegate = self
       return cell
 
     case .bloodTypeTableViewCell:
@@ -125,9 +127,9 @@ extension RootViewController: UITextFieldDelegate{
   }
 }
 
-// MARK: - NameTableViewCellDelegate
+// MARK: - NameTableViewCellDelegate, DateOfBirthTableViewCellDelegate
 
-extension RootViewController: NameTableViewCellDelegate {
+extension RootViewController: NameTableViewCellDelegate, DateOfBirthTableViewCellDelegate {
 
   func nameTableViewCell(_ cell: NameTableViewCell, didChangeText text: String) {
 
@@ -136,4 +138,9 @@ extension RootViewController: NameTableViewCellDelegate {
     }
     formItems.name = text
   }
+
+  func dateOfBirthTableViewCell(_ cell: DateOfBirthTableViewCell, didChangeDate date: Date) {
+    formItems.dateOfBirth = date
+  }
 }
+
