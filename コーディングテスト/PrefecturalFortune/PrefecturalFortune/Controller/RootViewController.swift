@@ -24,7 +24,7 @@ class RootViewController: UIViewController {
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var fortuneButton: UIButton!
   @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
-  
+
   let cellIdentifiers: [String] = ["NameTableViewCell", "DateOfBirthTableViewCell", "BloodTypeTableViewCell"]
 
   // MARK: - LifeCycle
