@@ -32,7 +32,7 @@ class RootViewController: UIViewController {
   // MARK: - LifeCycle
 
   override func viewDidLoad() {
-    
+
         super.viewDidLoad()
 
     tableView.dataSource = self
@@ -63,6 +63,14 @@ class RootViewController: UIViewController {
 
 
   @IBAction func fortuneButtonAction(_ sender: Any) {
+
+    let missingFields = formItems.missingFields()
+    if !missingFields.isEmpty {
+      // 入力されていないフォームがあった場合の処理
+      print("入力されていないフォーム一覧：\(missingFields))")
+    }
+    // 入力フォームが全て埋まっていた場合の処理
+    print(formItems)
   }
   /*
     // MARK: - Navigation
