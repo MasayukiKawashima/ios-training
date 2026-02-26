@@ -25,6 +25,8 @@ class RootViewController: UIViewController {
   @IBOutlet weak var fortuneButton: UIButton!
   @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
 
+  var formItems = FormItems()
+
   let cellIdentifiers: [String] = ["NameTableViewCell", "DateOfBirthTableViewCell", "BloodTypeTableViewCell"]
 
   // MARK: - LifeCycle
@@ -92,6 +94,7 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
     case .nameTableViewCell:
       let cell: NameTableViewCell = tableView.dequeueReusableCell(withIdentifier: "NameTableViewCell", for: indexPath) as! NameTableViewCell
 
+      cell.delegate = self
       cell.textField.delegate = self
       return cell
       
@@ -120,6 +123,17 @@ extension RootViewController: UITextFieldDelegate{
     textField.resignFirstResponder()
     return true
   }
-
 }
 
+// MARK: - NameTableViewCellDelegate
+
+extension RootViewController: NameTableViewCellDelegate {
+
+  func nameTableViewCell(_ cell: NameTableViewCell, didChangeText text: String) {
+
+    if text == "" {
+      return
+    }
+    formItems.name = text
+  }
+}
