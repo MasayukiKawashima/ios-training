@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol BloodTypeTableViewCellDelegate {
+
+  
+}
+
 class BloodTypeTableViewCell: UITableViewCell {
 
   // MARK: - Properties

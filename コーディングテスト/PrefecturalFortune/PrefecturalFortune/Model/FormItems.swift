@@ -11,5 +11,5 @@ struct FormItems {
 
   var name: String?
   var dateOfBirth: Date?
-  var bloodType: String?
+  var bloodType: BloodType?
 }
