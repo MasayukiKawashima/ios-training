@@ -32,6 +32,7 @@ class RootViewController: UIViewController {
   // MARK: - LifeCycle
 
   override func viewDidLoad() {
+    
         super.viewDidLoad()
 
     tableView.dataSource = self
@@ -43,6 +44,7 @@ class RootViewController: UIViewController {
     }
 
   override func viewDidLayoutSubviews() {
+
       super.viewDidLayoutSubviews()
 
       tableView.layoutIfNeeded()
@@ -79,6 +81,7 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
 
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
     return CellRowType.allCases.count
   }
   
@@ -129,9 +132,9 @@ extension RootViewController: UITextFieldDelegate{
   }
 }
 
-// MARK: - NameTableViewCellDelegate, DateOfBirthTableViewCellDelegate
+// MARK: - NameTableViewCellDelegate
 
-extension RootViewController: NameTableViewCellDelegate, DateOfBirthTableViewCellDelegate {
+extension RootViewController: NameTableViewCellDelegate {
 
   func nameTableViewCell(_ cell: NameTableViewCell, didChangeText text: String) {
 
@@ -140,13 +143,20 @@ extension RootViewController: NameTableViewCellDelegate, DateOfBirthTableViewCel
     }
     formItems.name = text
   }
+}
+
+// MARK: - DateOfBirthTableViewCellDelegate
+
+extension RootViewController: DateOfBirthTableViewCellDelegate {
 
   func dateOfBirthTableViewCell(_ cell: DateOfBirthTableViewCell, didChangeDate date: Date) {
+
     formItems.dateOfBirth = date
     cell.textField.text = convertDateToString(date: date)
   }
 
   func convertDateToString(date: Date) -> String {
+
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy/MM/dd"
     dateFormatter.locale = Locale(identifier: "ja_JP")
@@ -155,6 +165,7 @@ extension RootViewController: NameTableViewCellDelegate, DateOfBirthTableViewCel
 
 
   func doneButtonDidTapped(_ cell: DateOfBirthTableViewCell) {
+
     cell.textField.resignFirstResponder()
   }
 }
