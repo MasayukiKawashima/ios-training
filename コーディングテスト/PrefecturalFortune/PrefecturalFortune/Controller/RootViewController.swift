@@ -141,6 +141,19 @@ extension RootViewController: NameTableViewCellDelegate, DateOfBirthTableViewCel
 
   func dateOfBirthTableViewCell(_ cell: DateOfBirthTableViewCell, didChangeDate date: Date) {
     formItems.dateOfBirth = date
+    cell.textField.text = convertDateToString(date: date)
+  }
+
+  func convertDateToString(date: Date) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy/MM/dd"
+    dateFormatter.locale = Locale(identifier: "ja_JP")
+    return dateFormatter.string(from: date)
+  }
+
+
+  func doneButtonDidTapped(_ cell: DateOfBirthTableViewCell) {
+    cell.textField.resignFirstResponder()
   }
 }
 

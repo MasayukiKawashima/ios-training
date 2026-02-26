@@ -10,6 +10,7 @@ import UIKit
 protocol DateOfBirthTableViewCellDelegate {
 
   func dateOfBirthTableViewCell(_ cell: DateOfBirthTableViewCell, didChangeDate date: Date)
+  func doneButtonDidTapped(_ cell: DateOfBirthTableViewCell)
 }
 
 class DateOfBirthTableViewCell: UITableViewCell {
@@ -53,11 +54,6 @@ class DateOfBirthTableViewCell: UITableViewCell {
   @objc private func datePickerValueChanged(sender: UIDatePicker) {
 
     delegate?.dateOfBirthTableViewCell(self, didChangeDate: sender.date)
-
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy/MM/dd"
-    dateFormatter.locale = Locale(identifier: "ja_JP")
-    textField.text = dateFormatter.string(from: sender.date)
   }
 
   private func setUpToolBar() {
@@ -73,7 +69,8 @@ class DateOfBirthTableViewCell: UITableViewCell {
   }
 
   @objc private func doneButtonAction() {
-    textField.resignFirstResponder()
+    
+    delegate?.doneButtonDidTapped(self)
   }
 }
 
