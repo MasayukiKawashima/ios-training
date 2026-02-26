@@ -38,7 +38,7 @@
                                             <segment title="AB"/>
                                         </segments>
                                         <connections>
-                                            <action selector="segmentedControlAction:" destination="KGk-i7-Jjw" eventType="valueChanged" id="LJW-h4-V2w"/>
+                                            <action selector="segmentChangedAction:" destination="KGk-i7-Jjw" eventType="valueChanged" id="YAE-er-Xcp"/>
                                         </connections>
                                     </segmentedControl>
                                 </subviews>

@@ -7,6 +7,12 @@
 
 import UIKit
 
+protocol DateOfBirthTableViewCellDelegate {
+
+  func dateOfBirthTableViewCell(_ cell: DateOfBirthTableViewCell, didChangeDate date: Date)
+  func doneButtonDidTapped(_ cell: DateOfBirthTableViewCell)
+}
+
 class DateOfBirthTableViewCell: UITableViewCell {
 
   // MARK: - Properties
@@ -14,6 +20,8 @@ class DateOfBirthTableViewCell: UITableViewCell {
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var textField: UITextField!
   @IBOutlet weak var errorMessageLabel: UILabel!
+
+  var delegate: DateOfBirthTableViewCellDelegate?
 
   // MARK: - LifeCycle
 
@@ -45,10 +53,7 @@ class DateOfBirthTableViewCell: UITableViewCell {
 
   @objc private func datePickerValueChanged(sender: UIDatePicker) {
 
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy/MM/dd"
-    dateFormatter.locale = Locale(identifier: "ja_JP")
-    textField.text = dateFormatter.string(from: sender.date)
+    delegate?.dateOfBirthTableViewCell(self, didChangeDate: sender.date)
   }
 
   private func setUpToolBar() {
@@ -64,7 +69,8 @@ class DateOfBirthTableViewCell: UITableViewCell {
   }
 
   @objc private func doneButtonAction() {
-    textField.resignFirstResponder()
+    
+    delegate?.doneButtonDidTapped(self)
   }
 }
 
