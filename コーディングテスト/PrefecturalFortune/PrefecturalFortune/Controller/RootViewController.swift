@@ -7,15 +7,6 @@
 
 import UIKit
 
-// MARK: - Enums
-
-enum CellRowType: Int, CaseIterable {
-
-  case nameTableViewCell
-  case dateOfBirthTableViewCell
-  case bloodTypeTableViewCell
-}
-
 class RootViewController: UIViewController {
 
   // MARK: - Properties
@@ -28,6 +19,16 @@ class RootViewController: UIViewController {
   var formItems = FormItems()
 
   let cellIdentifiers: [String] = ["NameTableViewCell", "DateOfBirthTableViewCell", "BloodTypeTableViewCell"]
+
+
+  // MARK: - Enums
+
+  enum CellRowType: Int, CaseIterable {
+
+    case nameTableViewCell
+    case dateOfBirthTableViewCell
+    case bloodTypeTableViewCell
+  }
 
   // MARK: - LifeCycle
 
