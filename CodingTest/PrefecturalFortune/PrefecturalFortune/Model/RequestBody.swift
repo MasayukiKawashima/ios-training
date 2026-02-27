@@ -5,6 +5,8 @@
 //  Created by 川島真之 on 2026/02/27.
 //
 
+// 名前をForuneRequestBodyに変更
+
 import Foundation
 
 struct RequestBody: Encodable {
