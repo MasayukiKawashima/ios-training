@@ -9,6 +9,7 @@ import UIKit
 
 class RootViewController: UIViewController {
 
+
   // MARK: - Properties
 
   @IBOutlet weak var titleLabel: UILabel!
@@ -29,6 +30,7 @@ class RootViewController: UIViewController {
     case dateOfBirthTableViewCell
     case bloodTypeTableViewCell
   }
+
 
   // MARK: - LifeCycle
 
@@ -51,6 +53,7 @@ class RootViewController: UIViewController {
       tableView.layoutIfNeeded()
       tableViewHeightConstraint.constant = tableView.contentSize.height
   }
+
 
   // MARK: - Methods
 
@@ -84,6 +87,8 @@ class RootViewController: UIViewController {
     */
 
 }
+
+
 // MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension RootViewController: UITableViewDataSource, UITableViewDelegate {
@@ -125,6 +130,7 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
   }
 }
 
+
 // MARK: - UITextFieldDelegate
 
 extension RootViewController: UITextFieldDelegate{
@@ -141,6 +147,7 @@ extension RootViewController: UITextFieldDelegate{
   }
 }
 
+
 // MARK: - NameTableViewCellDelegate
 
 extension RootViewController: NameTableViewCellDelegate {
@@ -153,6 +160,7 @@ extension RootViewController: NameTableViewCellDelegate {
     formItems.name = text
   }
 }
+
 
 // MARK: - DateOfBirthTableViewCellDelegate
 
@@ -178,6 +186,7 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
     cell.textField.resignFirstResponder()
   }
 }
+
 
 // MARK: - BloodTypeTableViewCellDelegate
 
