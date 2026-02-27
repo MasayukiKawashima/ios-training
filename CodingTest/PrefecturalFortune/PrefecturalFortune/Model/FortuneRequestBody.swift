@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 struct FortuneRequestBody: Encodable {
   var name: String
   var birthday: YearMonthDay
