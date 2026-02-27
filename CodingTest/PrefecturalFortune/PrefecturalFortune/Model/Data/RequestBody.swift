@@ -13,12 +13,6 @@ struct RequestBody: Encodable {
   var bloodType: String
   var today: YearMonthDay
 
-  struct YearMonthDay: Encodable {
-    var year: Int
-    var month: Int
-    var day: Int
-  }
-
   enum CodingKeys: String, CodingKey {
     case name
     case birthday
