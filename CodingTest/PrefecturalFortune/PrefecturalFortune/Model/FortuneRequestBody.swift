@@ -1,15 +1,15 @@
 //
-//  RequestBody.swift
+//  FortuneRequestBody.swift
 //  PrefecturalFortune
 //
-//  Created by 川島真之 on 2026/02/27.
+//  Created by 川島真之 on 2026/02/28.
 //
-
-// 名前をForuneRequestBodyに変更
 
 import Foundation
 
-struct RequestBody: Encodable {
+import Foundation
+
+struct FortuneRequestBody: Encodable {
   var name: String
   var birthday: YearMonthDay
   var bloodType: String
