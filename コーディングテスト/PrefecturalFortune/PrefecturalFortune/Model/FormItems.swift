@@ -7,17 +7,17 @@
 
 import Foundation
 
-enum FormField {
-    case name
-    case dateOfBirth
-    case bloodType
-}
-
 struct FormItems {
 
   var name: String?
   var dateOfBirth: Date?
   var bloodType: BloodType?
+
+  enum FormField {
+      case name
+      case dateOfBirth
+      case bloodType
+  }
 }
 
 extension FormItems {

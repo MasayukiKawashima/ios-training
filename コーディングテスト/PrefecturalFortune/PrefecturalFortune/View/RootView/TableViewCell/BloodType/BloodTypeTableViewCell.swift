@@ -14,6 +14,7 @@ protocol BloodTypeTableViewCellDelegate {
 
 class BloodTypeTableViewCell: UITableViewCell {
 
+
   // MARK: - Properties
 
   @IBOutlet weak var titleLabel: UILabel!
@@ -21,6 +22,7 @@ class BloodTypeTableViewCell: UITableViewCell {
   @IBOutlet weak var errorMessageLabel: UILabel!
 
   var delegate: BloodTypeTableViewCellDelegate?
+
 
   // MARK: - LifeCycle
 
@@ -34,6 +36,7 @@ class BloodTypeTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+  
 
   // MARK: - Methods
 

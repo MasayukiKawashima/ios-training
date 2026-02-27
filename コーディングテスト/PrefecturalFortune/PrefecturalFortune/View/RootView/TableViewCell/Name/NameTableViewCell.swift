@@ -14,6 +14,7 @@ protocol NameTableViewCellDelegate {
 
 class NameTableViewCell: UITableViewCell {
 
+
   // MARK: - Properties
   
   @IBOutlet weak var titleLabel: UILabel!
@@ -21,6 +22,7 @@ class NameTableViewCell: UITableViewCell {
   @IBOutlet weak var errorMessageLabel: UILabel!
 
   var delegate: NameTableViewCellDelegate?
+  
 
   // MARK: - LifeCycle
 

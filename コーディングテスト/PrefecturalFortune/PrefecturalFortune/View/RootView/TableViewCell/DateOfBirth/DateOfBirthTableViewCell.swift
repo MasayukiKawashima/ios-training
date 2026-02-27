@@ -15,6 +15,7 @@ protocol DateOfBirthTableViewCellDelegate {
 
 class DateOfBirthTableViewCell: UITableViewCell {
 
+
   // MARK: - Properties
 
   @IBOutlet weak var titleLabel: UILabel!
@@ -22,6 +23,8 @@ class DateOfBirthTableViewCell: UITableViewCell {
   @IBOutlet weak var errorMessageLabel: UILabel!
 
   var delegate: DateOfBirthTableViewCellDelegate?
+  
+
 
   // MARK: - LifeCycle
 

@@ -7,16 +7,8 @@
 
 import UIKit
 
-// MARK: - Enums
-
-enum CellRowType: Int, CaseIterable {
-
-  case nameTableViewCell
-  case dateOfBirthTableViewCell
-  case bloodTypeTableViewCell
-}
-
 class RootViewController: UIViewController {
+
 
   // MARK: - Properties
 
@@ -28,6 +20,17 @@ class RootViewController: UIViewController {
   var formItems = FormItems()
 
   let cellIdentifiers: [String] = ["NameTableViewCell", "DateOfBirthTableViewCell", "BloodTypeTableViewCell"]
+
+
+  // MARK: - Enums
+
+  enum CellRowType: Int, CaseIterable {
+
+    case nameTableViewCell
+    case dateOfBirthTableViewCell
+    case bloodTypeTableViewCell
+  }
+
 
   // MARK: - LifeCycle
 
@@ -50,6 +53,7 @@ class RootViewController: UIViewController {
       tableView.layoutIfNeeded()
       tableViewHeightConstraint.constant = tableView.contentSize.height
   }
+
 
   // MARK: - Methods
 
@@ -83,6 +87,8 @@ class RootViewController: UIViewController {
     */
 
 }
+
+
 // MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension RootViewController: UITableViewDataSource, UITableViewDelegate {
@@ -124,6 +130,7 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
   }
 }
 
+
 // MARK: - UITextFieldDelegate
 
 extension RootViewController: UITextFieldDelegate{
@@ -140,6 +147,7 @@ extension RootViewController: UITextFieldDelegate{
   }
 }
 
+
 // MARK: - NameTableViewCellDelegate
 
 extension RootViewController: NameTableViewCellDelegate {
@@ -152,6 +160,7 @@ extension RootViewController: NameTableViewCellDelegate {
     formItems.name = text
   }
 }
+
 
 // MARK: - DateOfBirthTableViewCellDelegate
 
@@ -177,6 +186,7 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
     cell.textField.resignFirstResponder()
   }
 }
+
 
 // MARK: - BloodTypeTableViewCellDelegate
 
