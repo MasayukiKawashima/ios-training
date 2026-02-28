@@ -1,5 +1,5 @@
 //
-//  YumemiAPIFortuneRequest.swift
+//  FortuneRequest.swift
 //  PrefecturalFortune
 //
 //  Created by 川島真之 on 2026/02/28.
@@ -17,11 +17,11 @@ protocol YumemiAPIRequest {
   var body: HTTPBody { get }
 }
 
-struct YumemiAPIFortuneRequest: YumemiAPIRequest {
+struct FortuneRequest: YumemiAPIRequest {
   typealias Response = <#type#>
-  typealias HTTPBody = <#type#>
-  
+  typealias HTTPBody = FortuneRequestBody
+
   var path: String
   var method: HTTPMethod
-  var body: ForuneRequestBody
+  var body: HTTPBody
 }
