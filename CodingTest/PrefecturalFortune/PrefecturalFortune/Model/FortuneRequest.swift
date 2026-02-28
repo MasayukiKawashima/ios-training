@@ -11,9 +11,20 @@ struct FortuneRequest: Requestable {
   typealias Response = FortuneResponse
   typealias HTTPBody = FortuneRequestBody
 
-  var baseURL: String
-  var path: String
-  var method: HTTPMethod
-  var header: HTTPHeader
+  var baseURL: String {
+    YumemiAPIConstants.baseURL
+  }
+
+  var path: String {
+    YumemiAPIConstants.EndPoint.fortune.path
+  }
+
+  var method: HTTPMethod {
+    YumemiAPIConstants.EndPoint.fortune.method
+  }
+
+  var header: HTTPHeader {
+    HTTPHeader(["API-Version": YumemiAPIConstants.EndPoint.fortune.version])
+  }
   var body: HTTPBody?
 }
