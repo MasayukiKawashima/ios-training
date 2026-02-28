@@ -14,14 +14,14 @@ protocol YumemiAPIRequest {
 
   var path: String { get }
   var method: HTTPMethod { get }
-  var body: HTTPBody { get }
+  var body: HTTPBody? { get }
 }
 
 struct FortuneRequest: YumemiAPIRequest {
-  typealias Response = <#type#>
+  typealias Response = FortuneResponse
   typealias HTTPBody = FortuneRequestBody
 
   var path: String
   var method: HTTPMethod
-  var body: HTTPBody
+  var body: HTTPBody?
 }
