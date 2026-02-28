@@ -7,27 +7,11 @@
 
 import Foundation
 
-// プロトコルの定義場所は要検討
-protocol YumemiAPIRequest {
-  associatedtype Response: Decodable
-  associatedtype HTTPBody: Encodable
-
-  var path: String { get }
-  var method: HTTPMethod { get }
-  var header: HTTPHeader{ get }
-  var body: HTTPBody? { get } // fetch時にGETの場合を考慮してif letでbodyのnilチェックをする。GETならBodyがnilのため
-}
-
-extension YumemiAPIRequest {
-  var baseURL: String {
-    YumemiAPIConstants.baseURL
-  }
-}
-
-struct FortuneRequest: YumemiAPIRequest {
+struct FortuneRequest: Requestable {
   typealias Response = FortuneResponse
   typealias HTTPBody = FortuneRequestBody
 
+  var baseURL: String
   var path: String
   var method: HTTPMethod
   var header: HTTPHeader
