@@ -16,7 +16,7 @@ protocol YumemiAPIRequest {
   var path: String { get }
   var method: HTTPMethod { get }
   var header: HTTPHeader{ get }
-  var body: HTTPBody? { get } // fetch時にGETの場合を考慮してif letでbodyのnilチェックをする。GETならBodyがnilのため
+  var body: HTTPBody? { get } 
 }
 
 extension YumemiAPIRequest {

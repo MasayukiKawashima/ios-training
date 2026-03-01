@@ -26,5 +26,5 @@ struct FortuneRequest: Requestable {
   var header: HTTPHeader {
     HTTPHeader(["API-Version": YumemiAPIConstants.EndPoint.fortune.version])
   }
-  var body: HTTPBody?
+  var body: HTTPBody? // fetch時にGETの場合を考慮してif letでbodyのnilチェックをする。GETならBodyがnilのため
 }
