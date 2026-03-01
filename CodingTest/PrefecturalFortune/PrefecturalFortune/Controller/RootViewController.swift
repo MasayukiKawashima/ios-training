@@ -68,13 +68,40 @@ class RootViewController: UIViewController {
 
   @IBAction func fortuneButtonAction(_ sender: Any) {
 
-    let missingFields = formItems.missingFields()
-    if !missingFields.isEmpty {
-      // 入力されていないフォームがあった場合の処理
-      print("入力されていないフォーム一覧：\(missingFields))")
+    testRequest()
+
+//    let missingFields = formItems.missingFields()
+//    if !missingFields.isEmpty {
+//      // 入力されていないフォームがあった場合の処理
+//      print("入力されていないフォーム一覧：\(missingFields))")
+//    }
+//    // 入力フォームが全て埋まっていた場合の処理
+//    print(formItems)
+  }
+
+  private func testRequest() {
+
+    let apiClient = APIClient(session: URLSession.shared)
+
+    let todayDate = Date()
+    let components = Calendar.current.dateComponents([.year, .month, .day], from: todayDate)
+    let todayYear = components.year!
+    let todayMonth = components.month!
+    let todayDay = components.day!
+
+    let name = "ゆめみん"
+    let birthday = YearMonthDay(year: 2000, month: 1, day: 27)
+    let bloodType = BloodType.ab.rawValue
+    let today = YearMonthDay(year: todayYear, month: todayMonth, day: todayDay)
+
+    let stub = FortuneRequestBody(name: name, birthday: birthday, bloodType: bloodType, today: today)
+
+    print("リクエスト作成前のリクエストBody：\(stub)")
+    let request = FortuneRequest(body: stub)
+
+    Task {
+       try await apiClient.request(request)
     }
-    // 入力フォームが全て埋まっていた場合の処理
-    print(formItems)
   }
   /*
     // MARK: - Navigation
