@@ -8,7 +8,7 @@
 import Foundation
 
 struct FortuneRequest: Requestable {
-  typealias Response = FortuneResponse
+  typealias Response = FortuneResponseBody
   typealias HTTPBody = FortuneRequestBody
 
   var baseURL: String {
