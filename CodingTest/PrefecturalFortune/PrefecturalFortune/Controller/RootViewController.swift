@@ -95,8 +95,10 @@ class RootViewController: UIViewController {
     let today = YearMonthDay(year: todayYear, month: todayMonth, day: todayDay)
 
     let stub = FortuneRequestBody(name: name, birthday: birthday, bloodType: bloodType, today: today)
-
-    print("リクエスト作成前のリクエストBody：\(stub)")
+    print("------------------------------------------------------")
+    print("リクエスト作成前のリクエストBody")
+    print(stub)
+    print("------------------------------------------------------")
     let request = FortuneRequest(body: stub)
 
     Task {

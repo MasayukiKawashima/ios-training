@@ -70,6 +70,7 @@ extension APIClient {
 
 extension APIClient {
   private func checkURLRequest(urlRequest: URLRequest) {
+    print("------------------------------------------------------")
     print("リクエスト作成後")
     print("URL:\(urlRequest.url?.absoluteString ?? "nil")")
     print("HTTPMethod:\(urlRequest.httpMethod ?? "nil")")
@@ -90,5 +91,6 @@ extension APIClient {
         print("Body decode failed:", error)
       }
     }
+    print("------------------------------------------------------")
   }
 }
