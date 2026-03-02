@@ -100,7 +100,11 @@ class RootViewController: UIViewController {
     let request = FortuneRequest(body: stub)
 
     Task {
-       try await apiClient.request(request)
+      let result = try await apiClient.request(request)
+      print("------------------------------------------------------")
+      print("デコード後のレスポンスデータ")
+      print(result)
+      print("------------------------------------------------------")
     }
   }
   /*
