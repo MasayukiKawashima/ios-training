@@ -8,7 +8,7 @@
 import Foundation
 
 struct FortuneRequest: Requestable {
-  typealias Response = FortuneResponse
+  typealias Response = FortuneResponseBody
   typealias HTTPBody = FortuneRequestBody
 
   var baseURL: String {
@@ -25,6 +25,7 @@ struct FortuneRequest: Requestable {
 
   var header: HTTPHeader {
     HTTPHeader(["API-Version": YumemiAPIConstants.EndPoint.fortune.version])
+      .addValues(["Content-Type": "application/json"])
   }
-  var body: HTTPBody? // fetch時にGETの場合を考慮してif letでbodyのnilチェックをする。GETならBodyがnilのため
+  var body: HTTPBody?
 }
