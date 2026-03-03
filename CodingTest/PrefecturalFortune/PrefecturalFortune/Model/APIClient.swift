@@ -25,13 +25,22 @@ class APIClient {
   // MARK: - Methods
 
   func request<T: Requestable>(_ request: T) async throws -> T.Response {
-    let urlRequest = try createRequest(request: request)
-
     do {
+      let urlRequest = try createRequest(request: request)
       let (data, response) = try await session.data(for: urlRequest)
       return try decode(type: T.self, data: data)
+    } catch let error as EncodingError {
+      // エンコードエラーが投げられてきた場合
+      print("エンコードエラー")
+      print("エラー内容: \(error)")
+      throw APIClientError.encodeError(error)
+    } catch let error as DecodingError {
+      // デコードエラーが投げられてきた場合
+      print("デコードエラー")
+      print("エラー内容: \(error)")
+      throw APIClientError.decodeError(error)
     } catch {
-      //FIXME: エラーハンドリングの作成は専用のタスクで行う
+      // 上記のエラー以外のエラーが投げれたとき
       print("エラー: \(error)")
       throw error
     }
@@ -44,17 +53,16 @@ class APIClient {
 extension APIClient {
   private func createRequest<T: Requestable>(request: T) throws -> URLRequest {
     guard let url = URL(string: request.baseURL + request.path) else {
-      //FIXME: エラーハンドリングの作成は専用のタスクで行う
+      // URL作成エラー
       print("URL作成エラー")
-      throw APIClientError.invalidError
+      throw APIClientError.invalidURL
     }
 
     var urlRequest = URLRequest(url: url)
     urlRequest.httpMethod = request.method.rawValue
     urlRequest.allHTTPHeaderFields = request.header.values()
-    if let httpBody = request.body,
-       let bodyData = try? JSONEncoder().encode(httpBody) {
-      urlRequest.httpBody = bodyData
+    if let httpBody = request.body {
+      urlRequest.httpBody = try JSONEncoder().encode(httpBody)
     }
     return urlRequest
   }
