@@ -8,5 +8,9 @@
 import Foundation
 
 enum APIClientError: Error {
-  case invalidError
+  case invalidURL
+  case encodeError(Error)
+  case decodeError(Error)
+  case noResponse
+  case unacceptableStatusCode(Int)
 }
