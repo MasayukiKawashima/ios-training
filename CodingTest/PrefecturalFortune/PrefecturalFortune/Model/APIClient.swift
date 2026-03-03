@@ -28,7 +28,8 @@ class APIClient {
     do {
       let urlRequest = try createRequest(request: request)
       let (data, response) = try await session.data(for: urlRequest)
-      return try decode(type: T.self, data: data)
+      let decoder = JSONDecoder()
+      return try decoder.decode(T.Response.self, from: data)
     } catch let error as EncodingError {
       // エンコードエラーが投げられてきた場合
       print("エンコードエラー")

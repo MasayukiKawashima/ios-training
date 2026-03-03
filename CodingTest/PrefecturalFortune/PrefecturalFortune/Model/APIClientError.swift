@@ -11,5 +11,5 @@ enum APIClientError: Error {
   case invalidURL
   case encodeError(Error)
   case decodeError(Error)
-  case invalidError
+  case invalidError(Error)
 }
