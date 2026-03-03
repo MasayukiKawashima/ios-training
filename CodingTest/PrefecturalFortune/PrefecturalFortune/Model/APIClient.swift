@@ -28,6 +28,17 @@ class APIClient {
     do {
       let urlRequest = try createRequest(request: request)
       let (data, response) = try await session.data(for: urlRequest)
+
+      guard let httpResponse = response as? HTTPURLResponse else {
+        print("ノーレスポンスエラー")
+        throw APIClientError.noResponse
+      }
+
+      if httpResponse.statusCode != 200 {
+        print("ステータスコードエラー")
+        throw APIClientError.unacceptableStatusCode(httpResponse.statusCode)
+      }
+
       let decoder = JSONDecoder()
       return try decoder.decode(T.Response.self, from: data)
     } catch let error as EncodingError {
@@ -42,7 +53,7 @@ class APIClient {
       throw APIClientError.decodeError(error)
     } catch {
       // 上記のエラー以外のエラーが投げれたとき
-      print("エラー: \(error)")
+      print("エラー内容: \(error)")
       throw error
     }
   }
