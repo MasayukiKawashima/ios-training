@@ -11,5 +11,5 @@ enum ImageFetcherError: Error {
   case invalidURL
   case noResponse
   case unacceptableStatusCode(Int)
-  case mimeTypeError
+  case mimeTypeError(String)
 }
