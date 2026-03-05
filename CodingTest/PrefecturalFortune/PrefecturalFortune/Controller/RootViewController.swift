@@ -68,7 +68,23 @@ class RootViewController: UIViewController {
 
   @IBAction func fortuneButtonAction(_ sender: Any) {
 
-    testRequest()
+    Task {
+      let result = try await testRequest()
+      let logoURL = URL(string: result.logoURL)
+
+      guard let logoURL else {
+        print("ロゴURLの変換エラー")
+        return
+      }
+
+      let image = try await testFetchImage(url: logoURL)
+
+      guard let image else {
+        print("画像取得エラー")
+        return
+      }
+      print("UIImageデータ: \(image)")
+    }
 
 //    let missingFields = formItems.missingFields()
 //    if !missingFields.isEmpty {
@@ -79,7 +95,7 @@ class RootViewController: UIViewController {
 //    print(formItems)
   }
 
-  private func testRequest() {
+  private func testRequest() async throws -> FortuneRequest.Response {
 
     let apiClient = APIClient(session: URLSession.shared)
 
@@ -101,13 +117,22 @@ class RootViewController: UIViewController {
     print("------------------------------------------------------")
     let request = FortuneRequest(body: stub)
 
-    Task {
       let result = try await apiClient.request(request)
       print("------------------------------------------------------")
       print("デコード後のレスポンスデータ")
       print(result)
       print("------------------------------------------------------")
-    }
+      return result
+  }
+
+  private func testFetchImage(url: URL) async throws -> UIImage? {
+
+    let imageFetcher = ImageFetcher(session: URLSession.shared)
+    let result: UIImage?
+
+    let resultData = try await imageFetcher.fetch(url: url)
+    result = UIImage(data: resultData)
+    return result
   }
   /*
     // MARK: - Navigation
