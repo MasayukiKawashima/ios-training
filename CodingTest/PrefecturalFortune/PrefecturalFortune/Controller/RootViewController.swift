@@ -182,6 +182,8 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
     case .bloodTypeTableViewCell:
       let cell: BloodTypeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "BloodTypeTableViewCell", for: indexPath) as! BloodTypeTableViewCell
 
+      let defaultBloodType: BloodType = .a
+      formItems.bloodType = defaultBloodType
       cell.delegate = self
       return cell
     }
