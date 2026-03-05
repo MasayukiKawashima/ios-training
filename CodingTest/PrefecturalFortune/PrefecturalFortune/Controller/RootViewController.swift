@@ -83,8 +83,7 @@ class RootViewController: UIViewController {
         print("画像取得エラー")
         return
       }
-
-      print(image)
+      print("UIImageデータ: \(image)")
     }
 
 //    let missingFields = formItems.missingFields()
