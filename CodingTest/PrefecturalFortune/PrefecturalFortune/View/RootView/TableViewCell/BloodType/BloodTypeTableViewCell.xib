@@ -50,7 +50,7 @@
                                     <constraint firstItem="rWR-Kl-p3p" firstAttribute="centerX" secondItem="cCk-uq-JSz" secondAttribute="centerX" id="YDZ-qc-8NX"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="エラーメッセージ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N30-19-zuw">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="入力エラー" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N30-19-zuw">
                                 <rect key="frame" x="0.0" y="109" width="320" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="23" id="pr3-22-aGw"/>
