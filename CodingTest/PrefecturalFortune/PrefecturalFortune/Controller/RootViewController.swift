@@ -20,6 +20,7 @@ class RootViewController: UIViewController {
   var formItems = FormItems()
 
   let cellIdentifiers: [String] = ["NameTableViewCell", "DateOfBirthTableViewCell", "BloodTypeTableViewCell"]
+  let cellErrorMessage = "入力エラー"
 
 
   // MARK: - Enums
@@ -168,20 +169,22 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
 
     case .nameTableViewCell:
       let cell: NameTableViewCell = tableView.dequeueReusableCell(withIdentifier: "NameTableViewCell", for: indexPath) as! NameTableViewCell
-
+      cell.errorMessageLabel.isHidden = true
       cell.delegate = self
       cell.textField.delegate = self
       return cell
       
     case .dateOfBirthTableViewCell:
       let cell: DateOfBirthTableViewCell = tableView.dequeueReusableCell(withIdentifier: "DateOfBirthTableViewCell", for: indexPath) as! DateOfBirthTableViewCell
-
+      cell.errorMessageLabel.isHidden = true
       cell.delegate = self
       return cell
 
     case .bloodTypeTableViewCell:
       let cell: BloodTypeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "BloodTypeTableViewCell", for: indexPath) as! BloodTypeTableViewCell
-
+      cell.errorMessageLabel.isHidden = true
+      let defaultBloodType: BloodType = .a
+      formItems.bloodType = defaultBloodType
       cell.delegate = self
       return cell
     }
