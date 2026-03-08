@@ -68,7 +68,6 @@ class RootViewController: UIViewController {
 
 
   @IBAction func fortuneButtonAction(_ sender: Any) {
-
     print("実行")
     Task {
       let result = await testFetchFortuneContents()
