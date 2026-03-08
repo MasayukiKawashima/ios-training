@@ -68,23 +68,11 @@ class RootViewController: UIViewController {
 
 
   @IBAction func fortuneButtonAction(_ sender: Any) {
-
+    print("実行")
     Task {
-      let result = try await testRequest()
-      let logoURL = URL(string: result.logoURL)
-
-      guard let logoURL else {
-        print("ロゴURLの変換エラー")
-        return
-      }
-
-      let image = try await testFetchImage(url: logoURL)
-
-      guard let image else {
-        print("画像取得エラー")
-        return
-      }
-      print("UIImageデータ: \(image)")
+      let result = await testFetchFortuneContents()
+      guard let result else { return }
+      print(result.1)
     }
 
 //    let missingFields = formItems.missingFields()
@@ -94,6 +82,23 @@ class RootViewController: UIViewController {
 //    }
 //    // 入力フォームが全て埋まっていた場合の処理
 //    print(formItems)
+  }
+
+  private func testFetchFortuneContents() async -> (FortuneRequest.Response, UIImage)? {
+    do {
+      let result = try await testRequest()
+      let logoURL = URL(string: result.logoURL)
+
+      if let url = logoURL {
+        let image = try await testFetchImage(url: url)
+        if let image = image {
+          return (result, image)
+        }
+      }
+    } catch {
+      print(error)
+    }
+    return nil
   }
 
   private func testRequest() async throws -> FortuneRequest.Response {
