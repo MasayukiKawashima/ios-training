@@ -8,7 +8,6 @@
 import Foundation
 
 enum ValidationError: ValidationErrorProtocol {
-
   case empty
   case length(min: Int, max: Int)
   case inValidCharacter

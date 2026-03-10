@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct DateOfBirthValidator: CompositeValidator {
+struct DateOfBirthValidator: RootViewFormValidator{
+  var formType: RootViewFormType = .dateOfBirth
   var validators: [Validator] = [
     SlashNumberValidator()
       ]

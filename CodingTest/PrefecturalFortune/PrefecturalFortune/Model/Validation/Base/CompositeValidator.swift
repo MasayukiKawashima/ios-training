@@ -28,5 +28,4 @@ extension CompositeValidator {
     }
     return errors.first ?? .valid
   }
-
 }

@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct NameValidator: CompositeValidator {
+struct NameValidator: RootViewFormValidator {
+  var formType: RootViewFormType = .name
   var validators: [Validator] = [
           EmptyValidator(),
           LengthValidator(min: 1, max: 127),
