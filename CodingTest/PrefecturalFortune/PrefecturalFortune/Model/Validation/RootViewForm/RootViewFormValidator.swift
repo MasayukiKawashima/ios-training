@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol RootViewFormValidator: CompositeValidator where SourceField == RootViewFormType {
+protocol RootViewFormValidator: CompositeValidator where SourceField == RootViewController.FormField {
 }
 

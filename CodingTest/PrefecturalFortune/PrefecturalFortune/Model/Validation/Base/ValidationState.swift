@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum enum ValidationState {
+enum ValidationState {
   case valid
   case invalid(ValidationError)
 }

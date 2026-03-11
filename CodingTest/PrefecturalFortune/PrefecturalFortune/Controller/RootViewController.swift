@@ -32,6 +32,12 @@ class RootViewController: UIViewController {
     case bloodTypeTableViewCell
   }
 
+  enum FormField {
+    case name
+    case dateOfBirth
+    case bloodType
+  }
+
 
   // MARK: - LifeCycle
 
