@@ -17,21 +17,15 @@ protocol CompositeValidator {
 }
 
 extension CompositeValidator {
-  func validateAll(_ value: String) -> [ValidationState] {
+  private func validateAll(_ value: String) -> [ValidationState] {
     return validators.map { $0.validate(value) }
   }
 
   func validate(_ value: String) -> ValidationResult<SourceField> {
     let states = validateAll(value)
 
-    let isValid = !states.contains {
-      if case .invalid = $0 { return true }
-      return false
-    }
-
     return ValidationResult(
-      isValid: isValid,
-      validatorStates: states,
+      allValidatorResults: states,
       sourceField: sourceField
     )
   }

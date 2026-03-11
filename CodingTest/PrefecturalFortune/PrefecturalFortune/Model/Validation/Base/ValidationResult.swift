@@ -8,7 +8,22 @@
 import Foundation
 
 struct ValidationResult<T> {
-  var isValid: Bool
-  var validatorStates: [ValidationState]
+
+
+  // MARK: - Properties
+
+  var allValidatorResults: [ValidationState]
   var sourceField: T
+
+
+  // MARK: - Methods
+
+  func result() -> ValidationState {
+    let state: ValidationState =
+      allValidatorResults.first {
+        if case .invalid = $0 { return true }
+        return false
+      } ?? .valid
+    return state
+  }
 }

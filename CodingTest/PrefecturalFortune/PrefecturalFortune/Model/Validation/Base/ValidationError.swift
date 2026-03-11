@@ -12,7 +12,7 @@ enum ValidationError: ValidationErrorProtocol {
   case length(min: Int, max: Int)
   case inValidCharacter
 
-  var errorDescription: String? {
+  var errorDescription: String {
     switch self {
     case .empty: return "文字を入力してください"
     case .length(let min, let max): return "\(min)文字以上\(max)文字以下で入力してください。"
