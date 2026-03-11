@@ -8,5 +8,5 @@
 import Foundation
 
 protocol Validator {
-    func validate(_ value: String) -> ValidationResult
+    func validate(_ value: String) -> ValidationState
 }

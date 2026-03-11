@@ -8,7 +8,7 @@
 import Foundation
 
 struct SlashNumberValidator: Validator {
-  func validate(_ value: String) -> ValidationResult {
+  func validate(_ value: String) -> ValidationState {
     let pattern = "^[0-9/]+$"
     if value.range(of: pattern, options: .regularExpression) != nil {
       return .valid

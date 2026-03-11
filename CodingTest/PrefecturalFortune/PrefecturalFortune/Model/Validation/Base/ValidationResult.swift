@@ -7,7 +7,8 @@
 
 import Foundation
 
-enum ValidationResult {
-  case valid
-  case invalid(ValidationError)
+struct ValidationResult<T> {
+  var isValid: Bool
+  var validatorStates: [ValidationState]
+  var sourceField: T
 }
