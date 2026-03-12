@@ -11,7 +11,7 @@ protocol CompositeValidator {
   associatedtype SourceField
 
   var sourceField: SourceField { get }
-  var validators: [Validator] { get }
+  var validators: [FormValidator] { get }
   func validate(_ value: String) -> ValidationResult<SourceField>
 }
 

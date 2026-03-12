@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct LengthValidator: Validator {
+struct LengthValidator: FormValidator {
   let min: Int
   let max: Int
 
