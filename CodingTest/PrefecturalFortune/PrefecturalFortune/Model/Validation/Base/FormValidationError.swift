@@ -1,5 +1,5 @@
 //
-//  ValidationError.swift
+//  FormValidationFormError.swift
 //  PrefecturalFortune
 //
 //  Created by 川島真之 on 2026/03/10.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ValidationError: ValidationErrorProtocol {
+enum FormValidationError: FormValidationErrorProtocol {
   case empty
   case length(min: Int, max: Int)
   case inValidCharacter

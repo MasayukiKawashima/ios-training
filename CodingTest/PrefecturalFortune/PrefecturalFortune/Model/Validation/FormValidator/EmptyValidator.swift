@@ -8,7 +8,7 @@
 import Foundation
 
 struct EmptyValidator: FormValidator {
-  func validate(_ value: String) -> ValidationState {
+  func validate(_ value: String) -> FormValidationState {
     if value.isEmpty == true {
       return .invalid(.empty)
     } else {
