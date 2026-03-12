@@ -72,6 +72,11 @@ class RootViewController: UIViewController {
     }
   }
 
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+    view.endEditing(true)
+  }
+
 
   @IBAction func fortuneButtonAction(_ sender: Any) {
 
@@ -169,7 +174,6 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
       let cell: NameTableViewCell = tableView.dequeueReusableCell(withIdentifier: "NameTableViewCell", for: indexPath) as! NameTableViewCell
       cell.errorMessageLabel.isHidden = true
       cell.delegate = self
-      cell.textField.delegate = self
       return cell
       
     case .dateOfBirthTableViewCell:
@@ -192,12 +196,7 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
 
 // MARK: - UITextFieldDelegate
 
-extension RootViewController: UITextFieldDelegate{
-
-  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
-    view.endEditing(true)
-  }
+extension RootViewController: UITextFieldDelegate {
 
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 
@@ -210,6 +209,15 @@ extension RootViewController: UITextFieldDelegate{
 // MARK: - NameTableViewCellDelegate
 
 extension RootViewController: NameTableViewCellDelegate {
+  func nameTableViewCell(_ cell: NameTableViewCell, didEndEditing text: String?) {
+    print("テスト")
+  }
+  
+  func nameTableViewCell(_ cell: NameTableViewCell, shouldReturn text: String?) -> Bool {
+    cell.textField.resignFirstResponder()
+    return true
+  }
+  
 
   func nameTableViewCell(_ cell: NameTableViewCell, didChangeText text: String) {
     formItems.name = text

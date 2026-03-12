@@ -10,6 +10,8 @@ import UIKit
 protocol NameTableViewCellDelegate {
 
   func nameTableViewCell(_ cell: NameTableViewCell, didChangeText text: String)
+  func nameTableViewCell(_ cell: NameTableViewCell, didEndEditing text: String?)
+  func nameTableViewCell(_ cell: NameTableViewCell, shouldReturn text: String?) -> Bool
 }
 
 class NameTableViewCell: UITableViewCell {
@@ -31,6 +33,7 @@ class NameTableViewCell: UITableViewCell {
     // Initialization code
 
     textField.addTarget(self, action: #selector(textDidChange(_:)), for: .editingChanged)
+    textField.delegate = self
   }
 
   override func setSelected(_ selected: Bool, animated: Bool) {
@@ -43,5 +46,19 @@ class NameTableViewCell: UITableViewCell {
 
   @objc private func textDidChange(_ sender: UITextField) {
     delegate?.nameTableViewCell(self, didChangeText: sender.text ?? "")
+  }
+}
+
+
+// MARK: - UITextFieldDelegate
+
+extension NameTableViewCell: UITextFieldDelegate {
+
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    return delegate!.nameTableViewCell(self, shouldReturn: textField.text ?? "")
+  }
+
+  func textFieldDidEndEditing(_ textField: UITextField) {
+    delegate?.nameTableViewCell(self, didEndEditing: textField.text ?? "")
   }
 }
