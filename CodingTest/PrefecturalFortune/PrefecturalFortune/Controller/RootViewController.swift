@@ -32,6 +32,12 @@ class RootViewController: UIViewController {
     case bloodTypeTableViewCell
   }
 
+  enum FormField {
+    case name
+    case dateOfBirth
+    case bloodType
+  }
+
 
   // MARK: - LifeCycle
 
@@ -68,20 +74,7 @@ class RootViewController: UIViewController {
 
 
   @IBAction func fortuneButtonAction(_ sender: Any) {
-    print("実行")
-    Task {
-      let result = await testFetchFortuneContents()
-      guard let result else { return }
-      print(result.1)
-    }
 
-//    let missingFields = formItems.missingFields()
-//    if !missingFields.isEmpty {
-//      // 入力されていないフォームがあった場合の処理
-//      print("入力されていないフォーム一覧：\(missingFields))")
-//    }
-//    // 入力フォームが全て埋まっていた場合の処理
-//    print(formItems)
   }
 
   private func testFetchFortuneContents() async -> (FortuneRequest.Response, UIImage)? {
@@ -219,10 +212,6 @@ extension RootViewController: UITextFieldDelegate{
 extension RootViewController: NameTableViewCellDelegate {
 
   func nameTableViewCell(_ cell: NameTableViewCell, didChangeText text: String) {
-
-    if text == "" {
-      return
-    }
     formItems.name = text
   }
 }
