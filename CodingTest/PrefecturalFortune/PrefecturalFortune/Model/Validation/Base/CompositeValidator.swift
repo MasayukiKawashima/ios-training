@@ -12,7 +12,6 @@ protocol CompositeValidator {
 
   var sourceField: SourceField { get }
   var validators: [Validator] { get }
-  func validateAll(_ value: String) -> [ValidationState]
   func validate(_ value: String) -> ValidationResult<SourceField>
 }
 
