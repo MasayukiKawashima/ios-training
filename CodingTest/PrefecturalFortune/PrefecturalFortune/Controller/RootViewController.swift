@@ -152,24 +152,11 @@ class RootViewController: UIViewController {
     completionHandler(validationResult)
   }
 
-  private func validationHandler(validationResult:
-                                 FormValidationResult<RootViewController.FormField> ,
-                                 textField: UITextField,
-                                 text: String) {
-    let state = validationResult.result()
-    switch state {
-    case .valid:
-      formItems.name = text
-
-    case .invalid(let reason):
-      let alertTitle = "入力エラー"
-      showValidationErrorAlert(title: alertTitle, message: reason.errorDescription) {
-        DispatchQueue.main.async {
-          textField.becomeFirstResponder()
-          DispatchQueue.main.async {
-            textField.selectAll(nil)
-          }
-        }
+  private func validationAlertOKActionHandle(textField: UITextField) {
+    DispatchQueue.main.async {
+      textField.becomeFirstResponder()
+      DispatchQueue.main.async {
+        textField.selectAll(nil)
       }
     }
   }
@@ -247,8 +234,17 @@ extension RootViewController: NameTableViewCellDelegate {
       print("名前フォームの値がnilです")
       return
     }
+
     formValidate(validator: NameValidator(), value: text) { result in
-      validationHandler(validationResult: result, textField: cell.textField, text: text)
+      switch result.result() {
+      case .valid:
+        formItems.name = text
+      case.invalid(let reason):
+        let alertTitle = "入力エラー"
+        showValidationErrorAlert(title: alertTitle, message: reason.errorDescription) {
+          self.validationAlertOKActionHandle(textField: cell.textField)
+        }
+      }
     }
   }
 
@@ -279,11 +275,6 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
     formItems.dateOfBirth = date
   }
 
-  private func dateOfBirthTextFieldValidate(value: String) -> FormValidationState {
-    let dateOfBirthValidator = DateOfBirthValidator()
-    let result = dateOfBirthValidator.validate(value)
-    return result.result()
-  }
 
 
   func dateOfBirthTableViewCell(_ cell: DateOfBirthTableViewCell, didChangeDate date: Date) {
