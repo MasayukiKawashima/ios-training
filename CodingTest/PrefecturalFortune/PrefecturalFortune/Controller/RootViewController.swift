@@ -210,7 +210,14 @@ extension RootViewController: UITextFieldDelegate {
 
 extension RootViewController: NameTableViewCellDelegate {
   func nameTableViewCell(_ cell: NameTableViewCell, didEndEditing text: String?) {
-    print("テスト")
+    guard let text else {
+      print("名前フォームの値がnilです")
+      return
+    }
+    let nameValidator = NameValidator()
+    let validationResult = nameValidator.validate(text)
+
+    print("バリデーションの結果：\(validationResult.result())")
   }
   
   func nameTableViewCell(_ cell: NameTableViewCell, shouldReturn text: String?) -> Bool {
@@ -218,7 +225,6 @@ extension RootViewController: NameTableViewCellDelegate {
     return true
   }
   
-
   func nameTableViewCell(_ cell: NameTableViewCell, didChangeText text: String) {
     formItems.name = text
   }
