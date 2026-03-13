@@ -72,6 +72,11 @@ class RootViewController: UIViewController {
     }
   }
 
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+    view.endEditing(true)
+  }
+
 
   @IBAction func fortuneButtonAction(_ sender: Any) {
 
@@ -169,7 +174,6 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
       let cell: NameTableViewCell = tableView.dequeueReusableCell(withIdentifier: "NameTableViewCell", for: indexPath) as! NameTableViewCell
       cell.errorMessageLabel.isHidden = true
       cell.delegate = self
-      cell.textField.delegate = self
       return cell
       
     case .dateOfBirthTableViewCell:
@@ -192,12 +196,7 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
 
 // MARK: - UITextFieldDelegate
 
-extension RootViewController: UITextFieldDelegate{
-
-  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
-    view.endEditing(true)
-  }
+extension RootViewController: UITextFieldDelegate {
 
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 
@@ -210,9 +209,30 @@ extension RootViewController: UITextFieldDelegate{
 // MARK: - NameTableViewCellDelegate
 
 extension RootViewController: NameTableViewCellDelegate {
+  func nameTableViewCell(_ cell: NameTableViewCell, didEndEditing text: String?) {
+    guard let text else {
+      print("名前フォームの値がnilです")
+      return
+    }
+    let result = nameTextFieldValidate(value: text)
+    print("名前バリデーションの結果：\(result)")
 
-  func nameTableViewCell(_ cell: NameTableViewCell, didChangeText text: String) {
+    // バリデーション後のハンドル
     formItems.name = text
+  }
+
+  private func nameTextFieldValidate(value: String) -> FormValidationState {
+    let nameValidator = NameValidator()
+    let result = nameValidator.validate(value)
+    return result.result()
+  }
+
+  func nameTableViewCell(_ cell: NameTableViewCell, shouldReturn text: String?) -> Bool {
+    cell.textField.resignFirstResponder()
+    return true
+  }
+  
+  func nameTableViewCell(_ cell: NameTableViewCell, didChangeText text: String) {
   }
 }
 
@@ -220,19 +240,51 @@ extension RootViewController: NameTableViewCellDelegate {
 // MARK: - DateOfBirthTableViewCellDelegate
 
 extension RootViewController: DateOfBirthTableViewCellDelegate {
+  func dateOfBirthTableViewCell(_ cell: DateOfBirthTableViewCell, didEndEditing text: String?) {
+    guard let text else {
+      print("誕生日フォームの値がnilです")
+      return
+    }
+
+    let result = dateOfBirthTextFieldValidate(value: text)
+    print("誕生日バリデーションの結果：\(result)")
+
+    // バリデーション後のハンドル。
+    let date = convertStringToDate(string: text)
+    formItems.dateOfBirth = date
+  }
+
+  private func dateOfBirthTextFieldValidate(value: String) -> FormValidationState {
+    let dateOfBirthValidator = DateOfBirthValidator()
+    let result = dateOfBirthValidator.validate(value)
+    return result.result()
+  }
+
 
   func dateOfBirthTableViewCell(_ cell: DateOfBirthTableViewCell, didChangeDate date: Date) {
-
-    formItems.dateOfBirth = date
     cell.textField.text = convertDateToString(date: date)
   }
 
-  func convertDateToString(date: Date) -> String {
+  private func convertDateToString(date: Date) -> String {
 
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy/MM/dd"
-    dateFormatter.locale = Locale(identifier: "ja_JP")
+    dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+    dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
     return dateFormatter.string(from: date)
+  }
+
+  private func convertStringToDate(string: String) -> Date? {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy/MM/dd"
+    dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+    dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+
+    guard let date = dateFormatter.date(from: string) else {
+      print("変換失敗")
+      return nil
+    }
+    return date
   }
 
 
