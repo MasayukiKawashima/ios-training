@@ -214,15 +214,19 @@ extension RootViewController: NameTableViewCellDelegate {
       print("名前フォームの値がnilです")
       return
     }
-    let nameValidator = NameValidator()
-    let validationResult = nameValidator.validate(text)
-
-    print("名前バリデーションの結果：\(validationResult.result())")
+    let result = nameTextFieldValidate(value: text)
+    print("名前バリデーションの結果：\(result)")
 
     // バリデーション後のハンドル
     formItems.name = text
   }
-  
+
+  private func nameTextFieldValidate(value: String) -> FormValidationState {
+    let nameValidator = NameValidator()
+    let result = nameValidator.validate(value)
+    return result.result()
+  }
+
   func nameTableViewCell(_ cell: NameTableViewCell, shouldReturn text: String?) -> Bool {
     cell.textField.resignFirstResponder()
     return true
@@ -242,13 +246,18 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
       return
     }
 
-    let dateOfBirthValidator = DateOfBirthValidator()
-    let validationResult = dateOfBirthValidator.validate(text)
-    print("誕生日バリデーションの結果：\(validationResult.result())")
-    
+    let result = dateOfBirthTextFieldValidate(value: text)
+    print("誕生日バリデーションの結果：\(result)")
+
     // バリデーション後のハンドル
   }
-  
+
+  private func dateOfBirthTextFieldValidate(value: String) -> FormValidationState {
+    let dateOfBirthValidator = DateOfBirthValidator()
+    let result = dateOfBirthValidator.validate(value)
+    return result.result()
+  }
+
 
   func dateOfBirthTableViewCell(_ cell: DateOfBirthTableViewCell, didChangeDate date: Date) {
 
