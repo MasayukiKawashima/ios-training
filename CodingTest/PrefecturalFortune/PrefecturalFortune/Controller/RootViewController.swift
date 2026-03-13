@@ -249,7 +249,9 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
     let result = dateOfBirthTextFieldValidate(value: text)
     print("誕生日バリデーションの結果：\(result)")
 
-    // バリデーション後のハンドル
+    // バリデーション後のハンドル。
+    let date = convertStringToDate(string: text)
+    formItems.dateOfBirth = date
   }
 
   private func dateOfBirthTextFieldValidate(value: String) -> FormValidationState {
@@ -260,8 +262,6 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
 
 
   func dateOfBirthTableViewCell(_ cell: DateOfBirthTableViewCell, didChangeDate date: Date) {
-
-    formItems.dateOfBirth = date
     cell.textField.text = convertDateToString(date: date)
   }
 
