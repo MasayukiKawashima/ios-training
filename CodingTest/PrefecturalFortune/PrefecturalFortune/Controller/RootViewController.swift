@@ -267,15 +267,19 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
       return
     }
 
-    let result = dateOfBirthTextFieldValidate(value: text)
-    print("誕生日バリデーションの結果：\(result)")
-
-    // バリデーション後のハンドル。
-    let date = convertStringToDate(string: text)
-    formItems.dateOfBirth = date
+    formValidate(validator: DateOfBirthValidator(), value: text) { result in
+      switch result.result() {
+      case .valid:
+        let date = convertStringToDate(string: text)
+        formItems.dateOfBirth = date
+      case.invalid(let reason):
+        let alertTitle = "入力エラー"
+        showValidationErrorAlert(title: alertTitle, message: reason.errorDescription) {
+          self.validationAlertOKActionHandle(textField: cell.textField)
+        }
+      }
+    }
   }
-
-
 
   func dateOfBirthTableViewCell(_ cell: DateOfBirthTableViewCell, didChangeDate date: Date) {
     cell.textField.text = convertDateToString(date: date)
