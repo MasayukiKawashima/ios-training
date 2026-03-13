@@ -217,7 +217,10 @@ extension RootViewController: NameTableViewCellDelegate {
     let nameValidator = NameValidator()
     let validationResult = nameValidator.validate(text)
 
-    print("バリデーションの結果：\(validationResult.result())")
+    print("名前バリデーションの結果：\(validationResult.result())")
+
+    // バリデーション後のハンドル
+    formItems.name = text
   }
   
   func nameTableViewCell(_ cell: NameTableViewCell, shouldReturn text: String?) -> Bool {
@@ -226,7 +229,6 @@ extension RootViewController: NameTableViewCellDelegate {
   }
   
   func nameTableViewCell(_ cell: NameTableViewCell, didChangeText text: String) {
-    formItems.name = text
   }
 }
 
@@ -234,6 +236,19 @@ extension RootViewController: NameTableViewCellDelegate {
 // MARK: - DateOfBirthTableViewCellDelegate
 
 extension RootViewController: DateOfBirthTableViewCellDelegate {
+  func dateOfBirthTableViewCell(_ cell: DateOfBirthTableViewCell, didEndEditing text: String?) {
+    guard let text else {
+      print("誕生日フォームの値がnilです")
+      return
+    }
+
+    let dateOfBirthValidator = DateOfBirthValidator()
+    let validationResult = dateOfBirthValidator.validate(text)
+    print("誕生日バリデーションの結果：\(validationResult.result())")
+    
+    // バリデーション後のハンドル
+  }
+  
 
   func dateOfBirthTableViewCell(_ cell: DateOfBirthTableViewCell, didChangeDate date: Date) {
 
@@ -241,12 +256,26 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
     cell.textField.text = convertDateToString(date: date)
   }
 
-  func convertDateToString(date: Date) -> String {
+  private func convertDateToString(date: Date) -> String {
 
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy/MM/dd"
-    dateFormatter.locale = Locale(identifier: "ja_JP")
+    dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+    dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
     return dateFormatter.string(from: date)
+  }
+
+  private func convertStringToDate(string: String) -> Date? {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy/MM/dd"
+    dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+    dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+
+    guard let date = dateFormatter.date(from: string) else {
+      print("変換失敗")
+      return nil
+    }
+    return date
   }
 
 

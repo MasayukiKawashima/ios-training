@@ -11,6 +11,7 @@ protocol DateOfBirthTableViewCellDelegate {
 
   func dateOfBirthTableViewCell(_ cell: DateOfBirthTableViewCell, didChangeDate date: Date)
   func doneButtonDidTapped(_ cell: DateOfBirthTableViewCell)
+  func dateOfBirthTableViewCell(_ cell: DateOfBirthTableViewCell, didEndEditing text: String?)
 }
 
 class DateOfBirthTableViewCell: UITableViewCell {
@@ -34,6 +35,8 @@ class DateOfBirthTableViewCell: UITableViewCell {
 
     setDatePicker()
     setUpToolBar()
+
+    textField.delegate = self
   }
 
   override func setSelected(_ selected: Bool, animated: Bool) {
@@ -74,6 +77,16 @@ class DateOfBirthTableViewCell: UITableViewCell {
   @objc private func doneButtonAction() {
     
     delegate?.doneButtonDidTapped(self)
+  }
+}
+
+
+// MARK: - UITextFieldDelegate
+
+extension DateOfBirthTableViewCell: UITextFieldDelegate {
+
+  func textFieldDidEndEditing(_ textField: UITextField) {
+    delegate!.dateOfBirthTableViewCell(self, didEndEditing: textField.text)
   }
 }
 
