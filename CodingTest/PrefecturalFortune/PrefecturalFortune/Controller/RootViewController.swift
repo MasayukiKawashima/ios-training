@@ -18,9 +18,8 @@ class RootViewController: UIViewController {
   @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
 
   var formItems = FormItems()
-
+  
   let cellIdentifiers: [String] = ["NameTableViewCell", "DateOfBirthTableViewCell", "BloodTypeTableViewCell"]
-  let cellErrorMessage = "入力エラー"
 
 
   // MARK: - Enums
@@ -73,13 +72,11 @@ class RootViewController: UIViewController {
   }
 
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
     view.endEditing(true)
   }
 
 
   @IBAction func fortuneButtonAction(_ sender: Any) {
-
   }
 
   private func testFetchFortuneContents() async -> (FortuneRequest.Response, UIImage)? {
@@ -147,7 +144,30 @@ class RootViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+  private func formValidate(validator: any RootViewFormValidator,
+                            value: String,
+                            completionHandler: (_ result: FormValidationResult<RootViewController.FormField>) -> Void) {
+    let validationResult = validator.validate(value)
+    completionHandler(validationResult)
+  }
 
+  private func validationAlertOKActionHandle(textField: UITextField) {
+    DispatchQueue.main.async {
+      textField.becomeFirstResponder()
+      DispatchQueue.main.async {
+        textField.selectAll(nil)
+      }
+    }
+  }
+
+  private func showValidationErrorAlert(title: String, message: String, completionHandler: @escaping () -> Void) {
+    let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    let okAction: UIAlertAction = UIAlertAction(title: "OK", style: .default) { _ in
+      completionHandler()
+    }
+    alert.addAction(okAction)
+    self.present(alert, animated: true, completion: nil)
+  }
 }
 
 
@@ -193,7 +213,6 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
   }
 }
 
-
 // MARK: - UITextFieldDelegate
 
 extension RootViewController: UITextFieldDelegate {
@@ -214,24 +233,25 @@ extension RootViewController: NameTableViewCellDelegate {
       print("名前フォームの値がnilです")
       return
     }
-    let result = nameTextFieldValidate(value: text)
-    print("名前バリデーションの結果：\(result)")
 
-    // バリデーション後のハンドル
-    formItems.name = text
-  }
-
-  private func nameTextFieldValidate(value: String) -> FormValidationState {
-    let nameValidator = NameValidator()
-    let result = nameValidator.validate(value)
-    return result.result()
+    formValidate(validator: NameValidator(), value: text) { result in
+      switch result.result() {
+      case .valid:
+        formItems.name = text
+      case.invalid(let reason):
+        let alertTitle = "入力エラー"
+        showValidationErrorAlert(title: alertTitle, message: reason.errorDescription) {
+          self.validationAlertOKActionHandle(textField: cell.textField)
+        }
+      }
+    }
   }
 
   func nameTableViewCell(_ cell: NameTableViewCell, shouldReturn text: String?) -> Bool {
     cell.textField.resignFirstResponder()
     return true
   }
-  
+
   func nameTableViewCell(_ cell: NameTableViewCell, didChangeText text: String) {
   }
 }
@@ -246,20 +266,19 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
       return
     }
 
-    let result = dateOfBirthTextFieldValidate(value: text)
-    print("誕生日バリデーションの結果：\(result)")
-
-    // バリデーション後のハンドル。
-    let date = convertStringToDate(string: text)
-    formItems.dateOfBirth = date
+    formValidate(validator: DateOfBirthValidator(), value: text) { result in
+      switch result.result() {
+      case .valid:
+        let date = convertStringToDate(string: text)
+        formItems.dateOfBirth = date
+      case.invalid(let reason):
+        let alertTitle = "入力エラー"
+        showValidationErrorAlert(title: alertTitle, message: reason.errorDescription) {
+          self.validationAlertOKActionHandle(textField: cell.textField)
+        }
+      }
+    }
   }
-
-  private func dateOfBirthTextFieldValidate(value: String) -> FormValidationState {
-    let dateOfBirthValidator = DateOfBirthValidator()
-    let result = dateOfBirthValidator.validate(value)
-    return result.result()
-  }
-
 
   func dateOfBirthTableViewCell(_ cell: DateOfBirthTableViewCell, didChangeDate date: Date) {
     cell.textField.text = convertDateToString(date: date)
