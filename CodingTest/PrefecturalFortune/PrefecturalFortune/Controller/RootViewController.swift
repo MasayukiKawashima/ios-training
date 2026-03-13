@@ -147,6 +147,9 @@ class RootViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+
+
+
   func showValidationErrorAlert(title: String, message: String, completionHandler: @escaping () -> Void) {
     let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
     let okAction: UIAlertAction = UIAlertAction(title: "OK", style: .default) { _ in
@@ -221,17 +224,27 @@ extension RootViewController: NameTableViewCellDelegate {
       return
     }
     let result = nameTextFieldValidate(value: text)
-
+    print("名前バリデーションの結果：\(result)")
     // バリデーション後のハンドル
+    validationHandler(state: result, textField: cell.textField, text: text)
+  }
 
-    switch result {
-      case .valid:
+  private func validationHandler(state: FormValidationState, textField: UITextField, text: String) {
+    switch state {
+    case .valid:
       print("有効な値です")
       formItems.name = text
     case .invalid(let reason):
-
+      let alertTitle = "名前の入力エラー"
+      showValidationErrorAlert(title: alertTitle, message: reason.errorDescription) {
+        DispatchQueue.main.async {
+          textField.becomeFirstResponder()
+          DispatchQueue.main.async {
+            textField.selectAll(nil)
+          }
+        }
+      }
     }
-    print("名前バリデーションの結果：\(result)")
   }
 
   private func nameTextFieldValidate(value: String) -> FormValidationState {
@@ -244,7 +257,7 @@ extension RootViewController: NameTableViewCellDelegate {
     cell.textField.resignFirstResponder()
     return true
   }
-  
+
   func nameTableViewCell(_ cell: NameTableViewCell, didChangeText text: String) {
   }
 }
