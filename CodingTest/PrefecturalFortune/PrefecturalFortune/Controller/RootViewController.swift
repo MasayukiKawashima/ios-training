@@ -18,9 +18,8 @@ class RootViewController: UIViewController {
   @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
 
   var formItems = FormItems()
-
+  
   let cellIdentifiers: [String] = ["NameTableViewCell", "DateOfBirthTableViewCell", "BloodTypeTableViewCell"]
-  let cellErrorMessage = "入力エラー"
 
 
   // MARK: - Enums
