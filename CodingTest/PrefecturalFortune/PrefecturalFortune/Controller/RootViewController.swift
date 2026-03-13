@@ -147,7 +147,14 @@ class RootViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+  func showValidationErrorAlert(title: String, message: String, completionHandler: @escaping () -> Void) {
+    let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    let okAction: UIAlertAction = UIAlertAction(title: "OK", style: .default) { _ in
+      completionHandler()
+    }
+    alert.addAction(okAction)
+    self.present(alert, animated: true, completion: nil)
+  }
 }
 
 
@@ -193,7 +200,6 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
   }
 }
 
-
 // MARK: - UITextFieldDelegate
 
 extension RootViewController: UITextFieldDelegate {
@@ -215,10 +221,17 @@ extension RootViewController: NameTableViewCellDelegate {
       return
     }
     let result = nameTextFieldValidate(value: text)
-    print("名前バリデーションの結果：\(result)")
 
     // バリデーション後のハンドル
-    formItems.name = text
+
+    switch result {
+      case .valid:
+      print("有効な値です")
+      formItems.name = text
+    case .invalid(let reason):
+
+    }
+    print("名前バリデーションの結果：\(result)")
   }
 
   private func nameTextFieldValidate(value: String) -> FormValidationState {
