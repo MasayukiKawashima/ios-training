@@ -73,13 +73,11 @@ class RootViewController: UIViewController {
   }
 
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
     view.endEditing(true)
   }
 
 
   @IBAction func fortuneButtonAction(_ sender: Any) {
-
   }
 
   private func testFetchFortuneContents() async -> (FortuneRequest.Response, UIImage)? {
@@ -147,32 +145,24 @@ class RootViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-  private func formValidate(validator: any RootViewFormValidator, value: String) -> FormValidationResult<RootViewController.FormField>  {
-    let result = validator.validate(value)
-    return result
+  private func formValidate(validator: any RootViewFormValidator,
+                            value: String,
+                            completionHandler: (_ result: FormValidationResult<RootViewController.FormField>) -> Void) {
+    let validationResult = validator.validate(value)
+    completionHandler(validationResult)
   }
 
   private func validationHandler(validationResult:
                                  FormValidationResult<RootViewController.FormField> ,
                                  textField: UITextField,
-                                 text: String)
-  {
+                                 text: String) {
     let state = validationResult.result()
     switch state {
     case .valid:
       formItems.name = text
 
     case .invalid(let reason):
-      let alertTitle: String
-      switch validationResult.sourceField {
-        case .name:
-        alertTitle = "名前の入力エラー"
-      case .dateOfBirth:
-        alertTitle = "生年月日の入力エラー"
-      case .bloodType:
-        alertTitle = "血液型の入力エラー"
-      }
-
+      let alertTitle = "入力エラー"
       showValidationErrorAlert(title: alertTitle, message: reason.errorDescription) {
         DispatchQueue.main.async {
           textField.becomeFirstResponder()
@@ -257,11 +247,9 @@ extension RootViewController: NameTableViewCellDelegate {
       print("名前フォームの値がnilです")
       return
     }
-    // バリデーション
-    let validationResult = formValidate(validator: NameValidator(), value: text)
-    print("名前バリデーションの結果：\(validationResult.result())")
-    // バリデーション後のハンドル
-    validationHandler(validationResult: validationResult, textField: cell.textField, text: text)
+    formValidate(validator: NameValidator(), value: text) { result in
+      validationHandler(validationResult: result, textField: cell.textField, text: text)
+    }
   }
 
   func nameTableViewCell(_ cell: NameTableViewCell, shouldReturn text: String?) -> Bool {
