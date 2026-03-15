@@ -17,8 +17,8 @@ class RootViewController: UIViewController {
   @IBOutlet weak var fortuneButton: UIButton!
   @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
 
-  var formItems = FormItems()
-  
+  var formItems = RootFormItems()
+
   let cellIdentifiers: [String] = ["NameTableViewCell", "DateOfBirthTableViewCell", "BloodTypeTableViewCell"]
 
 
@@ -140,7 +140,7 @@ class RootViewController: UIViewController {
     */
   private func formValidate(validator: any RootViewFormValidator,
                             value: String,
-                            completionHandler: (_ result: ValidationResult<FormItems.FormField>) -> Void) {
+                            completionHandler: (_ result: ValidationResult<RootFormItems.FormField>) -> Void) {
     let validationResult = validator.validate(value)
     completionHandler(validationResult)
   }
