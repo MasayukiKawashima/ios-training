@@ -238,9 +238,10 @@ extension RootViewController: NameTableViewCellDelegate {
       switch result.result() {
       case .valid:
         formItems.name = text
-      case.invalid(let reason):
-        let alertTitle = RootViewFormValidationAlertText.title
-        showValidationErrorAlert(title: alertTitle, message: reason.errorDescription) {
+      case.invalid(let error):
+        let title = RootViewFormValidationAlertText.title
+        let message = RootViewFormValidationAlertText.message(error)
+        showValidationErrorAlert(title: title, message: message) {
           self.validationAlertOKActionHandle(textField: cell.textField)
         }
       }
@@ -271,9 +272,10 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
       case .valid:
         let date = convertStringToDate(string: text)
         formItems.dateOfBirth = date
-      case.invalid(let reason):
-        let alertTitle = RootViewFormValidationAlertText.title
-        showValidationErrorAlert(title: alertTitle, message: reason.errorDescription) {
+      case.invalid(let error):
+        let title = RootViewFormValidationAlertText.title
+        let message = RootViewFormValidationAlertText.message(error)
+        showValidationErrorAlert(title: title, message: message) {
           self.validationAlertOKActionHandle(textField: cell.textField)
         }
       }
