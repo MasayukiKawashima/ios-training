@@ -138,7 +138,7 @@ class RootViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-  private func formValidate(validator: any RootViewFormValidator,
+  private func formValidate(validator: any RootFormValidator,
                             value: String,
                             completionHandler: (_ result: ValidationResult<RootFormItems.FormField>) -> Void) {
     let validationResult = validator.validate(value)

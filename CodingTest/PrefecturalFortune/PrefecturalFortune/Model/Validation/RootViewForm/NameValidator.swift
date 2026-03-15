@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct NameValidator: RootViewFormValidator {
+struct NameValidator: RootFormValidator {
   var sourceField: RootFormItems.FormField = .name
   var validators: [AnyValidator<Value>] = [
     AnyValidator(EmptyValidator()),
