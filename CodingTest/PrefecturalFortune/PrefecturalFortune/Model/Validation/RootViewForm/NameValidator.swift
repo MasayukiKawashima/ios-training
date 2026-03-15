@@ -8,7 +8,7 @@
 import Foundation
 
 struct NameValidator: RootViewFormValidator {
-  var sourceField: RootViewController.FormField = .name
+  var sourceField: FormItems.FormField = .name
   var validators: [AnyValidator<Value>] = [
     AnyValidator(EmptyValidator()),
     AnyValidator(LengthValidator(min: 1, max: 127)),

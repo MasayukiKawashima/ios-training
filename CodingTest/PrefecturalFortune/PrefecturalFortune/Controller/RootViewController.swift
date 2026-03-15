@@ -31,12 +31,6 @@ class RootViewController: UIViewController {
     case bloodTypeTableViewCell
   }
 
-  enum FormField {
-    case name
-    case dateOfBirth
-    case bloodType
-  }
-
 
   // MARK: - LifeCycle
 
@@ -146,7 +140,7 @@ class RootViewController: UIViewController {
     */
   private func formValidate(validator: any RootViewFormValidator,
                             value: String,
-                            completionHandler: (_ result: ValidationResult<RootViewController.FormField>) -> Void) {
+                            completionHandler: (_ result: ValidationResult<FormItems.FormField>) -> Void) {
     let validationResult = validator.validate(value)
     completionHandler(validationResult)
   }

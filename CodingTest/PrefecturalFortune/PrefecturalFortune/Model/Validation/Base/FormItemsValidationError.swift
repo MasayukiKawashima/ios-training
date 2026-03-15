@@ -8,5 +8,5 @@
 import Foundation
 
 enum FormItemsValidationError: Error {
-  case missingField([RootViewController.FormField])
+  case missingField([FormItems.FormField])
 }
