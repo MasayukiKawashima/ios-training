@@ -8,7 +8,6 @@
 import Foundation
 
 struct DateOfBirthValidator: RootFormValidator{
-  var sourceField: RootFormItems.FormField = .dateOfBirth
   var validators: [AnyValidator<Value>] = [
     AnyValidator(SlashNumberValidator())
   ]

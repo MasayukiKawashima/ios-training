@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol RootFormValidator: CompositeValidator where SourceField == RootFormItems.FormField, Value == String {
+protocol RootFormValidator: CompositeValidator where Value == String {
 }
 

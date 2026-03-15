@@ -8,12 +8,10 @@
 import Foundation
 
 protocol CompositeValidator {
-  associatedtype SourceField
   associatedtype Value
 
-  var sourceField: SourceField { get }
   var validators: [AnyValidator<Value>] { get }
-  func validate(_ value: String) -> ValidationResult<SourceField>
+  func validate(_ value: Value) -> ValidationResult
 }
 
 extension CompositeValidator {
@@ -21,12 +19,8 @@ extension CompositeValidator {
     return validators.map { $0.validate(value) }
   }
 
-  func validate(_ value: Value) -> ValidationResult<SourceField> {
+  func validate(_ value: Value) -> ValidationResult {
     let states = validateAll(value)
-
-    return ValidationResult(
-      allValidatorResults: states,
-      sourceField: sourceField
-    )
+    return ValidationResult(allValidatorResults: states)
   }
 }

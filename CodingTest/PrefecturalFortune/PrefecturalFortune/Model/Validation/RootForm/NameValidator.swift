@@ -8,7 +8,6 @@
 import Foundation
 
 struct NameValidator: RootFormValidator {
-  var sourceField: RootFormItems.FormField = .name
   var validators: [AnyValidator<Value>] = [
     AnyValidator(EmptyValidator()),
     AnyValidator(LengthValidator(min: 1, max: 127)),
