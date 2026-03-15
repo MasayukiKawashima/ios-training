@@ -8,5 +8,6 @@
 import Foundation
 
 protocol FormValidator {
-    func validate(_ value: String) -> FormValidationState
+  associatedtype Value
+    func validate(_ value: Value) -> FormValidationState
 }
