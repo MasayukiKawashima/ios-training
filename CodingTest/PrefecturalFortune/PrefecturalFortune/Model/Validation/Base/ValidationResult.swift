@@ -7,13 +7,12 @@
 
 import Foundation
 
-struct ValidationResult<T> {
+struct ValidationResult {
 
 
   // MARK: - Properties
 
   var allValidatorResults: [ValidationState]
-  var sourceField: T
 
 
   // MARK: - Methods

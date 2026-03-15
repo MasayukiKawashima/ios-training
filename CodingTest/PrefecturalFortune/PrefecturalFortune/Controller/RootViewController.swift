@@ -17,8 +17,8 @@ class RootViewController: UIViewController {
   @IBOutlet weak var fortuneButton: UIButton!
   @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
 
-  var formItems = FormItems()
-  
+  var formItems = RootFormItems()
+
   let cellIdentifiers: [String] = ["NameTableViewCell", "DateOfBirthTableViewCell", "BloodTypeTableViewCell"]
 
 
@@ -29,12 +29,6 @@ class RootViewController: UIViewController {
     case nameTableViewCell
     case dateOfBirthTableViewCell
     case bloodTypeTableViewCell
-  }
-
-  enum FormField {
-    case name
-    case dateOfBirth
-    case bloodType
   }
 
 
@@ -144,9 +138,9 @@ class RootViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-  private func formValidate(validator: any RootViewFormValidator,
+  private func formValidate(validator: any RootFormValidator,
                             value: String,
-                            completionHandler: (_ result: ValidationResult<RootViewController.FormField>) -> Void) {
+                            completionHandler: (_ result: ValidationResult<RootFormItems.FormField>) -> Void) {
     let validationResult = validator.validate(value)
     completionHandler(validationResult)
   }
@@ -239,8 +233,8 @@ extension RootViewController: NameTableViewCellDelegate {
       case .valid:
         formItems.name = text
       case.invalid(let error):
-        let title = RootViewFormValidationAlertText.title
-        let message = RootViewFormValidationAlertText.message(error)
+        let title = RootFormValidationAlertText.title
+        let message = RootFormValidationAlertText.message(error as! FormValidationError)
         showValidationErrorAlert(title: title, message: message) {
           self.validationAlertOKActionHandle(textField: cell.textField)
         }
@@ -273,8 +267,8 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
         let date = convertStringToDate(string: text)
         formItems.dateOfBirth = date
       case.invalid(let error):
-        let title = RootViewFormValidationAlertText.title
-        let message = RootViewFormValidationAlertText.message(error)
+        let title = RootFormValidationAlertText.title
+        let message = RootFormValidationAlertText.message(error as! FormValidationError)
         showValidationErrorAlert(title: title, message: message) {
           self.validationAlertOKActionHandle(textField: cell.textField)
         }
