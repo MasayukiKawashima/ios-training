@@ -7,24 +7,24 @@
 
 import Foundation
 
-protocol CompositeFormValidator {
+protocol CompositeValidator {
   associatedtype SourceField
   associatedtype Value
 
   var sourceField: SourceField { get }
   var validators: [AnyValidator<Value>] { get }
-  func validate(_ value: String) -> FormValidationResult<SourceField>
+  func validate(_ value: String) -> ValidationResult<SourceField>
 }
 
-extension CompositeFormValidator {
-  private func validateAll(_ value: Value) -> [FormValidationState] {
+extension CompositeValidator {
+  private func validateAll(_ value: Value) -> [ValidationState] {
     return validators.map { $0.validate(value) }
   }
 
-  func validate(_ value: Value) -> FormValidationResult<SourceField> {
+  func validate(_ value: Value) -> ValidationResult<SourceField> {
     let states = validateAll(value)
 
-    return FormValidationResult(
+    return ValidationResult(
       allValidatorResults: states,
       sourceField: sourceField
     )

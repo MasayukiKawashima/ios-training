@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct AnyValidator<Value>: FormValidator {
+struct AnyValidator<Value>: Validator {
 
-  private let _validate: (Value) -> FormValidationState
+  private let _validate: (Value) -> ValidationState
 
-  init<V: FormValidator>(_ validator: V) where V.Value == Value {
+  init<V: Validator>(_ validator: V) where V.Value == Value {
     self._validate = validator.validate
   }
 
-  func validate(_ value: Value) -> FormValidationState {
+  func validate(_ value: Value) -> ValidationState {
     _validate(value)
   }
 }

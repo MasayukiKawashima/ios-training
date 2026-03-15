@@ -146,7 +146,7 @@ class RootViewController: UIViewController {
     */
   private func formValidate(validator: any RootViewFormValidator,
                             value: String,
-                            completionHandler: (_ result: FormValidationResult<RootViewController.FormField>) -> Void) {
+                            completionHandler: (_ result: ValidationResult<RootViewController.FormField>) -> Void) {
     let validationResult = validator.validate(value)
     completionHandler(validationResult)
   }
@@ -239,7 +239,7 @@ extension RootViewController: NameTableViewCellDelegate {
       case .valid:
         formItems.name = text
       case.invalid(let reason):
-        let alertTitle = "入力エラー"
+        let alertTitle = RootViewFormValidationAlertText.title
         showValidationErrorAlert(title: alertTitle, message: reason.errorDescription) {
           self.validationAlertOKActionHandle(textField: cell.textField)
         }
@@ -272,7 +272,7 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
         let date = convertStringToDate(string: text)
         formItems.dateOfBirth = date
       case.invalid(let reason):
-        let alertTitle = "入力エラー"
+        let alertTitle = RootViewFormValidationAlertText.title
         showValidationErrorAlert(title: alertTitle, message: reason.errorDescription) {
           self.validationAlertOKActionHandle(textField: cell.textField)
         }
