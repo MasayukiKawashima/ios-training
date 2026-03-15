@@ -13,7 +13,7 @@ struct SlashNumberValidator: Validator {
     if value.range(of: pattern, options: .regularExpression) != nil {
       return .valid
     } else {
-      return .invalid(.inValidCharacter)
+      return .invalid(FormValidationError.inValidCharacter)
     }
   }
 }

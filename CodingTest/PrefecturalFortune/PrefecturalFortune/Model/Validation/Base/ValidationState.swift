@@ -9,5 +9,5 @@ import Foundation
 
 enum ValidationState {
   case valid
-  case invalid(ValidationError)
+  case invalid(Error)
 }

@@ -15,7 +15,7 @@ struct LengthValidator: Validator {
     if value.count >= min && value.count <= max {
       return .valid
     } else {
-      return .invalid(.length(min: min, max: max))
+      return .invalid(FormValidationError.length(min: min, max: max))
     }
   }
 }

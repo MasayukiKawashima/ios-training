@@ -10,7 +10,7 @@ import Foundation
 struct RootViewFormValidationAlertText {
   static let title = "入力エラー"
   
-  static var message: (ValidationError) -> String = { errorType in
+  static var message: (FormValidationError) -> String = { errorType in
     switch errorType {
     case .empty: 
       return "文字を入力してください"

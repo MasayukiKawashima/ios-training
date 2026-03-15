@@ -240,7 +240,7 @@ extension RootViewController: NameTableViewCellDelegate {
         formItems.name = text
       case.invalid(let error):
         let title = RootViewFormValidationAlertText.title
-        let message = RootViewFormValidationAlertText.message(error)
+        let message = RootViewFormValidationAlertText.message(error as! FormValidationError)
         showValidationErrorAlert(title: title, message: message) {
           self.validationAlertOKActionHandle(textField: cell.textField)
         }
@@ -274,7 +274,7 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
         formItems.dateOfBirth = date
       case.invalid(let error):
         let title = RootViewFormValidationAlertText.title
-        let message = RootViewFormValidationAlertText.message(error)
+        let message = RootViewFormValidationAlertText.message(error as! FormValidationError)
         showValidationErrorAlert(title: title, message: message) {
           self.validationAlertOKActionHandle(textField: cell.textField)
         }
