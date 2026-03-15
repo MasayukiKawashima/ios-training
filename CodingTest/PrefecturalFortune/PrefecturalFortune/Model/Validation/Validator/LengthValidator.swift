@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct LengthValidator: FormValidator {
+struct LengthValidator: Validator {
   let min: Int
   let max: Int
 
-  func validate(_ value: String) -> FormValidationState {
+  func validate(_ value: String) -> ValidationState {
     if value.count >= min && value.count <= max {
       return .valid
     } else {
