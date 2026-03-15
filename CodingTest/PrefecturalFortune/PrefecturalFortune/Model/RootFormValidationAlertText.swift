@@ -1,5 +1,5 @@
 //
-//  RootViewFormValidationAlertText.swift
+//  RootFormValidationAlertText.swift
 //  PrefecturalFortune
 //
 //  Created by 川島真之 on 2026/03/15.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RootViewFormValidationAlertText {
+struct RootFormValidationAlertText {
   static let title = "入力エラー"
   
   static var message: (FormValidationError) -> String = { errorType in
