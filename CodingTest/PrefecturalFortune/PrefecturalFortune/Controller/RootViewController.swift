@@ -76,7 +76,7 @@ class RootViewController: UIViewController {
       // バリデーション結果のハンドラー
       switch result.result() {
       case .valid:
-        print("問題なし")
+        print("FormItemsのバリデーション結果：問題なし")
         break
       case.invalid(let error):
         let title = RootFormItemsValidationAlertText.title
@@ -85,9 +85,8 @@ class RootViewController: UIViewController {
         return
       }
     }
-    // API　セッション
-    let apiClient = APIClient(session: URLSession.shared)
-
+    // API関連処理
+    // リクエストボディ作成
     let name = formItems.name!
     let bloodType = formItems.bloodType!.rawValue
 
@@ -110,9 +109,11 @@ class RootViewController: UIViewController {
     print("リクエスト作成前のリクエストBody")
     print(fortuneRequestBody)
     print("------------------------------------------------------")
+    // リクエスト作成
     let fortuneRequest = FortuneRequest(body: fortuneRequestBody)
-
+    // セッション
     Task {
+      let apiClient = APIClient(session: URLSession.shared)
       let response = try await apiClient.request(fortuneRequest)
       print("------------------------------------------------------")
       print("デコード後のレスポンスデータ")
@@ -370,10 +371,7 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
 extension RootViewController: BloodTypeTableViewCellDelegate {
 
   func segmentedControlChangedSegment(_ sender: UISegmentedControl) {
-    print(sender.selectedSegmentIndex)
-
     let selectedType = BloodType.allCases[sender.selectedSegmentIndex]
     formItems.bloodType = selectedType
-    print(formItems.bloodType)
   }
 }
