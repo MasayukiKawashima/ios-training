@@ -71,6 +71,19 @@ class RootViewController: UIViewController {
 
 
   @IBAction func fortuneButtonAction(_ sender: Any) {
+    // バリデーション
+    formItemsValidate(validator: RootFormItemsValidator(), value: self.formItems) { result in
+    // バリデーション結果のハンドラー
+      switch result.result() {
+      case .valid:
+        print("問題なし")
+        break
+      case.invalid(let error):
+        let title = RootFormItemsValidationAlertText.title
+        let message = RootFormItemsValidationAlertText.message(error as! RootFormItemsValidationError)
+        showValidationErrorAlert(title: title, message: message)
+      }
+    }
   }
 
   private func testFetchFortuneContents() async -> (FortuneRequest.Response, UIImage)? {
@@ -138,9 +151,16 @@ class RootViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+  private func formItemsValidate(validator: RootFormItemsValidator,
+                                 value: RootFormItems,
+                                 completionHandler: (_ result: ValidationResult) -> Void) {
+    let validationResult = validator.validate(value)
+    completionHandler(validationResult)
+  }
+
   private func formValidate(validator: any RootFormValidator,
                             value: String,
-                            completionHandler: (_ result: ValidationResult<RootFormItems.FormField>) -> Void) {
+                            completionHandler: (_ result: ValidationResult) -> Void) {
     let validationResult = validator.validate(value)
     completionHandler(validationResult)
   }
@@ -154,10 +174,10 @@ class RootViewController: UIViewController {
     }
   }
 
-  private func showValidationErrorAlert(title: String, message: String, completionHandler: @escaping () -> Void) {
+  private func showValidationErrorAlert(title: String, message: String, completionHandler: (() -> Void)? = nil) {
     let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
     let okAction: UIAlertAction = UIAlertAction(title: "OK", style: .default) { _ in
-      completionHandler()
+      completionHandler?()
     }
     alert.addAction(okAction)
     self.present(alert, animated: true, completion: nil)

@@ -26,7 +26,7 @@ struct RootFormItemsMissingValidator: Validator {
     if missingFields.isEmpty {
       return .valid
     } else {
-      return .invalid(FormItemsValidationError.missingField(missingFields))
+      return .invalid(RootFormItemsValidationError.missingField(missingFields))
     }
   }
 }
