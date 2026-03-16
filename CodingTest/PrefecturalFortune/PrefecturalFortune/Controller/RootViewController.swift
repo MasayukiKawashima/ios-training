@@ -73,7 +73,7 @@ class RootViewController: UIViewController {
   @IBAction func fortuneButtonAction(_ sender: Any) {
     // バリデーション
     formItemsValidate(validator: RootFormItemsValidator(), value: self.formItems) { result in
-    // バリデーション結果のハンドラー
+      // バリデーション結果のハンドラー
       switch result.result() {
       case .valid:
         print("問題なし")
@@ -82,7 +82,42 @@ class RootViewController: UIViewController {
         let title = RootFormItemsValidationAlertText.title
         let message = RootFormItemsValidationAlertText.message(error as! RootFormItemsValidationError)
         showValidationErrorAlert(title: title, message: message)
+        return
       }
+    }
+    // API　セッション
+    let apiClient = APIClient(session: URLSession.shared)
+
+    let name = formItems.name!
+    let bloodType = formItems.bloodType!.rawValue
+
+    let dateOfBirthDate = formItems.dateOfBirth!
+    let dateOfBirthComponents = Calendar.current.dateComponents([.year, .month, .day], from: dateOfBirthDate)
+    let dateOfBirthYear = dateOfBirthComponents.year!
+    let dateOfBirthMonth = dateOfBirthComponents.month!
+    let dateOfBirthDay = dateOfBirthComponents.day!
+    let dateOfBirth = YearMonthDay(year: dateOfBirthYear, month: dateOfBirthMonth, day: dateOfBirthDay)
+
+    let todayDate = Date()
+    let todayComponents = Calendar.current.dateComponents([.year, .month, .day], from: todayDate)
+    let todayYear = todayComponents.year!
+    let todayMonth = todayComponents.month!
+    let todayDay = todayComponents.day!
+    let today = YearMonthDay(year: todayYear, month: todayMonth, day: todayDay)
+
+    let fortuneRequestBody = FortuneRequestBody(name: name, birthday: dateOfBirth, bloodType: bloodType, today: today)
+    print("------------------------------------------------------")
+    print("リクエスト作成前のリクエストBody")
+    print(fortuneRequestBody)
+    print("------------------------------------------------------")
+    let fortuneRequest = FortuneRequest(body: fortuneRequestBody)
+
+    Task {
+      let response = try await apiClient.request(fortuneRequest)
+      print("------------------------------------------------------")
+      print("デコード後のレスポンスデータ")
+      print(response)
+      print("------------------------------------------------------")
     }
   }
 
@@ -335,8 +370,10 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
 extension RootViewController: BloodTypeTableViewCellDelegate {
 
   func segmentedControlChangedSegment(_ sender: UISegmentedControl) {
+    print(sender.selectedSegmentIndex)
 
     let selectedType = BloodType.allCases[sender.selectedSegmentIndex]
     formItems.bloodType = selectedType
+    print(formItems.bloodType)
   }
 }
