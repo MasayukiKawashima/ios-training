@@ -104,8 +104,10 @@ class RootViewController: UIViewController {
               print("画像取得失敗")
               return
             }
+            print("------------------------------------------------------")
+            print("画像")
             print(prefecturalImage)
-
+            print("------------------------------------------------------")
           } catch {
             print("最終的に上がってきたAPI通信エラー\(error)")
           }
@@ -116,7 +118,6 @@ class RootViewController: UIViewController {
         let title = RootFormItemsValidationAlertText.title
         let message = RootFormItemsValidationAlertText.message(error as! RootFormItemsValidationError)
         showValidationErrorAlert(title: title, message: message)
-        return
       }
     }
   }
@@ -138,10 +139,7 @@ class RootViewController: UIViewController {
   }
 
   private func convertToYearMonthDay(date: Date) -> YearMonthDay {
-    let components = Calendar.current.dateComponents(
-      [.year, .month, .day],
-      from: date
-    )
+    let components = Calendar.current.dateComponents([.year, .month, .day], from: date)
 
     return YearMonthDay(
       year: components.year!,
@@ -157,23 +155,6 @@ class RootViewController: UIViewController {
     return response
   }
 
-  private func testFetchFortuneContents() async -> (FortuneRequest.Response, UIImage)? {
-    do {
-      let result = try await testRequest()
-      let logoURL = URL(string: result.logoURL)
-
-      if let url = logoURL {
-        let image = try await testFetchImage(url: url)
-        if let image = image {
-          return (result, image)
-        }
-      }
-    } catch {
-      print(error)
-    }
-    return nil
-  }
-
   private func fetchPrefecturalImage(url: URL) async throws -> UIImage? {
     let imageFetcher = ImageFetcher(session: URLSession.shared)
       let resultData = try await imageFetcher.fetch(url: url)
@@ -181,45 +162,62 @@ class RootViewController: UIViewController {
       return image
   }
 
-  private func testRequest() async throws -> FortuneRequest.Response {
-
-    let apiClient = APIClient(session: URLSession.shared)
-
-    let todayDate = Date()
-    let components = Calendar.current.dateComponents([.year, .month, .day], from: todayDate)
-    let todayYear = components.year!
-    let todayMonth = components.month!
-    let todayDay = components.day!
-
-    let name = "ゆめみん"
-    let birthday = YearMonthDay(year: 2000, month: 1, day: 27)
-    let bloodType = BloodType.ab.rawValue
-    let today = YearMonthDay(year: todayYear, month: todayMonth, day: todayDay)
-
-    let stub = FortuneRequestBody(name: name, birthday: birthday, bloodType: bloodType, today: today)
-    print("------------------------------------------------------")
-    print("リクエスト作成前のリクエストBody")
-    print(stub)
-    print("------------------------------------------------------")
-    let request = FortuneRequest(body: stub)
-
-      let result = try await apiClient.request(request)
-      print("------------------------------------------------------")
-      print("デコード後のレスポンスデータ")
-      print(result)
-      print("------------------------------------------------------")
-      return result
-  }
-
-  private func testFetchImage(url: URL) async throws -> UIImage? {
-
-    let imageFetcher = ImageFetcher(session: URLSession.shared)
-    let result: UIImage?
-
-    let resultData = try await imageFetcher.fetch(url: url)
-    result = UIImage(data: resultData)
-    return result
-  }
+//  private func testFetchFortuneContents() async -> (FortuneRequest.Response, UIImage)? {
+//    do {
+//      let result = try await testRequest()
+//      let logoURL = URL(string: result.logoURL)
+//
+//      if let url = logoURL {
+//        let image = try await testFetchImage(url: url)
+//        if let image = image {
+//          return (result, image)
+//        }
+//      }
+//    } catch {
+//      print(error)
+//    }
+//    return nil
+//  }
+//
+//  private func testRequest() async throws -> FortuneRequest.Response {
+//
+//    let apiClient = APIClient(session: URLSession.shared)
+//
+//    let todayDate = Date()
+//    let components = Calendar.current.dateComponents([.year, .month, .day], from: todayDate)
+//    let todayYear = components.year!
+//    let todayMonth = components.month!
+//    let todayDay = components.day!
+//
+//    let name = "ゆめみん"
+//    let birthday = YearMonthDay(year: 2000, month: 1, day: 27)
+//    let bloodType = BloodType.ab.rawValue
+//    let today = YearMonthDay(year: todayYear, month: todayMonth, day: todayDay)
+//
+//    let stub = FortuneRequestBody(name: name, birthday: birthday, bloodType: bloodType, today: today)
+//    print("------------------------------------------------------")
+//    print("リクエスト作成前のリクエストBody")
+//    print(stub)
+//    print("------------------------------------------------------")
+//    let request = FortuneRequest(body: stub)
+//
+//      let result = try await apiClient.request(request)
+//      print("------------------------------------------------------")
+//      print("デコード後のレスポンスデータ")
+//      print(result)
+//      print("------------------------------------------------------")
+//      return result
+//  }
+//
+//  private func testFetchImage(url: URL) async throws -> UIImage? {
+//
+//    let imageFetcher = ImageFetcher(session: URLSession.shared)
+//    let result: UIImage?
+//
+//    let resultData = try await imageFetcher.fetch(url: url)
+//    result = UIImage(data: resultData)
+//    return result
+//  }
   /*
     // MARK: - Navigation
 
