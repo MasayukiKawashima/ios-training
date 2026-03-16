@@ -80,17 +80,32 @@ class RootViewController: UIViewController {
         print("FormItemsのバリデーション結果：問題なし")
         // API関連処理
         Task {
+          // fortuneリクエストBody作成
           let fortuneRequestBody = createFortuneRequestBody()
           print("------------------------------------------------------")
           print("リクエスト作成前のリクエストBody")
           print(fortuneRequestBody)
           print("------------------------------------------------------")
           do {
+            // fortuneリクエスト実行
             let fortuneResponse = try await executeFortuneRequest(body: fortuneRequestBody)
             print("------------------------------------------------------")
             print("デコード後のレスポンスデータ")
             print(fortuneResponse)
             print("------------------------------------------------------")
+            // 画像取得
+            let logoURL = URL(string: fortuneResponse.logoURL)
+            guard let logoURL = logoURL else {
+              print("画像URLの変換エラー")
+              return
+            }
+            let prefecturalImage = try await fetchPrefecturalImage(url: logoURL)
+            guard let prefecturalImage = prefecturalImage else {
+              print("画像取得失敗")
+              return
+            }
+            print(prefecturalImage)
+
           } catch {
             print("最終的に上がってきたAPI通信エラー\(error)")
           }
@@ -157,6 +172,13 @@ class RootViewController: UIViewController {
       print(error)
     }
     return nil
+  }
+
+  private func fetchPrefecturalImage(url: URL) async throws -> UIImage? {
+    let imageFetcher = ImageFetcher(session: URLSession.shared)
+      let resultData = try await imageFetcher.fetch(url: url)
+      let image = UIImage(data: resultData)
+      return image
   }
 
   private func testRequest() async throws -> FortuneRequest.Response {
