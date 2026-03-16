@@ -19,25 +19,3 @@ struct RootFormItems {
       case bloodType
   }
 }
-
-extension RootFormItems {
-
-  func missingFields() -> [FormField] {
-
-    var fields: [FormField] = []
-    
-    if name == nil {
-      fields.append(.name)
-    }
-
-    if dateOfBirth == nil {
-      fields.append(.dateOfBirth)
-    }
-
-    if bloodType == nil {
-      fields.append(.bloodType)
-    }
-
-    return fields
-  }
-}
