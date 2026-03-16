@@ -158,14 +158,14 @@ class RootViewController: UIViewController {
     completionHandler(validationResult)
   }
 
-  private func formValidate(validator: any RootFormValidator,
+  private func formsValidate(validator: any RootFormValidator,
                             value: String,
                             completionHandler: (_ result: ValidationResult) -> Void) {
     let validationResult = validator.validate(value)
     completionHandler(validationResult)
   }
 
-  private func validationAlertOKActionHandle(textField: UITextField) {
+  private func formsValidationAlertOKActionHandle(textField: UITextField) {
     DispatchQueue.main.async {
       textField.becomeFirstResponder()
       DispatchQueue.main.async {
@@ -248,7 +248,7 @@ extension RootViewController: NameTableViewCellDelegate {
       return
     }
 
-    formValidate(validator: NameValidator(), value: text) { result in
+    formsValidate(validator: NameValidator(), value: text) { result in
       switch result.result() {
       case .valid:
         formItems.name = text
@@ -256,7 +256,7 @@ extension RootViewController: NameTableViewCellDelegate {
         let title = RootFormValidationAlertText.title
         let message = RootFormValidationAlertText.message(error as! FormValidationError)
         showValidationErrorAlert(title: title, message: message) {
-          self.validationAlertOKActionHandle(textField: cell.textField)
+          self.formsValidationAlertOKActionHandle(textField: cell.textField)
         }
       }
     }
@@ -281,7 +281,7 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
       return
     }
 
-    formValidate(validator: DateOfBirthValidator(), value: text) { result in
+    formsValidate(validator: DateOfBirthValidator(), value: text) { result in
       switch result.result() {
       case .valid:
         let date = convertStringToDate(string: text)
@@ -290,7 +290,7 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
         let title = RootFormValidationAlertText.title
         let message = RootFormValidationAlertText.message(error as! FormValidationError)
         showValidationErrorAlert(title: title, message: message) {
-          self.validationAlertOKActionHandle(textField: cell.textField)
+          self.formsValidationAlertOKActionHandle(textField: cell.textField)
         }
       }
     }
