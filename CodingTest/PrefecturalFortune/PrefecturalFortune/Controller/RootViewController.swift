@@ -75,51 +75,71 @@ class RootViewController: UIViewController {
     formItemsValidate(validator: RootFormItemsValidator(), value: self.formItems) { result in
       // バリデーション結果のハンドラー
       switch result.result() {
+        // バリデーション結果が問題ない場合
       case .valid:
         print("FormItemsのバリデーション結果：問題なし")
-        break
+        // API関連処理
+        Task {
+          let fortuneRequestBody = createFortuneRequestBody()
+          print("------------------------------------------------------")
+          print("リクエスト作成前のリクエストBody")
+          print(fortuneRequestBody)
+          print("------------------------------------------------------")
+          do {
+            let fortuneResponse = try await executeFortuneRequest(body: fortuneRequestBody)
+            print("------------------------------------------------------")
+            print("デコード後のレスポンスデータ")
+            print(fortuneResponse)
+            print("------------------------------------------------------")
+          } catch {
+            print("最終的に上がってきたAPI通信エラー\(error)")
+          }
+        }
+        //バリデーション結果が問題ありの場合
       case.invalid(let error):
+        print("FormItemsのバリデーション結果：問題発生!!!")
         let title = RootFormItemsValidationAlertText.title
         let message = RootFormItemsValidationAlertText.message(error as! RootFormItemsValidationError)
         showValidationErrorAlert(title: title, message: message)
         return
       }
     }
-    // API関連処理
-    // リクエストボディ作成
+  }
+
+  private func createFortuneRequestBody() -> FortuneRequestBody {
     let name = formItems.name!
     let bloodType = formItems.bloodType!.rawValue
 
-    let dateOfBirthDate = formItems.dateOfBirth!
-    let dateOfBirthComponents = Calendar.current.dateComponents([.year, .month, .day], from: dateOfBirthDate)
-    let dateOfBirthYear = dateOfBirthComponents.year!
-    let dateOfBirthMonth = dateOfBirthComponents.month!
-    let dateOfBirthDay = dateOfBirthComponents.day!
-    let dateOfBirth = YearMonthDay(year: dateOfBirthYear, month: dateOfBirthMonth, day: dateOfBirthDay)
+    let birthday = convertToYearMonthDay(date: formItems.dateOfBirth!)
+    let today = convertToYearMonthDay(date: Date())
 
-    let todayDate = Date()
-    let todayComponents = Calendar.current.dateComponents([.year, .month, .day], from: todayDate)
-    let todayYear = todayComponents.year!
-    let todayMonth = todayComponents.month!
-    let todayDay = todayComponents.day!
-    let today = YearMonthDay(year: todayYear, month: todayMonth, day: todayDay)
+    let body = FortuneRequestBody(
+      name: name,
+      birthday: birthday,
+      bloodType: bloodType,
+      today: today
+    )
+    return body
+  }
 
-    let fortuneRequestBody = FortuneRequestBody(name: name, birthday: dateOfBirth, bloodType: bloodType, today: today)
-    print("------------------------------------------------------")
-    print("リクエスト作成前のリクエストBody")
-    print(fortuneRequestBody)
-    print("------------------------------------------------------")
-    // リクエスト作成
-    let fortuneRequest = FortuneRequest(body: fortuneRequestBody)
-    // セッション
-    Task {
-      let apiClient = APIClient(session: URLSession.shared)
-      let response = try await apiClient.request(fortuneRequest)
-      print("------------------------------------------------------")
-      print("デコード後のレスポンスデータ")
-      print(response)
-      print("------------------------------------------------------")
-    }
+  private func convertToYearMonthDay(date: Date) -> YearMonthDay {
+    let components = Calendar.current.dateComponents(
+      [.year, .month, .day],
+      from: date
+    )
+
+    return YearMonthDay(
+      year: components.year!,
+      month: components.month!,
+      day: components.day!
+    )
+  }
+
+  private func executeFortuneRequest(body: FortuneRequestBody) async throws -> FortuneRequest.Response {
+    let request = FortuneRequest(body: body)
+    let apiClient = APIClient(session: URLSession.shared)
+    let response = try await apiClient.request(request)
+    return response
   }
 
   private func testFetchFortuneContents() async -> (FortuneRequest.Response, UIImage)? {
