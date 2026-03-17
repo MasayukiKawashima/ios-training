@@ -8,9 +8,8 @@
 import Foundation
 
 enum BloodType: String, CaseIterable {
-  
-    case a = "a"
-    case b = "b"
-    case ab = "ab"
-    case o = "o"
+  case a = "a"
+  case b = "b"
+  case o = "o"
+  case ab = "ab"
 }

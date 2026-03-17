@@ -73,12 +73,48 @@ class RootViewController: UIViewController {
   @IBAction func fortuneButtonAction(_ sender: Any) {
     // バリデーション
     formItemsValidate(validator: RootFormItemsValidator(), value: self.formItems) { result in
-    // バリデーション結果のハンドラー
+      // バリデーション結果のハンドラー
       switch result.result() {
+        // バリデーション結果が問題ない場合
       case .valid:
-        print("問題なし")
-        break
+        print("FormItemsのバリデーション結果：問題なし")
+        // API関連処理
+        Task {
+          // fortuneリクエストBody作成
+          let fortuneRequestBody = createFortuneRequestBody()
+          print("------------------------------------------------------")
+          print("リクエスト作成前のリクエストBody")
+          print(fortuneRequestBody)
+          print("------------------------------------------------------")
+          do {
+            // fortuneリクエスト実行
+            let fortuneResponse = try await executeFortuneRequest(body: fortuneRequestBody)
+            print("------------------------------------------------------")
+            print("デコード後のレスポンスデータ")
+            print(fortuneResponse)
+            print("------------------------------------------------------")
+            // 画像取得
+            let logoURL = URL(string: fortuneResponse.logoURL)
+            guard let logoURL = logoURL else {
+              print("画像URLの変換エラー")
+              return
+            }
+            let prefecturalImage = try await fetchPrefecturalImage(url: logoURL)
+            guard let prefecturalImage = prefecturalImage else {
+              print("画像取得失敗")
+              return
+            }
+            print("------------------------------------------------------")
+            print("画像")
+            print(prefecturalImage)
+            print("------------------------------------------------------")
+          } catch {
+            print("最終的に上がってきたAPI通信エラー\(error)")
+          }
+        }
+        //バリデーション結果が問題ありの場合
       case.invalid(let error):
+        print("FormItemsのバリデーション結果：問題発生!!!")
         let title = RootFormItemsValidationAlertText.title
         let message = RootFormItemsValidationAlertText.message(error as! RootFormItemsValidationError)
         showValidationErrorAlert(title: title, message: message)
@@ -86,62 +122,102 @@ class RootViewController: UIViewController {
     }
   }
 
-  private func testFetchFortuneContents() async -> (FortuneRequest.Response, UIImage)? {
-    do {
-      let result = try await testRequest()
-      let logoURL = URL(string: result.logoURL)
+  private func createFortuneRequestBody() -> FortuneRequestBody {
+    let name = formItems.name!
+    let bloodType = formItems.bloodType!.rawValue
 
-      if let url = logoURL {
-        let image = try await testFetchImage(url: url)
-        if let image = image {
-          return (result, image)
-        }
-      }
-    } catch {
-      print(error)
-    }
-    return nil
+    let birthday = convertToYearMonthDay(date: formItems.dateOfBirth!)
+    let today = convertToYearMonthDay(date: Date())
+
+    let body = FortuneRequestBody(
+      name: name,
+      birthday: birthday,
+      bloodType: bloodType,
+      today: today
+    )
+    return body
   }
 
-  private func testRequest() async throws -> FortuneRequest.Response {
+  private func convertToYearMonthDay(date: Date) -> YearMonthDay {
+    let components = Calendar.current.dateComponents([.year, .month, .day], from: date)
 
+    return YearMonthDay(
+      year: components.year!,
+      month: components.month!,
+      day: components.day!
+    )
+  }
+
+  private func executeFortuneRequest(body: FortuneRequestBody) async throws -> FortuneRequest.Response {
+    let request = FortuneRequest(body: body)
     let apiClient = APIClient(session: URLSession.shared)
-
-    let todayDate = Date()
-    let components = Calendar.current.dateComponents([.year, .month, .day], from: todayDate)
-    let todayYear = components.year!
-    let todayMonth = components.month!
-    let todayDay = components.day!
-
-    let name = "ゆめみん"
-    let birthday = YearMonthDay(year: 2000, month: 1, day: 27)
-    let bloodType = BloodType.ab.rawValue
-    let today = YearMonthDay(year: todayYear, month: todayMonth, day: todayDay)
-
-    let stub = FortuneRequestBody(name: name, birthday: birthday, bloodType: bloodType, today: today)
-    print("------------------------------------------------------")
-    print("リクエスト作成前のリクエストBody")
-    print(stub)
-    print("------------------------------------------------------")
-    let request = FortuneRequest(body: stub)
-
-      let result = try await apiClient.request(request)
-      print("------------------------------------------------------")
-      print("デコード後のレスポンスデータ")
-      print(result)
-      print("------------------------------------------------------")
-      return result
+    let response = try await apiClient.request(request)
+    return response
   }
 
-  private func testFetchImage(url: URL) async throws -> UIImage? {
-
+  private func fetchPrefecturalImage(url: URL) async throws -> UIImage? {
     let imageFetcher = ImageFetcher(session: URLSession.shared)
-    let result: UIImage?
-
-    let resultData = try await imageFetcher.fetch(url: url)
-    result = UIImage(data: resultData)
-    return result
+      let resultData = try await imageFetcher.fetch(url: url)
+      let image = UIImage(data: resultData)
+      return image
   }
+
+//  private func testFetchFortuneContents() async -> (FortuneRequest.Response, UIImage)? {
+//    do {
+//      let result = try await testRequest()
+//      let logoURL = URL(string: result.logoURL)
+//
+//      if let url = logoURL {
+//        let image = try await testFetchImage(url: url)
+//        if let image = image {
+//          return (result, image)
+//        }
+//      }
+//    } catch {
+//      print(error)
+//    }
+//    return nil
+//  }
+//
+//  private func testRequest() async throws -> FortuneRequest.Response {
+//
+//    let apiClient = APIClient(session: URLSession.shared)
+//
+//    let todayDate = Date()
+//    let components = Calendar.current.dateComponents([.year, .month, .day], from: todayDate)
+//    let todayYear = components.year!
+//    let todayMonth = components.month!
+//    let todayDay = components.day!
+//
+//    let name = "ゆめみん"
+//    let birthday = YearMonthDay(year: 2000, month: 1, day: 27)
+//    let bloodType = BloodType.ab.rawValue
+//    let today = YearMonthDay(year: todayYear, month: todayMonth, day: todayDay)
+//
+//    let stub = FortuneRequestBody(name: name, birthday: birthday, bloodType: bloodType, today: today)
+//    print("------------------------------------------------------")
+//    print("リクエスト作成前のリクエストBody")
+//    print(stub)
+//    print("------------------------------------------------------")
+//    let request = FortuneRequest(body: stub)
+//
+//      let result = try await apiClient.request(request)
+//      print("------------------------------------------------------")
+//      print("デコード後のレスポンスデータ")
+//      print(result)
+//      print("------------------------------------------------------")
+//      return result
+//  }
+//
+//  private func testFetchImage(url: URL) async throws -> UIImage? {
+//
+//    let imageFetcher = ImageFetcher(session: URLSession.shared)
+//    let result: UIImage?
+//
+//    let resultData = try await imageFetcher.fetch(url: url)
+//    result = UIImage(data: resultData)
+//    return result
+//  }
   /*
     // MARK: - Navigation
 
@@ -335,7 +411,6 @@ extension RootViewController: DateOfBirthTableViewCellDelegate {
 extension RootViewController: BloodTypeTableViewCellDelegate {
 
   func segmentedControlChangedSegment(_ sender: UISegmentedControl) {
-
     let selectedType = BloodType.allCases[sender.selectedSegmentIndex]
     formItems.bloodType = selectedType
   }
