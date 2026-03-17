@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ImageFetcher {
+class ImageDataFetcher {
 
 
   // MARK: - Properties
@@ -29,23 +29,23 @@ class ImageFetcher {
 
     guard let httpResponse = response as? HTTPURLResponse else {
       print("ノーレスポンスエラー")
-      throw ImageFetcherError.noResponse
+      throw ImageDataFetcherError.noResponse
     }
 
     if httpResponse.statusCode != 200 {
       print("ステータスコードエラー")
-      throw ImageFetcherError.unacceptableStatusCode(httpResponse.statusCode)
+      throw ImageDataFetcherError.unacceptableStatusCode(httpResponse.statusCode)
     }
 
     guard let mimeType = httpResponse.mimeType else {
       print("mimeTypeのnilエラー")
-      throw ImageFetcherError.mimeTypeError("mimeType is nil")
+      throw ImageDataFetcherError.mimeTypeError("mimeType is nil")
     }
 
     if !mimeType.hasPrefix("image/") {
       print("mimeTypeがimage以外のエラー")
       print("mimetype: \(mimeType)")
-      throw ImageFetcherError.mimeTypeError(mimeType)
+      throw ImageDataFetcherError.mimeTypeError(mimeType)
     }
     return data
   }

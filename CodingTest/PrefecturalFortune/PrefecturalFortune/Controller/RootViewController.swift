@@ -71,48 +71,34 @@ class RootViewController: UIViewController {
 
 
   @IBAction func fortuneButtonAction(_ sender: Any) {
-    // バリデーション
     formItemsValidate(validator: RootFormItemsValidator(), value: self.formItems) { result in
-      // バリデーション結果のハンドラー
       switch result.result() {
-        // バリデーション結果が問題ない場合
       case .valid:
         print("FormItemsのバリデーション結果：問題なし")
-        // API関連処理
         Task {
-          // fortuneリクエストBody作成
           let fortuneRequestBody = createFortuneRequestBody()
-          print("------------------------------------------------------")
-          print("リクエスト作成前のリクエストBody")
-          print(fortuneRequestBody)
-          print("------------------------------------------------------")
           do {
-            // fortuneリクエスト実行
             let fortuneResponse = try await executeFortuneRequest(body: fortuneRequestBody)
             print("------------------------------------------------------")
             print("デコード後のレスポンスデータ")
             print(fortuneResponse)
             print("------------------------------------------------------")
-            // 画像取得
-            let logoURL = URL(string: fortuneResponse.logoURL)
-            guard let logoURL = logoURL else {
-              print("画像URLの変換エラー")
-              return
-            }
-            let prefecturalImage = try await fetchPrefecturalImage(url: logoURL)
-            guard let prefecturalImage = prefecturalImage else {
-              print("画像取得失敗")
+            guard let prefecturalImage = await fetchPrefecturalImage(urlString: fortuneResponse.logoURL) else {
               return
             }
             print("------------------------------------------------------")
             print("画像")
             print(prefecturalImage)
             print("------------------------------------------------------")
+
+            // 画面遷移
+            // fortuneResponseを渡しながらモーダル（フルスクリーン）遷移
+            // 画像の取得はモーダルViewControllerで行う
+
           } catch {
             print("最終的に上がってきたAPI通信エラー\(error)")
           }
         }
-        //バリデーション結果が問題ありの場合
       case.invalid(let error):
         print("FormItemsのバリデーション結果：問題発生!!!")
         let title = RootFormItemsValidationAlertText.title
@@ -155,11 +141,20 @@ class RootViewController: UIViewController {
     return response
   }
 
-  private func fetchPrefecturalImage(url: URL) async throws -> UIImage? {
-    let imageFetcher = ImageFetcher(session: URLSession.shared)
+  private func fetchPrefecturalImage(urlString: String) async -> UIImage? {
+    let imageFetcher = ImageDataFetcher(session: URLSession.shared)
+    let logoURL = URL(string: urlString)
+    guard let url = logoURL else {
+      print("画像URLの変換エラー")
+      return nil
+    }
+    do {
       let resultData = try await imageFetcher.fetch(url: url)
-      let image = UIImage(data: resultData)
-      return image
+      return UIImage(data: resultData)
+    } catch {
+      print("画像の取得失敗。エラー内容:\(error)")
+      return nil
+    }
   }
 
 //  private func testFetchFortuneContents() async -> (FortuneRequest.Response, UIImage)? {
