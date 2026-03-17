@@ -75,17 +75,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OgX-p4-dqe">
-                                <rect key="frame" x="327" y="56" width="47" height="35"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="xmark" catalog="system"/>
-                                <connections>
-                                    <action selector="closeButtonAction:" destination="9Bg-fO-jU8" eventType="touchUpInside" id="W4l-pe-R3b"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="あなたと相性が良いのは" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sG5-W9-nxZ">
                                 <rect key="frame" x="102.33333333333333" y="154" width="185.33333333333337" height="21.666666666666657"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="島根県" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="76H-D6-o6F">
+                                <rect key="frame" x="138.66666666666666" y="191.66666666666666" width="113" height="48"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -127,12 +125,14 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="島根県" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="76H-D6-o6F">
-                                <rect key="frame" x="139" y="191" width="113" height="48"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OgX-p4-dqe">
+                                <rect key="frame" x="327" y="94" width="47" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="xmark" catalog="system"/>
+                                <connections>
+                                    <action selector="closeButtonAction:" destination="9Bg-fO-jU8" eventType="touchUpInside" id="W4l-pe-R3b"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="DVk-uo-WCe"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
@@ -146,15 +146,15 @@
                             <constraint firstItem="sG5-W9-nxZ" firstAttribute="top" secondItem="DVk-uo-WCe" secondAttribute="top" constant="60" id="NnY-tl-bQc"/>
                             <constraint firstItem="76H-D6-o6F" firstAttribute="centerX" secondItem="X0J-CY-27g" secondAttribute="centerX" id="P70-Vw-XUA"/>
                             <constraint firstItem="n3G-hx-SXE" firstAttribute="leading" secondItem="ta8-tu-bmB" secondAttribute="leading" id="Pwq-tq-HD7"/>
-                            <constraint firstItem="OgX-p4-dqe" firstAttribute="top" secondItem="X0J-CY-27g" secondAttribute="top" constant="56" id="QMJ-UD-QSr"/>
+                            <constraint firstItem="DVk-uo-WCe" firstAttribute="trailing" secondItem="OgX-p4-dqe" secondAttribute="trailing" constant="16" id="QIm-kB-5ch"/>
                             <constraint firstItem="DVk-uo-WCe" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="fZr-05-CXu" secondAttribute="trailing" symbolic="YES" id="RKS-jq-9IU"/>
                             <constraint firstItem="ta8-tu-bmB" firstAttribute="centerX" secondItem="X0J-CY-27g" secondAttribute="centerX" id="RU3-Iu-kEO"/>
                             <constraint firstItem="DVk-uo-WCe" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="BqU-xB-fL1" secondAttribute="trailing" symbolic="YES" id="ShW-ug-RRa"/>
+                            <constraint firstItem="OgX-p4-dqe" firstAttribute="top" secondItem="DVk-uo-WCe" secondAttribute="top" id="UQ5-0V-Aa3"/>
                             <constraint firstItem="fZr-05-CXu" firstAttribute="top" secondItem="ta8-tu-bmB" secondAttribute="bottom" constant="24" id="Yzj-9R-RL6"/>
                             <constraint firstItem="ta8-tu-bmB" firstAttribute="leading" secondItem="BqU-xB-fL1" secondAttribute="leading" id="cWk-Kc-bF9"/>
                             <constraint firstItem="n3G-hx-SXE" firstAttribute="top" secondItem="fZr-05-CXu" secondAttribute="bottom" constant="8" symbolic="YES" id="i3f-kJ-3GU"/>
                             <constraint firstItem="roo-pr-r3s" firstAttribute="top" secondItem="BqU-xB-fL1" secondAttribute="bottom" constant="24" id="m8E-Rj-U4m"/>
-                            <constraint firstAttribute="trailing" secondItem="OgX-p4-dqe" secondAttribute="trailing" constant="16" id="one-it-Irz"/>
                             <constraint firstItem="DVk-uo-WCe" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="n3G-hx-SXE" secondAttribute="trailing" symbolic="YES" id="uuP-cf-N5r"/>
                         </constraints>
                     </view>
