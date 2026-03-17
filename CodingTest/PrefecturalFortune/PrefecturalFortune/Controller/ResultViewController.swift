@@ -9,13 +9,33 @@ import UIKit
 
 class ResultViewController: UIViewController {
 
-    override func viewDidLoad() {
+
+  // MARK: - Properties
+
+  @IBOutlet weak var closeButton: UIButton!
+  @IBOutlet weak var prefecturalNameLabel: UILabel!
+  @IBOutlet weak var prefecturalImageView: UIImageView!
+  @IBOutlet weak var capitalLabel: UILabel!
+  @IBOutlet weak var citizenDayLabel: UILabel!
+  @IBOutlet weak var coastLineLabel: UILabel!
+  @IBOutlet weak var briefTextView: UITextView!
+
+
+  // MARK: - LifeCycle
+
+  override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
-    
 
+
+  // MARK: - Methods
+
+
+  @IBAction func closeButtonAction(_ sender: Any) {
+  }
+  
     /*
     // MARK: - Navigation
 
