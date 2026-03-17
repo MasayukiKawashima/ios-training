@@ -83,17 +83,19 @@ class RootViewController: UIViewController {
             print("デコード後のレスポンスデータ")
             print(fortuneResponse)
             print("------------------------------------------------------")
-            guard let prefecturalImage = await fetchPrefecturalImage(urlString: fortuneResponse.logoURL) else {
-              return
-            }
-            print("------------------------------------------------------")
-            print("画像")
-            print(prefecturalImage)
-            print("------------------------------------------------------")
+//            guard let prefecturalImage = await fetchPrefecturalImage(urlString: fortuneResponse.logoURL) else {
+//              return
+//            }
+//            print("------------------------------------------------------")
+//            print("画像")
+//            print(prefecturalImage)
+//            print("------------------------------------------------------")
 
             // 画面遷移
             // fortuneResponseを渡しながらモーダル（フルスクリーン）遷移
             // 画像の取得はモーダルViewControllerで行う
+
+            presentResultViewController(fortune: fortuneResponse)
 
           } catch {
             print("最終的に上がってきたAPI通信エラー\(error)")
@@ -155,6 +157,20 @@ class RootViewController: UIViewController {
       print("画像の取得失敗。エラー内容:\(error)")
       return nil
     }
+  }
+
+  func presentResultViewController(fortune: FortuneResponseBody) {
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
+    guard let resultVC = storyboard.instantiateViewController(
+      withIdentifier: "ResultViewController"
+    ) as? ResultViewController else {
+      print("ResultVCイニシャライズ失敗")
+      return
+    }
+    resultVC.fortune = fortune
+    resultVC.modalPresentationStyle = .fullScreen
+    present(resultVC, animated: true, completion: nil)
   }
 
 //  private func testFetchFortuneContents() async -> (FortuneRequest.Response, UIImage)? {
