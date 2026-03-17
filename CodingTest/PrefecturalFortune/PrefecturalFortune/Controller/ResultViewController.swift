@@ -25,11 +25,21 @@ class ResultViewController: UIViewController {
   // MARK: - LifeCycle
 
   override func viewDidLoad() {
-        super.viewDidLoad()
+    super.viewDidLoad()
 
-    
-        // Do any additional setup after loading the view.
+    guard let fortune else {
+      print("forutne情報が取得されていません")
+      return
     }
+
+    Task {
+      guard let prefecturalImage = await fetchPrefecturalImage(urlString: fortune.logoURL) else {
+        return
+      }
+      setUpPrefecturalViews(fortune: fortune, prefecturalImage: prefecturalImage)
+    }
+    // Do any additional setup after loading the view.
+  }
 
 
   // MARK: - Methods
@@ -38,12 +48,7 @@ class ResultViewController: UIViewController {
   @IBAction func closeButtonAction(_ sender: Any) {
   }
 
-  private func setUpPrefecturalViews(fortune: FortuneResponseBody?, prefecturalImage: UIImage) {
-
-    guard let fortune = fortune else {
-      print("forutne情報が取得されていません")
-      return
-    }
+  private func setUpPrefecturalViews(fortune: FortuneResponseBody, prefecturalImage: UIImage) {
 
     prefecturalNameLabel.text = fortune.name
 
@@ -69,6 +74,22 @@ class ResultViewController: UIViewController {
     }
 
     prefecturalImageView.image = prefecturalImage
+  }
+
+  private func fetchPrefecturalImage(urlString: String) async -> UIImage? {
+    let imageFetcher = ImageDataFetcher(session: URLSession.shared)
+    let logoURL = URL(string: urlString)
+    guard let url = logoURL else {
+      print("画像URLの変換エラー")
+      return nil
+    }
+    do {
+      let resultData = try await imageFetcher.fetch(url: url)
+      return UIImage(data: resultData)
+    } catch {
+      print("画像の取得失敗。エラー内容:\(error)")
+      return nil
+    }
   }
     /*
     // MARK: - Navigation
