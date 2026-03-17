@@ -20,14 +20,25 @@ class ResultViewController: UIViewController {
   @IBOutlet weak var coastLineLabel: UILabel!
   @IBOutlet weak var briefTextView: UITextView!
 
+  var fortune: FortuneResponseBody?
 
   // MARK: - LifeCycle
 
   override func viewDidLoad() {
-        super.viewDidLoad()
+    super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+    guard let fortune else {
+      print("forutne情報が取得されていません")
+      return
     }
+
+    Task {
+      let prefecturalImage = await fetchPrefecturalImage(urlString: fortune.logoURL)
+      self.prefecturalImageView.image = prefecturalImage
+    }
+    setUpPrefecturalViews(fortune: fortune)
+    // Do any additional setup after loading the view.
+  }
 
 
   // MARK: - Methods
@@ -35,7 +46,48 @@ class ResultViewController: UIViewController {
 
   @IBAction func closeButtonAction(_ sender: Any) {
   }
-  
+
+  private func setUpPrefecturalViews(fortune: FortuneResponseBody) {
+
+    prefecturalNameLabel.text = fortune.name
+
+    let combinedCapitalString = "県庁所在地：" + fortune.capital
+    capitalLabel.text = combinedCapitalString
+
+    briefTextView.text = fortune.brief
+
+    if let citizenDay = fortune.citizenDay {
+      let day = String(citizenDay.day)
+      let month = String(citizenDay.month)
+      let combinedString = "都道府県民の日： " + month + "月" + day + "日"
+      citizenDayLabel.text = combinedString
+    } else {
+      let combinedString = "都道府県民の日：なし"
+      citizenDayLabel.text = combinedString
+    }
+
+    if fortune.hasCoastLine {
+      coastLineLabel.text = "海岸線: あり"
+    } else {
+      coastLineLabel.text = "海岸線: なし"
+    }
+  }
+
+  private func fetchPrefecturalImage(urlString: String) async -> UIImage? {
+    let imageFetcher = ImageDataFetcher(session: URLSession.shared)
+    let logoURL = URL(string: urlString)
+    guard let url = logoURL else {
+      print("画像URLの変換エラー")
+      return nil
+    }
+    do {
+      let resultData = try await imageFetcher.fetch(url: url)
+      return UIImage(data: resultData)
+    } catch {
+      print("画像の取得失敗。エラー内容:\(error)")
+      return nil
+    }
+  }
     /*
     // MARK: - Navigation
 

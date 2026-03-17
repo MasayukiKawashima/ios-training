@@ -76,7 +76,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="あなたと相性が良いのは" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sG5-W9-nxZ">
-                                <rect key="frame" x="104.00000000000001" y="89" width="185.33333333333337" height="21.666666666666671"/>
+                                <rect key="frame" x="104.00000000000001" y="120.00000000000001" width="185.33333333333337" height="21.666666666666671"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -88,32 +88,33 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ta8-tu-bmB">
-                                <rect key="frame" x="96.666666666666686" y="232" width="200" height="200"/>
+                                <rect key="frame" x="96.666666666666686" y="212" width="200" height="200"/>
+                                <color key="backgroundColor" systemColor="systemGray2Color"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="BcX-gj-3HA"/>
                                     <constraint firstAttribute="height" constant="200" id="Tk0-Ld-Bge"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="都道府県民の日：-----" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n3G-hx-SXE">
-                                <rect key="frame" x="96.666666666666686" y="485" width="166" height="21"/>
+                                <rect key="frame" x="96.666666666666686" y="465" width="166" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="県庁所在地：-----" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fZr-05-CXu">
-                                <rect key="frame" x="96.666666666666686" y="456" width="134" height="21"/>
+                                <rect key="frame" x="96.666666666666686" y="436" width="134" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="海岸線：-----" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BqU-xB-fL1">
-                                <rect key="frame" x="96.666666666666686" y="514" width="102" height="21"/>
+                                <rect key="frame" x="96.666666666666686" y="494" width="102" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="roo-pr-r3s">
-                                <rect key="frame" x="46.666666666666657" y="559" width="300" height="150"/>
+                                <rect key="frame" x="46.666666666666657" y="539" width="300" height="150"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="hFD-St-cVq"/>
@@ -137,7 +138,7 @@
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
                             <constraint firstItem="sG5-W9-nxZ" firstAttribute="centerX" secondItem="X0J-CY-27g" secondAttribute="centerX" id="2x7-zz-YzW"/>
-                            <constraint firstItem="ta8-tu-bmB" firstAttribute="top" secondItem="76H-D6-o6F" secondAttribute="bottom" constant="40" id="E4U-cU-lr2"/>
+                            <constraint firstItem="ta8-tu-bmB" firstAttribute="top" secondItem="76H-D6-o6F" secondAttribute="bottom" constant="20" id="E4U-cU-lr2"/>
                             <constraint firstItem="roo-pr-r3s" firstAttribute="centerX" secondItem="X0J-CY-27g" secondAttribute="centerX" id="EqA-x7-594"/>
                             <constraint firstItem="ta8-tu-bmB" firstAttribute="leading" secondItem="fZr-05-CXu" secondAttribute="leading" id="Fjw-NV-m4E"/>
                             <constraint firstItem="BqU-xB-fL1" firstAttribute="top" secondItem="n3G-hx-SXE" secondAttribute="bottom" constant="8" symbolic="YES" id="HJu-EM-Q3m"/>
@@ -146,7 +147,7 @@
                             <constraint firstItem="OgX-p4-dqe" firstAttribute="top" secondItem="X0J-CY-27g" secondAttribute="top" constant="56" id="QMJ-UD-QSr"/>
                             <constraint firstItem="76H-D6-o6F" firstAttribute="top" secondItem="DVk-uo-WCe" secondAttribute="top" constant="26" id="Qkf-Fp-eg5"/>
                             <constraint firstItem="ta8-tu-bmB" firstAttribute="centerX" secondItem="X0J-CY-27g" secondAttribute="centerX" id="RU3-Iu-kEO"/>
-                            <constraint firstItem="sG5-W9-nxZ" firstAttribute="top" secondItem="X0J-CY-27g" secondAttribute="top" constant="89" id="YUX-H4-iTT"/>
+                            <constraint firstItem="sG5-W9-nxZ" firstAttribute="top" secondItem="X0J-CY-27g" secondAttribute="top" constant="120" id="YUX-H4-iTT"/>
                             <constraint firstItem="fZr-05-CXu" firstAttribute="top" secondItem="ta8-tu-bmB" secondAttribute="bottom" constant="24" id="Yzj-9R-RL6"/>
                             <constraint firstItem="ta8-tu-bmB" firstAttribute="leading" secondItem="BqU-xB-fL1" secondAttribute="leading" id="cWk-Kc-bF9"/>
                             <constraint firstItem="n3G-hx-SXE" firstAttribute="top" secondItem="fZr-05-CXu" secondAttribute="bottom" constant="8" symbolic="YES" id="i3f-kJ-3GU"/>
@@ -179,6 +180,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
