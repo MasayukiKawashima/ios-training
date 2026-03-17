@@ -70,7 +70,7 @@
         <!--Result View Controller-->
         <scene sceneID="oCg-A2-Gnm">
             <objects>
-                <viewController id="9Bg-fO-jU8" customClass="ResultViewController" customModule="PrefecturalFortune" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ResultViewController" id="9Bg-fO-jU8" customClass="ResultViewController" customModule="PrefecturalFortune" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="X0J-CY-27g">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
