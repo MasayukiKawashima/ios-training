@@ -33,11 +33,10 @@ class ResultViewController: UIViewController {
     }
 
     Task {
-      guard let prefecturalImage = await fetchPrefecturalImage(urlString: fortune.logoURL) else {
-        return
-      }
-      setUpPrefecturalViews(fortune: fortune, prefecturalImage: prefecturalImage)
+      let prefecturalImage = await fetchPrefecturalImage(urlString: fortune.logoURL)
+      self.prefecturalImageView.image = prefecturalImage
     }
+    setUpPrefecturalViews(fortune: fortune)
     // Do any additional setup after loading the view.
   }
 
@@ -48,7 +47,7 @@ class ResultViewController: UIViewController {
   @IBAction func closeButtonAction(_ sender: Any) {
   }
 
-  private func setUpPrefecturalViews(fortune: FortuneResponseBody, prefecturalImage: UIImage) {
+  private func setUpPrefecturalViews(fortune: FortuneResponseBody) {
 
     prefecturalNameLabel.text = fortune.name
 
@@ -72,8 +71,6 @@ class ResultViewController: UIViewController {
     } else {
       coastLineLabel.text = "海岸線: なし"
     }
-
-    prefecturalImageView.image = prefecturalImage
   }
 
   private func fetchPrefecturalImage(urlString: String) async -> UIImage? {
