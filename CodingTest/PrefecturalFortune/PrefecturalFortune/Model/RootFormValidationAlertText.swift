@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RootFormValidationAlertText {
+enum RootFormValidationAlertText {
   static let title = "入力エラー"
   
   static var message: (FormValidationError) -> String = { errorType in
