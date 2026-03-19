@@ -48,29 +48,11 @@ class ResultViewController: UIViewController {
   }
 
   private func setUpPrefecturalViews(fortune: FortuneResponseBody) {
-
     prefecturalNameLabel.text = fortune.name
-
-    let combinedCapitalString = "県庁所在地：" + fortune.capital
-    capitalLabel.text = combinedCapitalString
-
+    capitalLabel.text = FortuneResultText.fullCapitalText(capital: fortune.capital)
     briefTextView.text = fortune.brief
-
-    if let citizenDay = fortune.citizenDay {
-      let day = String(citizenDay.day)
-      let month = String(citizenDay.month)
-      let combinedString = "都道府県民の日： " + month + "月" + day + "日"
-      citizenDayLabel.text = combinedString
-    } else {
-      let combinedString = "都道府県民の日：なし"
-      citizenDayLabel.text = combinedString
-    }
-
-    if fortune.hasCoastLine {
-      coastLineLabel.text = "海岸線: あり"
-    } else {
-      coastLineLabel.text = "海岸線: なし"
-    }
+    citizenDayLabel.text = FortuneResultText.fullCitizenDayText(citizenDay: fortune.citizenDay)
+    coastLineLabel.text = FortuneResultText.fullCoastLineText(hasCoastLine: fortune.hasCoastLine)
   }
 
   private func fetchPrefecturalImage(urlString: String) async -> UIImage? {

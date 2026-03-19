@@ -3,35 +3,22 @@
 //  PrefecturalFortune
 //
 //  Created by 川島真之 on 2026/02/27.
-// https://ios-junior-engineer-codecheck.yumemi.jp/my_fortune
 
 import Foundation
 
-struct YumemiAPIConstants {
+enum YumemiAPIConstants {
+
+
+  // MARK: - Base
+
   static let baseURL = "https://yumemi-ios-junior-engineer-codecheck.app.swift.cloud"
 
-  enum EndPoint {
-    case fortune
 
-    var path: String {
-      switch self {
-      case .fortune:
-        return "/my_fortune"
-      }
-    }
+  // MARK: - EndPoints
 
-    var method: HTTPMethod {
-      switch self {
-      case .fortune:
-        return .post
-      }
-    }
-
-    var version: String {
-      switch self {
-      case .fortune:
-        return "v1"
-      }
-    }
+  enum Fortune {
+    static let path = "/my_fortune"
+    static let method: HTTPMethod = .post
+    static let version: String = "v1"
   }
 }

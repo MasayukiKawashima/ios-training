@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct RootFormItemsValidationAlertText {
+enum RootFormItemsValidationAlertText {
   static let title = "エラー"
 
-  static var message: (RootFormItemsValidationError) -> String = { errorType in
-    switch errorType {
+  static func message(error: RootFormItemsValidationError) -> String {
+    switch error {
     case .missingField(let missingFields):
       return "未記入の項目があります"
     }

@@ -16,15 +16,15 @@ struct FortuneRequest: Requestable {
   }
 
   var path: String {
-    YumemiAPIConstants.EndPoint.fortune.path
+    YumemiAPIConstants.Fortune.path
   }
 
   var method: HTTPMethod {
-    YumemiAPIConstants.EndPoint.fortune.method
+    YumemiAPIConstants.Fortune.method
   }
 
   var header: HTTPHeader {
-    HTTPHeader(["API-Version": YumemiAPIConstants.EndPoint.fortune.version])
+    HTTPHeader(["API-Version": YumemiAPIConstants.Fortune.version])
       .addValues(["Content-Type": "application/json"])
   }
   var body: HTTPBody?

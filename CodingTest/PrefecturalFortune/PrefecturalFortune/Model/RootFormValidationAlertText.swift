@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct RootFormValidationAlertText {
+enum RootFormValidationAlertText {
   static let title = "入力エラー"
-  
-  static var message: (FormValidationError) -> String = { errorType in
-    switch errorType {
-    case .empty: 
+
+  static func message(error: FormValidationError) -> String {
+    switch error {
+    case .empty:
       return "文字を入力してください"
     case .length(let min, let max):
       return "\(min)文字以上\(max)文字以下で入力してください。"
