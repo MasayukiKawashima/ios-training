@@ -44,12 +44,17 @@
                                     <action selector="fortuneButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UOx-9S-ara"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="jQP-Yf-2nK">
+                                <rect key="frame" x="176.66666666666666" y="403.66666666666669" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
                             <constraint firstItem="Zvq-cw-flN" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="305-mH-hyl"/>
                             <constraint firstItem="tJ6-ud-hvJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="DBj-WX-Xdt"/>
+                            <constraint firstItem="jQP-Yf-2nK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="QCp-Hk-RfR"/>
+                            <constraint firstItem="jQP-Yf-2nK" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Wn4-ds-043"/>
                             <constraint firstItem="tJ6-ud-hvJ" firstAttribute="top" secondItem="Zvq-cw-flN" secondAttribute="bottom" constant="70" id="b6F-wl-RXQ"/>
                             <constraint firstItem="tJ6-ud-hvJ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="hoQ-hQ-sQI"/>
                             <constraint firstItem="Umo-xU-BrW" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="pe5-sI-jVB"/>
@@ -58,6 +63,7 @@
                     </view>
                     <connections>
                         <outlet property="fortuneButton" destination="Umo-xU-BrW" id="iij-Up-mMU"/>
+                        <outlet property="indicator" destination="jQP-Yf-2nK" id="zhO-eS-CHe"/>
                         <outlet property="tableView" destination="tJ6-ud-hvJ" id="OIM-Vh-8Ok"/>
                         <outlet property="tableViewHeightConstraint" destination="MO7-ji-4WQ" id="1Z4-KX-miZ"/>
                         <outlet property="titleLabel" destination="Zvq-cw-flN" id="D6m-h8-yyj"/>
@@ -133,11 +139,15 @@
                                     <action selector="closeButtonAction:" destination="9Bg-fO-jU8" eventType="touchUpInside" id="W4l-pe-R3b"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="BVn-Wn-ePl">
+                                <rect key="frame" x="185" y="345.66666666666669" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="DVk-uo-WCe"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
                             <constraint firstItem="sG5-W9-nxZ" firstAttribute="centerX" secondItem="X0J-CY-27g" secondAttribute="centerX" id="2x7-zz-YzW"/>
+                            <constraint firstItem="BVn-Wn-ePl" firstAttribute="centerX" secondItem="X0J-CY-27g" secondAttribute="centerX" id="479-o1-gU7"/>
                             <constraint firstItem="76H-D6-o6F" firstAttribute="top" secondItem="sG5-W9-nxZ" secondAttribute="bottom" constant="16" id="4bQ-Cs-7sh"/>
                             <constraint firstItem="roo-pr-r3s" firstAttribute="centerX" secondItem="X0J-CY-27g" secondAttribute="centerX" id="EqA-x7-594"/>
                             <constraint firstItem="ta8-tu-bmB" firstAttribute="leading" secondItem="fZr-05-CXu" secondAttribute="leading" id="Fjw-NV-m4E"/>
@@ -152,6 +162,7 @@
                             <constraint firstItem="DVk-uo-WCe" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="BqU-xB-fL1" secondAttribute="trailing" symbolic="YES" id="ShW-ug-RRa"/>
                             <constraint firstItem="OgX-p4-dqe" firstAttribute="top" secondItem="DVk-uo-WCe" secondAttribute="top" id="UQ5-0V-Aa3"/>
                             <constraint firstItem="fZr-05-CXu" firstAttribute="top" secondItem="ta8-tu-bmB" secondAttribute="bottom" constant="24" id="Yzj-9R-RL6"/>
+                            <constraint firstItem="BVn-Wn-ePl" firstAttribute="centerY" secondItem="ta8-tu-bmB" secondAttribute="centerY" id="bbA-aW-qS3"/>
                             <constraint firstItem="ta8-tu-bmB" firstAttribute="leading" secondItem="BqU-xB-fL1" secondAttribute="leading" id="cWk-Kc-bF9"/>
                             <constraint firstItem="n3G-hx-SXE" firstAttribute="top" secondItem="fZr-05-CXu" secondAttribute="bottom" constant="8" symbolic="YES" id="i3f-kJ-3GU"/>
                             <constraint firstItem="roo-pr-r3s" firstAttribute="top" secondItem="BqU-xB-fL1" secondAttribute="bottom" constant="24" id="m8E-Rj-U4m"/>
@@ -164,6 +175,7 @@
                         <outlet property="citizenDayLabel" destination="n3G-hx-SXE" id="ffA-g7-WgF"/>
                         <outlet property="closeButton" destination="OgX-p4-dqe" id="qAE-ML-A2b"/>
                         <outlet property="coastLineLabel" destination="BqU-xB-fL1" id="qy1-Gg-qQI"/>
+                        <outlet property="indicator" destination="BVn-Wn-ePl" id="xJj-rI-4W9"/>
                         <outlet property="prefecturalImageView" destination="ta8-tu-bmB" id="hR7-5Q-Zh1"/>
                         <outlet property="prefecturalNameLabel" destination="76H-D6-o6F" id="1Bd-UU-Edo"/>
                     </connections>

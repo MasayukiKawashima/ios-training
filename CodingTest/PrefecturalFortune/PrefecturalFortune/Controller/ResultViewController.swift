@@ -19,22 +19,30 @@ class ResultViewController: UIViewController {
   @IBOutlet weak var citizenDayLabel: UILabel!
   @IBOutlet weak var coastLineLabel: UILabel!
   @IBOutlet weak var briefTextView: UITextView!
-
+  @IBOutlet weak var indicator: UIActivityIndicatorView!
   var fortune: FortuneResponseBody?
+
 
   // MARK: - LifeCycle
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    indicator.hidesWhenStopped = true
+
     guard let fortune else {
       print("forutne情報が取得されていません")
       return
     }
-
+    indicator.startAnimating()
     Task {
       let prefecturalImage = await fetchPrefecturalImage(urlString: fortune.logoURL)
-      self.prefecturalImageView.image = prefecturalImage
+
+      await MainActor.run {
+        self.prefecturalImageView.image = prefecturalImage
+        self.indicator.stopAnimating()
+      }
+
     }
     setUpPrefecturalViews(fortune: fortune)
     // Do any additional setup after loading the view.
@@ -42,7 +50,6 @@ class ResultViewController: UIViewController {
 
 
   // MARK: - Methods
-
 
   @IBAction func closeButtonAction(_ sender: Any) {
     dismiss(animated: true)
@@ -71,14 +78,4 @@ class ResultViewController: UIViewController {
       return nil
     }
   }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
