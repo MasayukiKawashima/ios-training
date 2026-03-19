@@ -100,11 +100,15 @@ class RootViewController: UIViewController {
             // fortuneResponseを渡しながらモーダル（フルスクリーン）遷移
             // 画像の取得はモーダルViewControllerで行う
 
-            presentResultViewController(fortune: fortuneResponse)
-            indicator.stopAnimating()
+            await MainActor.run {
+              self.indicator.stopAnimating()
+              self.presentResultViewController(fortune: fortuneResponse)
+            }
           } catch {
             print("最終的に上がってきたAPI通信エラー\(error)")
-            indicator.stopAnimating()
+            await MainActor.run {
+              self.indicator.stopAnimating()
+            }
           }
         }
       case.invalid(let error):

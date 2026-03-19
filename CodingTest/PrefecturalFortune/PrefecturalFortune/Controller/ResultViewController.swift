@@ -36,8 +36,12 @@ class ResultViewController: UIViewController {
     indicator.startAnimating()
     Task {
       let prefecturalImage = await fetchPrefecturalImage(urlString: fortune.logoURL)
-      self.prefecturalImageView.image = prefecturalImage
-      indicator.stopAnimating()
+
+      await MainActor.run {
+        self.prefecturalImageView.image = prefecturalImage
+        self.indicator.stopAnimating()
+      }
+      
     }
     setUpPrefecturalViews(fortune: fortune)
     // Do any additional setup after loading the view.
