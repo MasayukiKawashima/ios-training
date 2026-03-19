@@ -84,21 +84,11 @@ class RootViewController: UIViewController {
           let fortuneRequestBody = createFortuneRequestBody()
           do {
             let fortuneResponse = try await executeFortuneRequest(body: fortuneRequestBody)
+
             print("------------------------------------------------------")
             print("デコード後のレスポンスデータ")
             print(fortuneResponse)
             print("------------------------------------------------------")
-//            guard let prefecturalImage = await fetchPrefecturalImage(urlString: fortuneResponse.logoURL) else {
-//              return
-//            }
-//            print("------------------------------------------------------")
-//            print("画像")
-//            print(prefecturalImage)
-//            print("------------------------------------------------------")
-
-            // 画面遷移
-            // fortuneResponseを渡しながらモーダル（フルスクリーン）遷移
-            // 画像の取得はモーダルViewControllerで行う
 
             await MainActor.run {
               self.indicator.stopAnimating()
@@ -183,71 +173,6 @@ class RootViewController: UIViewController {
     present(resultVC, animated: true, completion: nil)
   }
 
-//  private func testFetchFortuneContents() async -> (FortuneRequest.Response, UIImage)? {
-//    do {
-//      let result = try await testRequest()
-//      let logoURL = URL(string: result.logoURL)
-//
-//      if let url = logoURL {
-//        let image = try await testFetchImage(url: url)
-//        if let image = image {
-//          return (result, image)
-//        }
-//      }
-//    } catch {
-//      print(error)
-//    }
-//    return nil
-//  }
-//
-//  private func testRequest() async throws -> FortuneRequest.Response {
-//
-//    let apiClient = APIClient(session: URLSession.shared)
-//
-//    let todayDate = Date()
-//    let components = Calendar.current.dateComponents([.year, .month, .day], from: todayDate)
-//    let todayYear = components.year!
-//    let todayMonth = components.month!
-//    let todayDay = components.day!
-//
-//    let name = "ゆめみん"
-//    let birthday = YearMonthDay(year: 2000, month: 1, day: 27)
-//    let bloodType = BloodType.ab.rawValue
-//    let today = YearMonthDay(year: todayYear, month: todayMonth, day: todayDay)
-//
-//    let stub = FortuneRequestBody(name: name, birthday: birthday, bloodType: bloodType, today: today)
-//    print("------------------------------------------------------")
-//    print("リクエスト作成前のリクエストBody")
-//    print(stub)
-//    print("------------------------------------------------------")
-//    let request = FortuneRequest(body: stub)
-//
-//      let result = try await apiClient.request(request)
-//      print("------------------------------------------------------")
-//      print("デコード後のレスポンスデータ")
-//      print(result)
-//      print("------------------------------------------------------")
-//      return result
-//  }
-//
-//  private func testFetchImage(url: URL) async throws -> UIImage? {
-//
-//    let imageFetcher = ImageFetcher(session: URLSession.shared)
-//    let result: UIImage?
-//
-//    let resultData = try await imageFetcher.fetch(url: url)
-//    result = UIImage(data: resultData)
-//    return result
-//  }
-  /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
   private func formItemsValidate(validator: RootFormItemsValidator,
                                  value: RootFormItems,
                                  completionHandler: (_ result: ValidationResult) -> Void) {
