@@ -45,6 +45,7 @@ class ResultViewController: UIViewController {
 
 
   @IBAction func closeButtonAction(_ sender: Any) {
+    dismiss(animated: true)
   }
 
   private func setUpPrefecturalViews(fortune: FortuneResponseBody) {
