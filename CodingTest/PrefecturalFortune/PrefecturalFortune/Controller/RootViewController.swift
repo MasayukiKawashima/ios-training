@@ -104,7 +104,7 @@ class RootViewController: UIViewController {
       case.invalid(let error):
         print("FormItemsのバリデーション結果：問題発生!!!")
         let title = RootFormItemsValidationAlertText.title
-        let message = RootFormItemsValidationAlertText.message(error as! RootFormItemsValidationError)
+        let message = RootFormItemsValidationAlertText.message(error: error as! RootFormItemsValidationError)
         showValidationErrorAlert(title: title, message: message)
       }
     }
