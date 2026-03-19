@@ -38,6 +38,8 @@ class RootViewController: UIViewController {
 
         super.viewDidLoad()
 
+    indicator.hidesWhenStopped = true
+
     tableView.dataSource = self
     tableView.delegate = self
     tableView.isScrollEnabled = false
@@ -75,6 +77,9 @@ class RootViewController: UIViewController {
       switch result.result() {
       case .valid:
         print("FormItemsのバリデーション結果：問題なし")
+
+        indicator.startAnimating()
+
         Task {
           let fortuneRequestBody = createFortuneRequestBody()
           do {
@@ -96,9 +101,10 @@ class RootViewController: UIViewController {
             // 画像の取得はモーダルViewControllerで行う
 
             presentResultViewController(fortune: fortuneResponse)
-
+            indicator.stopAnimating()
           } catch {
             print("最終的に上がってきたAPI通信エラー\(error)")
+            indicator.stopAnimating()
           }
         }
       case.invalid(let error):
