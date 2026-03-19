@@ -17,9 +17,9 @@ class RootViewController: UIViewController {
   @IBOutlet weak var fortuneButton: UIButton!
   @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
   @IBOutlet weak var indicator: UIActivityIndicatorView!
-  var formItems = RootFormItems()
+  private var formItems = RootFormItems()
 
-  let cellIdentifiers: [String] = ["NameTableViewCell", "DateOfBirthTableViewCell", "BloodTypeTableViewCell"]
+  private let cellIdentifiers: [String] = ["NameTableViewCell", "DateOfBirthTableViewCell", "BloodTypeTableViewCell"]
 
 
   // MARK: - Enums
@@ -36,8 +36,8 @@ class RootViewController: UIViewController {
 
   override func viewDidLoad() {
 
-        super.viewDidLoad()
-
+    super.viewDidLoad()
+    
     indicator.hidesWhenStopped = true
 
     tableView.dataSource = self
@@ -46,14 +46,14 @@ class RootViewController: UIViewController {
     tableView.separatorStyle = .none
 
     registerCells(cellIdentifiers: cellIdentifiers)
-    }
+  }
 
   override func viewDidLayoutSubviews() {
 
-      super.viewDidLayoutSubviews()
+    super.viewDidLayoutSubviews()
 
-      tableView.layoutIfNeeded()
-      tableViewHeightConstraint.constant = tableView.contentSize.height
+    tableView.layoutIfNeeded()
+    tableViewHeightConstraint.constant = tableView.contentSize.height
   }
 
 

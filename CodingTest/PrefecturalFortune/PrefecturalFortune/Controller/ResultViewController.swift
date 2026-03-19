@@ -22,6 +22,7 @@ class ResultViewController: UIViewController {
   @IBOutlet weak var indicator: UIActivityIndicatorView!
   var fortune: FortuneResponseBody?
 
+
   // MARK: - LifeCycle
 
   override func viewDidLoad() {
@@ -49,7 +50,6 @@ class ResultViewController: UIViewController {
 
 
   // MARK: - Methods
-
 
   @IBAction func closeButtonAction(_ sender: Any) {
     dismiss(animated: true)
