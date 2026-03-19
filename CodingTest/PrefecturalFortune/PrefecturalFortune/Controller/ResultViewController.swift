@@ -49,10 +49,10 @@ class ResultViewController: UIViewController {
 
   private func setUpPrefecturalViews(fortune: FortuneResponseBody) {
     prefecturalNameLabel.text = fortune.name
-    capitalLabel.text = FortuneResultText.capitalLabelText(fortune.capital)
+    capitalLabel.text = FortuneResultText.fullCapitalText(capital: fortune.capital)
     briefTextView.text = fortune.brief
-    citizenDayLabel.text = FortuneResultText.citizenDayLabelText(fortune.citizenDay)
-    coastLineLabel.text = FortuneResultText.coastLineLabelText(fortune.hasCoastLine)
+    citizenDayLabel.text = FortuneResultText.fullCitizenDayText(citizenDay: fortune.citizenDay)
+    coastLineLabel.text = FortuneResultText.fullCoastLineText(hasCoastLine: fortune.hasCoastLine)
   }
 
   private func fetchPrefecturalImage(urlString: String) async -> UIImage? {
