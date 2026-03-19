@@ -19,7 +19,7 @@ class ResultViewController: UIViewController {
   @IBOutlet weak var citizenDayLabel: UILabel!
   @IBOutlet weak var coastLineLabel: UILabel!
   @IBOutlet weak var briefTextView: UITextView!
-
+  @IBOutlet weak var indicator: UIActivityIndicatorView!
   var fortune: FortuneResponseBody?
 
   // MARK: - LifeCycle

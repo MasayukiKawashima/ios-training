@@ -16,7 +16,7 @@ class RootViewController: UIViewController {
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var fortuneButton: UIButton!
   @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
-
+  @IBOutlet weak var indicator: UIActivityIndicatorView!
   var formItems = RootFormItems()
 
   let cellIdentifiers: [String] = ["NameTableViewCell", "DateOfBirthTableViewCell", "BloodTypeTableViewCell"]
