@@ -27,14 +27,17 @@ class ResultViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    indicator.hidesWhenStopped = true
+
     guard let fortune else {
       print("forutne情報が取得されていません")
       return
     }
-
+    indicator.startAnimating()
     Task {
       let prefecturalImage = await fetchPrefecturalImage(urlString: fortune.logoURL)
       self.prefecturalImageView.image = prefecturalImage
+      indicator.stopAnimating()
     }
     setUpPrefecturalViews(fortune: fortune)
     // Do any additional setup after loading the view.
